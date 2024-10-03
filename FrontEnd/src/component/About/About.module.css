@@ -1,0 +1,44 @@
+.body {
+  background-color: #e4f7ff;
+  padding-top: 100px;
+}
+.header {
+  text-align: center;
+  margin-bottom: 5px;
+}
+.flexBoxOne {
+  display: flex;
+  align-items: center;
+}
+
+.flexBoxTwo {
+  display: flex;
+  align-items: center;
+}
+.flexItem {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  margin: 5px;
+  padding: 3.6px;
+  width: 269px;
+  height: 105px;
+  border-radius: 10px;
+}
+.img {
+  width: 40px;
+  margin-right: 5px;
+}
+.checkedList {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  padding-top: 10px;
+  img {
+    padding-right: 5px;
+  }
+}
+.checkedList div {
+  display: flex;
+  margin-left: 10px;
+}

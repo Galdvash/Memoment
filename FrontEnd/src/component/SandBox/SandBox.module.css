@@ -1,0 +1,118 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .tableContainer {
+    width: 90vw;
+    max-width: 90%;
+    max-height: 70vh;
+    overflow: scroll;
+    /* overflow-x: hidden;
+    overflow-y: hidden; */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .tableWrapper {
+    max-height: 70vh;
+    overflow-x: scroll;
+ 
+    border-radius: 10px;
+  }
+  
+  .table {
+    width: 100%;
+    min-width: 600px; /* Ensures table doesn't shrink too much */
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #f2f2f2;
+    color: black;
+  }
+  
+  .table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .button {
+    padding: 10px 15px;
+    margin: 5px;
+    color: white;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #d32f2f;
+    transform: scale(1.1);
+  }
+  
+  .confirmation {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .confirmationBox {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    text-align: center;
+    color: #d32f2f;
+  }
+  
+  .pBox {
+    color: black;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .buttonBox {
+    margin-left: 7px;
+    padding: 10px 15px;
+    color: white;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  @media (max-width: 917px) {
+    .tableContainer{
+        overflow: scroll;
+        overflow-x: scroll;
+    }
+    .tableWrapper {
+      overflow-x: scroll; /* Ensures horizontal scrolling for table wrapper */
+    }
+  
+    .table {
+      min-width: 800px; /* Ensures table doesn't shrink too much */
+    }
+  }
+  
