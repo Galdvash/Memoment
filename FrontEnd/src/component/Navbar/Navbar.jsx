@@ -62,7 +62,7 @@ const NavBar = ({ onSearch }) => {
         <ul className={`link_list ${isMenuOpen ? "open" : ""}`}>
           <li>
             <Link className="link" to={"/"}>
-              <b>Memonet</b>
+              <b style={{ fontFamily: "Inter, sans-serif" }}>Memonet</b>
             </Link>
           </li>
           <li>

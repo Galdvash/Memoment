@@ -10,7 +10,9 @@ const About = () => {
   return (
     <div className={styleAbout.body}>
       <header className={styleAbout.header}>
-        <h1>Share your photos from your event using facial recognition </h1>
+        <h1 className={styleAbout.title}>
+          Share your photos from your event using facial recognition{" "}
+        </h1>
         <p>
           With quick facial recognition, your event guests won’t need to search
           through thousands of photos. They will receive their personal photos
