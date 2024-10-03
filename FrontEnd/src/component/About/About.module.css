@@ -1,6 +1,7 @@
 .body {
   background-color: #e4f7ff;
   padding-top: 100px;
+  min-height: 100vh;
 }
 .header {
   text-align: center;

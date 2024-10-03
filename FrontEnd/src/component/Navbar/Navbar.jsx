@@ -62,7 +62,7 @@ const NavBar = ({ onSearch }) => {
         <ul className={`link_list ${isMenuOpen ? "open" : ""}`}>
           <li>
             <Link className="link" to={"/"}>
-              Memento
+              <b>Memonet</b>
             </Link>
           </li>
           <li>

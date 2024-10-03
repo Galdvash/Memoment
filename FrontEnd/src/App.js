@@ -9,7 +9,7 @@ import FavoritCards from "./component/FavoritCards/FavoritCards";
 import Register from "./component/Register/Register";
 import MyCards from "./component/Cards/Cards";
 import SandBox from "./component/SandBox/SandBox";
-import Footer from "./component/Footer/Footer";
+// import Footer from "./component/Footer/Footer";
 import { ThemeProvider } from "./hooks/DarkMode/DarkModeContext";
 import { UserProvider } from "./hooks/UserHooks/userContextApp";
 import EventImageUpload from "./component/Momentimg/EventImageUpload.jsx";
@@ -41,7 +41,7 @@ const App = () => {
             <Route path="/upload" element={<EventImageUpload />} />
             <Route path="/selfie" element={<SelfieUpload />} />
           </Routes>
-          <Footer />
+          {/* <Footer /> */}
         </BrowserRouter>
       </UserProvider>
     </ThemeProvider>
