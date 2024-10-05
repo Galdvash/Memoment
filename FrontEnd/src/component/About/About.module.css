@@ -1,11 +1,15 @@
 .body {
-  background-color: #e4f7ff;
-  padding-top: 100px;
+  padding-top: 10em;
   min-height: 100vh;
+  display: flex;
+  padding-left: 21.8em;
 }
-.header {
-  text-align: center;
-  margin-bottom: 5px;
+
+.textBox h1,
+p {
+  max-width: 90%;
+  text-align: left;
+  text-wrap: balance;
 }
 .flexBoxOne {
   display: flex;
@@ -18,11 +22,12 @@
 }
 .flexItem {
   display: flex;
+  justify-content: right;
   align-items: center;
-  background-color: white;
-  margin: 5px;
-  padding: 3.6px;
-  width: 269px;
+  background-color: #ffffff;
+  margin: 15px 15px 10px 0px;
+  padding: 4px;
+  width: 270px;
   height: 105px;
   border-radius: 10px;
 }
@@ -42,4 +47,14 @@
 .checkedList div {
   display: flex;
   margin-left: 10px;
+}
+.btn {
+  background-color: #ff1f35;
+  color: #ffffff;
+  font-size: 1rem;
+  width: 175px;
+  height: 57px;
+  border-radius: 30px;
+  border: none;
+  margin-top: 30px;
 }

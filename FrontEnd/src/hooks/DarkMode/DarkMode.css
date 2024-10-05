@@ -1,8 +1,8 @@
 :root {
   /* Light Mode */
 
-  --BgColor_LightMode: #83d3f6;
-  --NavbarColor_LightMode: #008997;
+  --BgColor_LightMode: #f5f5f5;
+  --NavbarColor_LightMode: #fdfcfc;
   --PColor_LightMode: #517376;
   --TitleColor_LightMode: #037784;
   --BtnColor_LightMode: #74512d;
@@ -19,13 +19,9 @@
   --LinkColor_DarkMode: #9f7aea;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  overflow-y: auto;
+/* Light-Mode */
+.bodyAbout {
+  background-color: var(--BgColor_LightMode);
 }
 /* About  */ /* Cards and FindTheOne */
 
@@ -59,13 +55,8 @@ p {
 }
 
 nav.container_nav,
-footer.bodyFooter,
 .link_list.open {
-  background-color: #fdfcfc;
-}
-footer.bodyFooter {
-  position: fixed;
-  bottom: 0;
+  background-color: var(--NavbarColor_LightMode);
 }
 
 .link {

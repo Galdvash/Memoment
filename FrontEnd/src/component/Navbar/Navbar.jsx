@@ -5,11 +5,11 @@ import { UserContext } from "../../hooks/UserHooks/userContextApp";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MenuIcon from "@mui/icons-material/Menu";
-import SunIcon from "../../images/Sunny.png";
-import MoonIcon from "../../images/Moon.png";
-import SearchIcon from "../../images/SearchIcon.png";
-import Jobs from "../../images/Jobs.png";
-import Button from "../../Library/Button.jsx";
+// import SunIcon from "../../images/Sunny.png";
+// import MoonIcon from "../../images/Moon.png";
+// import SearchIcon from "../../images/SearchIcon.png";
+// import Jobs from "../../images/Jobs.png";
+// import Button from "../../Library/Button.jsx";
 
 import "../Navbar/Navbar.css";
 
@@ -50,7 +50,7 @@ const NavBar = ({ onSearch }) => {
   return (
     <header className="header">
       <nav className={`container_nav ${isSun ? "dark" : "light"}`}>
-        <img className="logo" src={Jobs} alt="jobs" />
+        {/* <img className="logo" src={Jobs} alt="jobs" /> */}
 
         <div className="hamburger" onClick={toggleMenu}>
           <MenuIcon
@@ -76,15 +76,11 @@ const NavBar = ({ onSearch }) => {
             </Link>
           </li>
           <li>
-            <Link className="link" to={"/selfie"}>
-              Selfie
+            <Link className="link" to={"/"}>
+              Q&A
             </Link>
           </li>
-          <li>
-            <Link className="link" to={"/upload"}>
-              Image
-            </Link>
-          </li>
+
           <li style={{ border: "1px solid grey" }}>
             <Link className="link" to={"/"}>
               Contact Us
@@ -133,7 +129,7 @@ const NavBar = ({ onSearch }) => {
             ) : null}
           </li>
 
-          <div className="moveRight">
+          {/* <div className="moveRight">
             {!userInformation &&
               !userInformation?.isAdmin &&
               !userInformation?.isBusiness && (
@@ -170,7 +166,7 @@ const NavBar = ({ onSearch }) => {
                 className="moon_sun_icon"
               />
             </li>
-          </div>
+          </div> */}
         </ul>
       </nav>
     </header>

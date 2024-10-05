@@ -16,6 +16,7 @@ import EventImageUpload from "./component/Momentimg/EventImageUpload.jsx";
 import SelfieUpload from "./component/Momentimg/SelfieUpload.jsx";
 import "./hooks/DarkMode/DarkMode.css";
 import "./App.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
