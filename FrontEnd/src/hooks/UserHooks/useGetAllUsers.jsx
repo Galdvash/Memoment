@@ -1,4 +1,3 @@
-// useGetAllUsers.js
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -9,9 +8,9 @@ const useGetAllUsers = (token) => {
     const fetchAllUsers = async () => {
       const config = {
         method: "get",
-        url: "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users",
+        url: "http://localhost:5000/api/users", // עדכן את כתובת ה-API
         headers: {
-          "x-auth-token": token,
+          Authorization: `Bearer ${token}`, // שימוש ב-JWT לטוקן
         },
       };
 
@@ -23,7 +22,9 @@ const useGetAllUsers = (token) => {
       }
     };
 
-    fetchAllUsers();
+    if (token) {
+      fetchAllUsers();
+    }
   }, [token]);
 
   return allUsers;

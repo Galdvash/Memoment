@@ -6,8 +6,9 @@ import {
   loginUser,
   logoutUser,
   getMe,
+  getAllUsers,
 } from "../controllers/userController.mjs";
-import { protect } from "../middleware/authMiddleware.mjs";
+import { protect, authorizeRoles } from "../middleware/authMiddleware.mjs";
 
 const router = express.Router();
 
@@ -22,5 +23,7 @@ router.post("/logout", logoutUser);
 
 // נתיב לקבלת מידע על המשתמש המחובר
 router.get("/me", protect, getMe);
+
+router.get("/users", protect, authorizeRoles("admin"), getAllUsers);
 
 export default router;

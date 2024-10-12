@@ -7,28 +7,19 @@ export const UserProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(null);
 
   useEffect(() => {
-    // בדיקת אם יש טוקן ב-localStorage
-    const token = localStorage.getItem("token");
-
-    // נבצע את הקריאה ל-API רק אם יש טוקן
-    if (token) {
-      axios
-        .get("http://localhost:5000/api/users/me", {
-          headers: {
-            Authorization: `Bearer ${token}`, // מוסיפים את הטוקן לכותרת Authorization
-          },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setUserInformation(response.data); // שמירת המידע על המשתמש
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          localStorage.removeItem("token");
-          setUserInformation(null);
-        });
-    }
-  }, []);
+    // בקשת API לשרת כדי לבדוק אם המשתמש מחובר
+    axios
+      .get("http://localhost:5000/api/users/me", {
+        withCredentials: true, // חשוב כדי לשלוח את ה-cookie לשרת
+      })
+      .then((response) => {
+        setUserInformation(response.data); // שמירת פרטי המשתמש אם מחובר
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setUserInformation(null); // איפוס פרטי המשתמש אם לא מחובר
+      });
+  }, []); // יבוצע פעם אחת כאשר הקומפוננטה נטענת
 
   return (
     <UserContext.Provider value={{ userInformation, setUserInformation }}>

@@ -18,9 +18,16 @@ export const registerValidation = (data) => {
       "string.min": "Password must be at least 6 characters long",
       "string.max": "Password must be less than 255 characters",
     }),
-    isBusiness: Joi.boolean().messages({
+    isBusiness: Joi.boolean().default(false).messages({
       "boolean.base": "isBusiness must be a boolean value",
     }),
+    role: Joi.string()
+      .valid("user", "business", "admin")
+      .default("user")
+      .messages({
+        "string.empty": "Role is required",
+        "any.only": "Role must be either 'user', 'business' or 'admin'",
+      }),
   });
 
   return schema.validate(data);

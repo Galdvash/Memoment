@@ -25,12 +25,16 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["user", "business"],
+    enum: ["user", "business", "admin"], // נוסיף 'admin' לתפקידים
     default: "user",
   },
   isBusiness: {
     type: Boolean,
     default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now, // הוספת חותמת זמן אוטומטית
   },
 });
 
