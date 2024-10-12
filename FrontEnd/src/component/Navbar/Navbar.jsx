@@ -1,23 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../hooks/DarkMode/DarkModeContext";
 import { UserContext } from "../../hooks/UserHooks/userContextApp";
+import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MenuIcon from "@mui/icons-material/Menu";
-// import SunIcon from "../../images/Sunny.png";
-// import MoonIcon from "../../images/Moon.png";
-// import SearchIcon from "../../images/SearchIcon.png";
-// import Jobs from "../../images/Jobs.png";
-// import Button from "../../Library/Button.jsx";
-
-import "../Navbar/Navbar.css";
+import SunIcon from "../../images/Sunny.png";
+import MoonIcon from "../../images/Moon.png";
+import SearchIcon from "../../images/SearchIcon.png";
+import Button from "../../Library/Button.jsx";
+import "./Navbar.css";
 
 const NavBar = ({ onSearch }) => {
   const { isSun, handleIconClick } = useContext(ThemeContext);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to manage menu open/close
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { userInformation, setUserInformation } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -25,15 +24,22 @@ const NavBar = ({ onSearch }) => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleLogout = () => {
-    // Confirm logout with the user
+  const handleLogout = async () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
-      setUserInformation(null);
-      localStorage.removeItem("userInformation");
-      localStorage.removeItem("token");
-      navigate("/");
-      toast.success("Logged out successfully"); // Set toast message
+      try {
+        await axios.post(
+          "http://localhost:5000/api/users/logout",
+          {},
+          { withCredentials: true }
+        );
+        setUserInformation(null);
+        navigate("/");
+        toast.success("Logged out successfully");
+      } catch (error) {
+        console.error("Logout error:", error);
+        toast.error("Logout failed!");
+      }
     }
   };
 
@@ -44,14 +50,12 @@ const NavBar = ({ onSearch }) => {
   const handleSearchInputChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-    onSearch(query); // Call the search function passed as a prop
+    onSearch(query);
   };
 
   return (
     <header className="header">
       <nav className={`container_nav ${isSun ? "dark" : "light"}`}>
-        {/* <img className="logo" src={Jobs} alt="jobs" /> */}
-
         <div className="hamburger" onClick={toggleMenu}>
           <MenuIcon
             className="menuIcon"
@@ -72,71 +76,49 @@ const NavBar = ({ onSearch }) => {
           </li>
           <li>
             <Link className="link" to={"/"}>
-              Packages
-            </Link>
-          </li>
-          <li>
-            <Link className="link" to={"/"}>
               Q&A
             </Link>
           </li>
-
-          <li style={{ border: "1px solid grey" }}>
+          <li>
             <Link className="link" to={"/"}>
               Contact Us
             </Link>
           </li>
 
-          {userInformation?.isAdmin && (
+          {/* Links for users who are not logged in */}
+          {!userInformation && (
             <>
               <li>
-                <Link className="link" to={"/myCards"}>
-                  My Cards
+                <Link className="link" to={"/packages"}>
+                  Packages
                 </Link>
               </li>
-              <li>
-                <Link className="link" to={"/sandBox"}>
-                  SandBox
-                </Link>
-              </li>
-            </>
-          )}
-          {userInformation?.isBusiness && (
-            <>
-              <li>
-                <Link className="link" to={"/myCards"}>
-                  My Cards
-                </Link>
-              </li>
-            </>
-          )}
 
-          {!userInformation?.isAdmin &&
-            !userInformation?.isBusiness &&
-            userInformation && (
               <li>
-                <Link className="link" to={"/myCards"}>
-                  My Cards
-                </Link>
-              </li>
-            )}
-
-          <li>
-            {userInformation ? (
-              <button className="link" onClick={handleLogout}>
-                Logout
-              </button>
-            ) : null}
-          </li>
-
-          {/* <div className="moveRight">
-            {!userInformation &&
-              !userInformation?.isAdmin &&
-              !userInformation?.isBusiness && (
                 <Link className="link" to={"/register"}>
-                  <Button />
+                  Register
                 </Link>
-              )}
+              </li>
+            </>
+          )}
+
+          {/* Links for logged in users */}
+          {userInformation && (
+            <>
+              <li>
+                <button className="link" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
+
+          <div className="moveRight">
+            {!userInformation && (
+              <Link className="link" to={"/register"}>
+                <Button />
+              </Link>
+            )}
             <li>
               <div className="searchBar">
                 <input
@@ -146,7 +128,7 @@ const NavBar = ({ onSearch }) => {
                   type="text"
                   placeholder="Search Your Card..."
                   value={searchQuery}
-                  onChange={handleSearchInputChange} // Handle search input change
+                  onChange={handleSearchInputChange}
                 />
                 <img
                   src={SearchIcon}
@@ -166,7 +148,7 @@ const NavBar = ({ onSearch }) => {
                 className="moon_sun_icon"
               />
             </li>
-          </div> */}
+          </div>
         </ul>
       </nav>
     </header>

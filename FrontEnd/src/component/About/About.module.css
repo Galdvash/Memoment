@@ -1,15 +1,17 @@
-.body {
+.bodyAbout {
   padding-top: 10em;
   min-height: 100vh;
   display: flex;
   padding-left: 21.8em;
 }
 
-.textBox h1,
-p {
-  max-width: 90%;
-  text-align: left;
-  text-wrap: balance;
+.textBox {
+  h1,
+  p {
+    max-width: 90%;
+    text-align: left;
+    text-wrap: balance;
+  }
 }
 .flexBoxOne {
   display: flex;

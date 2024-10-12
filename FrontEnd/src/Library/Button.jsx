@@ -18,7 +18,6 @@ const StyledWrapper = styled.div`
   .fancy {
     background-color: #fdfcfc;
     border: 2px solid;
-    border-radius: 0;
     box-sizing: border-box;
     color: #000;
     cursor: pointer;
@@ -29,7 +28,7 @@ const StyledWrapper = styled.div`
     margin: 0;
     outline: none;
     overflow: visible;
-    padding: 1.25em 2em;
+    padding: 1.25em 1em;
     position: relative;
     text-align: center;
     text-decoration: none;
@@ -39,23 +38,10 @@ const StyledWrapper = styled.div`
     font-size: 13px;
   }
 
-  .fancy::before {
-    content: " ";
-    width: 1.5625rem;
-    height: 2px;
-    background: white;
-    top: 50%;
-    left: 1.5em;
-    position: absolute;
-    transform: translateY(-50%);
-    transform-origin: center;
-    transition: background 0.3s linear, width 0.3s linear;
-  }
-
   .fancy .text {
     font-size: 1.125em;
     line-height: 1.33333em;
-    padding-left: 2em;
+    padding-left: 0.4em;
     display: block;
     text-align: left;
     transition: all 0.6s ease-in-out;

@@ -3,7 +3,7 @@
 
   --BgColor_LightMode: #f5f5f5;
   --NavbarColor_LightMode: #fdfcfc;
-  --PColor_LightMode: #517376;
+
   --TitleColor_LightMode: #037784;
   --BtnColor_LightMode: #74512d;
   --HoverColor_LightMode: #af8f6f;
@@ -20,7 +20,8 @@
 }
 
 /* Light-Mode */
-.bodyAbout {
+.bodyAbout,
+.bodyPackages {
   background-color: var(--BgColor_LightMode);
 }
 /* About  */ /* Cards and FindTheOne */

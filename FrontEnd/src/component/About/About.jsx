@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styleAbout from "./About.module.css";
 import circleIMG from "../../images/add_circle_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";
 import sendToMobileIMG from "../../images/send_to_mobile_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";
@@ -6,11 +6,10 @@ import securityIMG from "../../images/security_24dp_5F6368_FILL0_wght400_GRAD0_o
 import faceIMG from "../../images/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";
 import checkedIMG from "../../images/checked-tick-svgrepo-com 3.svg";
 import iphoneIMG from "../../images/Iphone 1.svg";
-
 const About = () => {
   return (
-    <div className="bodyAbout">
-      <div className={`${styleAbout.body}  scrollable`}>
+    <div className="bodyAbout ">
+      <div className={`${styleAbout.bodyAbout} ${styleAbout.scrollable}`}>
         <div className={styleAbout.container}>
           <header className={styleAbout.header}>
             <div className={styleAbout.textBox}>
