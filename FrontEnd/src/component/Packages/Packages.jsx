@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import checkedIMG from "../../images/checked-tick-svgrepo-com 3.svg";
 import stylePackages from "./Packages.module.css";
@@ -6,19 +6,11 @@ import "./packages.css";
 const Packages = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/register");
+    navigate("/CreateEvent");
   };
-  useEffect(() => {
-    // הוספת המחלקה noScroll ל-body
-    document.body.classList.add("noscroll");
 
-    // הסרת המחלקה noScroll כאשר הקומפוננטה מתנתקת
-    return () => {
-      document.body.classList.remove("noscroll");
-    };
-  }, []);
   return (
-    <div className="bodyPackage noScroll">
+    <div className="bodyPackage ">
       <div className={stylePackages.bodyPackages}>
         <section className={stylePackages.sectionContainer}>
           <div className={stylePackages.packagesIntro}>

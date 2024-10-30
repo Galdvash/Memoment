@@ -10,7 +10,7 @@ import EventImageUpload from "./component/Momentimg/EventImageUpload.jsx";
 import SelfieUpload from "./component/Momentimg/SelfieUpload.jsx";
 import Packages from "./component/Packages/Packages.jsx";
 import EventPhoneUpload from "./component/EventPhoneUpload/EventPhoneUpload.jsx";
-
+import CreateEvent from "./component/AllTheEvents/CreateEvent.jsx";
 const AppRoutes = ({ searchQuery }) => {
   return (
     <Routes>
@@ -27,6 +27,7 @@ const AppRoutes = ({ searchQuery }) => {
       <Route path="/selfie" element={<SelfieUpload />} />
       <Route path="/packages" element={<Packages />} />
       <Route path="/EventPhoneUpload" element={<EventPhoneUpload />} />
+      <Route path="/CreateEvent" element={<CreateEvent />} />
     </Routes>
   );
 };
