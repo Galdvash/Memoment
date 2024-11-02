@@ -1,0 +1,36 @@
+.dashboard {
+  width: 251px;
+  height: 838px;
+  background-color: rgba(34, 34, 34, 1);
+  border-radius: 23px;
+  transition: transform 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.open {
+  transform: translateX(0);
+}
+
+.closed {
+  transform: translateX(-200px); /* הסטת ה-Dashboard */
+}
+
+.menuButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease-in-out;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+.content {
+  color: white;
+  padding: 20px;
+}
