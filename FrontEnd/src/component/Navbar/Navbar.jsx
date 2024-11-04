@@ -80,6 +80,16 @@ const NavBar = ({ onSearch }) => {
               Contact Us
             </Link>
           </li>
+          <li>
+            <Link className="link" to={"/upload"}>
+              upload
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to={"/selfie"}>
+              selfie
+            </Link>
+          </li>
 
           {/* Links for users who are not logged in */}
           {!userInformation && (

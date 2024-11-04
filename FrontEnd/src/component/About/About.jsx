@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styleAbout from "./About.module.css";
 import circleIMG from "../../images/add_circle_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";
 import sendToMobileIMG from "../../images/send_to_mobile_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";

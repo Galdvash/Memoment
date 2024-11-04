@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1e950aec.css",
+    "main.js": "/static/js/main.6e48406a.js",
+    "static/js/453.ed3810f9.chunk.js": "/static/js/453.ed3810f9.chunk.js",
+    "static/media/Iphone 1.svg": "/static/media/Iphone 1.4aefb2158853c6cd32912bd1e5d46cb0.svg",
+    "static/media/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/static/media/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.0db2560300f3732179ce5019daa838f8.svg",
+    "static/media/add_circle_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/static/media/add_circle_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.43eb2b847c52cb3e6852579d3eef2e2a.svg",
+    "index.html": "/index.html",
+    "static/media/send_to_mobile_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/static/media/send_to_mobile_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.7c7396ef4722aaec7b8fa0698ad4cd1d.svg",
+    "static/media/Vector.svg": "/static/media/Vector.a1121166d629a1a125f0ad52aae22a45.svg",
+    "static/media/checked-tick-svgrepo-com 3.svg": "/static/media/checked-tick-svgrepo-com 3.689598b6fd5f015bbb3f38c40aebca31.svg",
+    "static/media/security_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/static/media/security_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.ed2336d87bb2c5ad39694650d0449426.svg",
+    "main.1e950aec.css.map": "/static/css/main.1e950aec.css.map",
+    "main.6e48406a.js.map": "/static/js/main.6e48406a.js.map",
+    "453.ed3810f9.chunk.js.map": "/static/js/453.ed3810f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1e950aec.css",
+    "static/js/main.6e48406a.js"
+  ]
+}

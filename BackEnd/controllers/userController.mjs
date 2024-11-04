@@ -4,6 +4,8 @@ import User from "../models/UserModel.mjs";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { registerValidation } from "../validation/userValidation.mjs";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const registerUser = async (req, res) => {
   // ולידציה עם Joi

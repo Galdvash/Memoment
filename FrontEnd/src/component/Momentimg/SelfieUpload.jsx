@@ -131,7 +131,7 @@ const SelfieUpload = () => {
 
       // Send the image to the backend for face recognition
       const response = await axios.post(
-        "http://localhost:5000/match-faces",
+        "http://localhost:5000/api/face/match-faces",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
