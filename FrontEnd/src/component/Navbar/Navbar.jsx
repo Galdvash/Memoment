@@ -5,7 +5,7 @@ import { UserContext } from "../../hooks/UserHooks/userContextApp";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import MenuIcon from "@mui/icons-material/Menu";
+// import MenuIcon from "@mui/icons-material/Menu";
 import SunIcon from "../../images/Sunny.png";
 import MoonIcon from "../../images/Moon.png";
 import SearchIcon from "../../images/SearchIcon.png";
@@ -52,16 +52,14 @@ const NavBar = ({ onSearch }) => {
     setSearchQuery(query);
     onSearch(query);
   };
-
+  // <MenuIcon
+  //           className="menuIcon"
+  //           style={{ width: "33px", height: "35px" }}
+  //         />
   return (
     <header className="header">
       <nav className={`container_nav ${isSun ? "dark" : "light"}`}>
-        <div className="hamburger" onClick={toggleMenu}>
-          <MenuIcon
-            className="menuIcon"
-            style={{ width: "33px", height: "35px" }}
-          />
-        </div>
+        <div className="hamburger" onClick={toggleMenu}></div>
 
         <ul className={`link_list ${isMenuOpen ? "open" : ""}`}>
           <li>
