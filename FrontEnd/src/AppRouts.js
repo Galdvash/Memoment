@@ -15,10 +15,6 @@ const AppRoutes = ({ searchQuery }) => {
   return (
     <Routes>
       <Route path="/" element={<About />} />
-      <Route
-        path="/FindTheOne"
-        element={<FindTheOne searchQuery={searchQuery} />}
-      />
       <Route path="/favCards" element={<FavoritCards />} />
       <Route path="/myCards" element={<MyCards />} />
       <Route path="/register" element={<Register />} />
@@ -28,6 +24,10 @@ const AppRoutes = ({ searchQuery }) => {
       <Route path="/packages" element={<Packages />} />
       <Route path="/EventPhoneUpload" element={<EventPhoneUpload />} />
       <Route path="/CreateEvent" element={<CreateEvent />} />
+      <Route
+        path="/FindTheOne"
+        element={<FindTheOne searchQuery={searchQuery} />}
+      />
     </Routes>
   );
 };

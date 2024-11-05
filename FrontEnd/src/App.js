@@ -20,7 +20,7 @@ const App = () => {
         <UserProvider>
           <BrowserRouter>
             <NavBar onSearch={handleSearch} />
-            <AppRoutes searchQuery={searchQuery} /> {/* שימוש ב־AppRoutes */}
+            <AppRoutes searchQuery={searchQuery} />
           </BrowserRouter>
         </UserProvider>
       </ThemeProvider>

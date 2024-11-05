@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/Memoment/static/css/main.319b07d9.chunk.css",
+    "main.js": "/Memoment/static/js/main.315110ab.chunk.js",
+    "main.js.map": "/Memoment/static/js/main.315110ab.chunk.js.map",
+    "runtime-main.js": "/Memoment/static/js/runtime-main.51d163af.js",
+    "runtime-main.js.map": "/Memoment/static/js/runtime-main.51d163af.js.map",
+    "static/css/2.b24350a8.chunk.css": "/Memoment/static/css/2.b24350a8.chunk.css",
+    "static/js/2.44141843.chunk.js": "/Memoment/static/js/2.44141843.chunk.js",
+    "static/js/2.44141843.chunk.js.map": "/Memoment/static/js/2.44141843.chunk.js.map",
+    "static/js/3.acaa8d23.chunk.js": "/Memoment/static/js/3.acaa8d23.chunk.js",
+    "static/js/3.acaa8d23.chunk.js.map": "/Memoment/static/js/3.acaa8d23.chunk.js.map",
+    "index.html": "/Memoment/index.html",
+    "precache-manifest.9d4c0564d334bae955faa11e10289722.js": "/Memoment/precache-manifest.9d4c0564d334bae955faa11e10289722.js",
+    "service-worker.js": "/Memoment/service-worker.js",
+    "static/css/2.b24350a8.chunk.css.map": "/Memoment/static/css/2.b24350a8.chunk.css.map",
+    "static/css/main.319b07d9.chunk.css.map": "/Memoment/static/css/main.319b07d9.chunk.css.map",
+    "static/js/2.44141843.chunk.js.LICENSE.txt": "/Memoment/static/js/2.44141843.chunk.js.LICENSE.txt",
+    "static/media/Iphone 1.svg": "/Memoment/static/media/Iphone 1.db10337a.svg",
+    "static/media/Vector.svg": "/Memoment/static/media/Vector.ba816fa3.svg",
+    "static/media/add_circle_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/Memoment/static/media/add_circle_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.33f636d0.svg",
+    "static/media/checked-tick-svgrepo-com 3.svg": "/Memoment/static/media/checked-tick-svgrepo-com 3.ef7e86d6.svg",
+    "static/media/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/Memoment/static/media/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.fe455312.svg",
+    "static/media/security_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/Memoment/static/media/security_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.e50a3ad7.svg",
+    "static/media/send_to_mobile_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/Memoment/static/media/send_to_mobile_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.65f14d5d.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.51d163af.js",
+    "static/css/2.b24350a8.chunk.css",
+    "static/js/2.44141843.chunk.js",
+    "static/css/main.319b07d9.chunk.css",
+    "static/js/main.315110ab.chunk.js"
+  ]
+}
