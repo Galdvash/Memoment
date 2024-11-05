@@ -7,8 +7,6 @@ import faceIMG from "../../images/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.
 import checkedIMG from "../../images/checked-tick-svgrepo-com 3.svg";
 import iphoneIMG from "../../images/Iphone 1.svg";
 const About = () => {
-  console.log("about...");
-
   return (
     <div className="bodyAbout ">
       <div className={`${styleAbout.bodyAbout} ${styleAbout.scrollable}`}>

@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8fe8a37b33b6f3f88ff78ca37081b24b",
+    "revision": "2924e1d4aa669ea8e3a842b33e5d8bee",
     "url": "/Memoment/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Memoment/static/css/2.b24350a8.chunk.css"
   },
   {
-    "revision": "a1352f26d159ab613a8a",
+    "revision": "60f95539b9b8c58a8a62",
     "url": "/Memoment/static/css/main.319b07d9.chunk.css"
   },
   {
@@ -24,8 +24,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Memoment/static/js/3.acaa8d23.chunk.js"
   },
   {
-    "revision": "a1352f26d159ab613a8a",
-    "url": "/Memoment/static/js/main.315110ab.chunk.js"
+    "revision": "60f95539b9b8c58a8a62",
+    "url": "/Memoment/static/js/main.985ddba9.chunk.js"
   },
   {
     "revision": "6d2c9b3bc99f1f0e32c7",

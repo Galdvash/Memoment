@@ -14,7 +14,7 @@ import CreateEvent from "./component/AllTheEvents/CreateEvent.jsx";
 const AppRoutes = ({ searchQuery }) => {
   return (
     <Routes>
-      <Route path="/" element={<About />} />
+      <Route path="/Memoment" element={<About />} />
       <Route path="/favCards" element={<FavoritCards />} />
       <Route path="/myCards" element={<MyCards />} />
       <Route path="/register" element={<Register />} />

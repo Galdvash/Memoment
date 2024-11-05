@@ -7,18 +7,26 @@ export const UserProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(null);
 
   useEffect(() => {
-    // בקשת API לשרת כדי לבדוק אם המשתמש מחובר
-    axios
-      .get("http://localhost:5000/api/users/me", {
-        withCredentials: true, // חשוב כדי לשלוח את ה-cookie לשרת
-      })
-      .then((response) => {
-        setUserInformation(response.data); // שמירת פרטי המשתמש אם מחובר
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setUserInformation(null); // איפוס פרטי המשתמש אם לא מחובר
-      });
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      // בקשת API לשרת כדי לבדוק אם המשתמש מחובר
+      axios
+        .get("http://localhost:5000/api/users/me", {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true, // חשוב כדי לשלוח את ה-cookie לשרת
+        })
+        .then((response) => {
+          setUserInformation(response.data); // שמירת פרטי המשתמש אם מחובר
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setUserInformation(null); // איפוס פרטי המשתמש אם לא מחובר
+        });
+    } else {
+      // אם אין טוקן, איפוס פרטי המשתמש
+      setUserInformation(null);
+    }
   }, []); // יבוצע פעם אחת כאשר הקומפוננטה נטענת
 
   return (
