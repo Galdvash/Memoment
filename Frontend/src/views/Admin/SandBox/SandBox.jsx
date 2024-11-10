@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../hooks/UserHooks/userContextApp";
-import useGetAllUsers from "../../hooks/UserHooks/useGetAllUsers";
-import Loading from "../Loading/Loading";
+import { UserContext } from "../../../hooks/UserHooks/userContextApp";
+import useGetAllUsers from "../../../hooks/UserHooks/useGetAllUsers";
+import Loading from "../../../Library/Loading/Loading";
 import axios from "axios";
 import styles from "./SandBox.module.css";
 

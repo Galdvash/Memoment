@@ -52,14 +52,16 @@ const NavBar = ({ onSearch }) => {
     setSearchQuery(query);
     onSearch(query);
   };
-  // <MenuIcon
-  //           className="menuIcon"
-  //           style={{ width: "33px", height: "35px" }}
-  //         />
+
   return (
     <header className="header">
       <nav className={`container_nav ${isSun ? "dark" : "light"}`}>
-        <div className="hamburger" onClick={toggleMenu}></div>
+        <div className="hamburger" onClick={toggleMenu}>
+          {/* <MenuIcon
+            className="menuIcon"
+            style={{ width: "33px", height: "35px" }}
+          /> */}
+        </div>
 
         <ul className={`link_list ${isMenuOpen ? "open" : ""}`}>
           <li>

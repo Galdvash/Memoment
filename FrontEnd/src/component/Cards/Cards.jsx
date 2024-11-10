@@ -1,26 +1,37 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useGetUser from "../../hooks/UserHooks/useGetUser";
-import Loading from "../Loading/Loading";
+import Loading from "../../Library/Loading/Loading";
 import FormComponent from "./AddCard/FormComponent";
 import styleCards from "./Cards.module.css";
 import useAddCards from "./AddCard/useAddCards";
 
 const MyCards = () => {
   const [cards, setCards] = useState([]);
-  const { userInformation } = useGetUser(); 
-  const { isClick, handleChange, handleSubmit, formValid, formData, closeForm, OpenAndCloseCard } = useAddCards();
+  const { userInformation } = useGetUser();
+  const {
+    isClick,
+    handleChange,
+    handleSubmit,
+    formValid,
+    formData,
+    closeForm,
+    OpenAndCloseCard,
+  } = useAddCards();
 
   useEffect(() => {
     const fetchCards = async () => {
       if (userInformation) {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         try {
-          const response = await axios.get('https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/my-cards', {
-            headers: {
-              'x-auth-token': token
-            },
-          });
+          const response = await axios.get(
+            "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/my-cards",
+            {
+              headers: {
+                "x-auth-token": token,
+              },
+            }
+          );
           setCards(response.data);
         } catch (error) {
           console.error(error);

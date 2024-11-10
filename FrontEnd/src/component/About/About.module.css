@@ -1,29 +1,41 @@
 .bodyAbout {
-  min-height: 100vh;
   display: flex;
-  padding-left: 21.8em;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 2em;
+  position: relative;
 }
 
+.container {
+  flex: 0 0 60%;
+  max-width: 50%;
+  display: flex;
+  justify-content: center;
+  transform: translateX(16em);
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .textBox {
   h1,
   p {
-    max-width: 90%;
     text-align: left;
     text-wrap: balance;
   }
 }
-.flexBoxOne {
-  display: flex;
-  align-items: center;
-}
-
+.flexBoxOne,
 .flexBoxTwo {
   display: flex;
   align-items: center;
 }
 .flexItem {
   display: flex;
-  justify-content: right;
+  justify-content: center;
   align-items: center;
   background-color: #ffffff;
   margin: 15px 15px 10px 0px;
@@ -32,17 +44,14 @@
   height: 105px;
   border-radius: 10px;
 }
-.img {
-  width: 40px;
-  margin-right: 5px;
-}
+
 .checkedList {
   display: flex;
   align-items: center;
   font-weight: bold;
   padding-top: 10px;
   img {
-    padding-right: 5px;
+    padding-inline: 2px;
   }
 }
 .checkedList div {
@@ -58,4 +67,19 @@
   border-radius: 30px;
   border: none;
   margin-top: 30px;
+}
+aside {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+.iphoneIMG {
+  max-width: 90%;
+  height: auto;
+}
+@media screen and (max-width: 855px) {
+  .bodyAbout {
+    flex-direction: column;
+    padding: 1em;
+  }
 }

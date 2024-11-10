@@ -13,7 +13,7 @@
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 .bodyRegister {
-  padding-top: 10.5em;
+  padding-top: 10em;
   display: grid;
   place-items: center;
   overflow-y: hidden;

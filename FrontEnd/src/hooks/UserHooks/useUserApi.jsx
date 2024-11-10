@@ -64,20 +64,23 @@ const useUserApi = () => {
     e.preventDefault();
     if (validate()) {
       try {
-        await axios.post("http://localhost:5000/api/users/register", data, {
-          withCredentials: true,
-        });
+        await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/users/register`,
+          data,
+          {
+            withCredentials: true,
+          }
+        );
         toast.success("Registration successful!");
 
-        // בקשת מידע על המשתמש לאחר הרשמה
         const userResponse = await axios.get(
-          "http://localhost:5000/api/users/me",
+          `${process.env.REACT_APP_API_URL}/api/users/me`,
           { withCredentials: true }
         );
-        setUserInformation(userResponse.data); // כאן אנו מעדכנים את userInformation
+        setUserInformation(userResponse.data);
 
         setIsData({ name: "", email: "", password: "", isBusiness: false });
-        navigate("/packages"); // הפניה לעמוד ה-Packages
+        navigate("/packages");
       } catch (error) {
         console.error(error);
         toast.error(error.response?.data?.message || "Registration failed!");
@@ -90,20 +93,23 @@ const useUserApi = () => {
   const handleSubmit2 = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/users/login", isLoginData, {
-        withCredentials: true,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/users/login`,
+        isLoginData,
+        {
+          withCredentials: true,
+        }
+      );
       toast.success("Login successful!");
 
-      // בקשת מידע על המשתמש לאחר התחברות
       const userResponse = await axios.get(
-        "http://localhost:5000/api/users/me",
+        `${process.env.REACT_APP_API_URL}/api/users/me`,
         { withCredentials: true }
       );
-      setUserInformation(userResponse.data); // כאן אנו מעדכנים את userInformation
+      setUserInformation(userResponse.data);
 
       setIsLoginData({ email: "", password: "" });
-      navigate("/packages"); // הפניה לעמוד ה-Packages
+      navigate("/packages");
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message || "Login failed!");
@@ -115,7 +121,7 @@ const useUserApi = () => {
     errors,
     data,
     isLoginData,
-    userInformation, // ניתן להחזיר את userInformation אם נדרש
+    userInformation,
     handleSignInClick,
     handleSignUpClick,
     handleChange,

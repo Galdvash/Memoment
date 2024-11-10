@@ -10,14 +10,28 @@ import faceRoutes from "./routes/faceRoutes.mjs";
 import excelRoutes from "./routes/excelRoutes.mjs";
 import twilioRoutes from "./routes/twilioRoutes.mjs";
 
-dotenv.config();
+// הגדרת NODE_ENV לברירת מחדל אם הוא לא מוגדר
+const currentEnv = process.env.NODE_ENV || "development";
+
+dotenv.config({
+  path: currentEnv === "production" ? "production.env" : "development.env",
+});
 
 const app = express();
 
+console.log(`Running in ${currentEnv} mode`);
+
 const corsOptions = {
-  origin: "http://localhost:3000", // כתובת צד הלקוח שלך
-  credentials: true, // מאפשר שליחת עוגיות
+  origin:
+    currentEnv === "production"
+      ? "https://memoment.netlify.app"
+      : "http://localhost:3000",
+  credentials: true,
 };
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
+
 app.use(cors(corsOptions));
 
 app.use(express.json());
@@ -47,5 +61,5 @@ app.use("/api/events", twilioRoutes);
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} `);
+  console.log(`Server running on port ${PORT}`);
 });

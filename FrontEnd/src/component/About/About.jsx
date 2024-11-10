@@ -49,22 +49,24 @@ const About = () => {
                 </p>
               </div>
             </div>
+
+            <section className={styleAbout.checkedList}>
+              <div>
+                <img src={checkedIMG} alt=""></img> 99.4% accuracy
+              </div>
+              <div>
+                <img src={checkedIMG} alt=""></img> All the information is
+                secure.
+              </div>
+              <div>
+                <img src={checkedIMG} alt=""></img> Your guests will love you!
+              </div>
+            </section>
+            <button className={styleAbout.btn}>Create New Event</button>
           </header>
-          <section className={styleAbout.checkedList}>
-            <div>
-              <img src={checkedIMG} alt=""></img> 99.4% accuracy
-            </div>
-            <div>
-              <img src={checkedIMG} alt=""></img> All the information is secure.
-            </div>
-            <div>
-              <img src={checkedIMG} alt=""></img> Your guests will love you!
-            </div>
-          </section>
-          <button className={styleAbout.btn}>Create New Event</button>
         </div>
-        <aside className={styleAbout.iphoneRightSide}>
-          <img src={iphoneIMG} alt="" />
+        <aside>
+          <img className={styleAbout.iphoneIMG} src={iphoneIMG} alt="" />
         </aside>
       </div>
     </div>

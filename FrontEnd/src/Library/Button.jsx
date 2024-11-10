@@ -22,10 +22,8 @@ const StyledWrapper = styled.div`
     color: #000;
     cursor: pointer;
     display: inline-block;
-    float: right;
     font-weight: 700;
     letter-spacing: 0.05em;
-    margin: 0;
     outline: none;
     overflow: visible;
     padding: 1.25em 1em;
@@ -41,9 +39,8 @@ const StyledWrapper = styled.div`
   .fancy .text {
     font-size: 1.125em;
     line-height: 1.33333em;
-    padding-left: 0.4em;
     display: block;
-    text-align: left;
+    text-align: center;
     transition: all 0.6s ease-in-out;
     text-transform: uppercase;
     text-decoration: none;
@@ -92,7 +89,6 @@ const StyledWrapper = styled.div`
 
   .fancy:hover .text {
     color: #e90f0f;
-    padding-left: 1.5em;
   }
 
   .fancy:hover .top-key {
