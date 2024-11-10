@@ -14,9 +14,10 @@ node_modules
 
 # misc
 .env
-.env
-.env.development
-.env.production
+development.env
+production.env
+env.development
+env.production
 
 .DS_Store
 .env.local
