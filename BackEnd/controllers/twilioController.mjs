@@ -1,68 +1,53 @@
 import Twilio from "twilio";
-import Phone from "../models/phoneModel.mjs"; // Import the Phone model
-import crypto from "crypto"; // For generating OTP
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = Twilio(accountSid, authToken);
 
-// Function to generate random OTP
+// פונקציה ליצירת OTP רנדומלי בן 6 ספרות
 const generateOTP = () => {
-  return crypto.randomInt(100000, 999999); // Generate 6-digit OTP
+  return Math.floor(100000 + Math.random() * 900000); // יוצר מספר בין 100000 ל-999999
 };
-export const sendSMSWithOTP = async (req, res) => {
-  const { phoneNumber } = req.body; // קבלת מספר טלפון מגוף הבקשה
+
+// מאגר זמני ל-OTP לפי מספרי טלפון (בפרויקט אמיתי עדיף להשתמש בבסיס נתונים)
+const otpStore = {};
+
+export const sendOtp = async (req, res) => {
+  const { phoneNumber } = req.body;
+
+  // יצירת OTP רנדומלי
+  const otp = generateOTP();
+  otpStore[phoneNumber] = otp; // שמירת ה-OTP במאגר זמני לפי מספר טלפון
 
   try {
-    // חיפוש הרשומה של המספר במאגר הנתונים
-    const phoneRecord = await Phone.findOne({ phoneNumber });
-    if (!phoneRecord) {
-      return res.status(404).json({ message: "Phone number not found" });
-    }
-
-    const otp = generateOTP(); // יצירת OTP
-
-    // שמירת ה-OTP במאגר הנתונים
-    await Phone.updateOne({ phoneNumber }, { otp });
-
-    // שליחת הודעת SMS עם ה-OTP
-    const message = `שלום ${phoneRecord.name}, הנה קוד האימות שלך: ${otp}`;
+    // שליחת הודעת WhatsApp עם ה-OTP
     await client.messages.create({
-      body: message,
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: `+972${phoneNumber}`, // שליחת לישראל בלבד
+      body: `Your OTP code is: ${otp}`,
+      from: `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`,
+      to: `whatsapp:+972${phoneNumber}`,
     });
 
     console.log(`OTP sent to ${phoneNumber}`);
-    res.status(200).json({ message: `OTP sent to ${phoneNumber}` });
+    res.status(200).json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
-    console.error("Error sending OTP message:", error);
-    res.status(500).send("Error sending OTP message");
+    console.error("Error sending OTP:", error.message);
+    res.status(500).json({ success: false, error: "Failed to send OTP" });
   }
 };
 
-// Controller to verify the OTP
-export const verifyOTP = async (req, res) => {
+export const verifyOtp = (req, res) => {
   const { phoneNumber, otp } = req.body;
 
-  try {
-    const phoneRecord = await Phone.findOne({ phoneNumber });
-
-    if (
-      !phoneRecord ||
-      phoneRecord.otp !== otp ||
-      phoneRecord.otpExpires < Date.now()
-    ) {
-      return res.status(400).json({ message: "Invalid or expired OTP" });
-    }
-
-    // OTP is valid
-    res.status(200).json({
-      message: "OTP verified successfully",
-      albumLink: "https://yourdomain.com/event-album",
-    });
-  } catch (error) {
-    console.error("Error verifying OTP:", error);
-    res.status(500).send("Error verifying OTP");
+  // בדיקה אם ה-OTP תואם לזה שנשמר
+  if (otpStore[phoneNumber] && otpStore[phoneNumber] === parseInt(otp, 10)) {
+    delete otpStore[phoneNumber]; // הסרת ה-OTP לאחר אימות מוצלח
+    res
+      .status(200)
+      .json({ success: true, message: "OTP verified successfully" });
+  } else {
+    res.status(400).json({ success: false, error: "Invalid or expired OTP" });
   }
 };

@@ -1,0 +1,85 @@
+h4 {
+  font-size: 36px;
+  font-weight: 300;
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ccc;
+}
+.wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 500px; /* ריווח בין ה-Dashboard והקומפוננטה */
+}
+
+.progressContainer {
+  z-index: -99;
+  position: relative;
+  margin: 50px auto;
+  padding: 2px 0 0;
+  width: 500px;
+  height: 6px;
+  background: #444;
+  box-shadow: inset 0 0 2px #666;
+}
+
+.progressContainer ul li {
+  position: absolute;
+  top: -12px;
+  left: 0;
+  display: inline-flex;
+  height: 30px;
+  width: 30px;
+  background: #fff;
+  border: 2px solid #ff1f35;
+  border-radius: 50%;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+/* מצב ברירת מחדל */
+.progressContainer ul li.completed {
+  background: #ff1f35;
+  color: #fff;
+}
+
+/* הגדר מיקום כל עיגול */
+.progressContainer ul li:nth-child(2) {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.progressContainer ul li:nth-child(3) {
+  left: 100%;
+  transform: translateX(-100%);
+}
+
+.progressBar {
+  height: 2px;
+  width: 0;
+  background: #ff1f35;
+  transition: width 1s ease-in-out;
+}
+
+.button {
+  margin: 20px auto;
+  padding: 10px;
+  width: 150px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  background: #ff1f35;
+  text-align: center;
+  border: 1px solid #b22330;
+  cursor: pointer;
+}
+
+.resetButton {
+  background: #ff4c4c;
+  border-color: #9e2626;
+}

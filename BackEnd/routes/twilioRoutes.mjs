@@ -1,12 +1,12 @@
 import express from "express";
-import { sendSMSWithOTP, verifyOTP } from "../controllers/twilioController.mjs";
+import { sendOtp, verifyOtp } from "../controllers/twilioController.mjs";
 
 const router = express.Router();
 
-// Route to send SMS with OTP to all phone numbers
-router.post("/send-sms", sendSMSWithOTP);
+// Route לשליחת ה-OTP
+router.post("/send-otp", sendOtp);
 
-// Route to verify the OTP
-router.post("/verify-otp", verifyOTP);
+// Route לאימות ה-OTP
+router.post("/verify-otp", verifyOtp);
 
 export default router;
