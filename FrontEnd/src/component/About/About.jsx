@@ -27,21 +27,25 @@ const About = () => {
 
             <div className={styleAbout.flexBoxOne}>
               <div className={styleAbout.flexItem}>
+                <span>1</span>
                 <img className={styleAbout.img} src={circleIMG} alt="" />
                 <p>Create a new event in just a few minutes</p>
               </div>
 
               <div className={styleAbout.flexItem}>
+                <span>2</span>
                 <img className={styleAbout.img} src={sendToMobileIMG} alt="" />
                 <p>View photos after a quick and secure verification</p>
               </div>
             </div>
             <div className={styleAbout.flexBoxTwo}>
               <div className={styleAbout.flexItem}>
+                <span>3</span>
                 <img className={styleAbout.img} src={securityIMG} alt="" />
                 <p>Guests receive an invitation link to view the gallery</p>
               </div>
               <div className={styleAbout.flexItem}>
+                <span>4</span>
                 <img className={styleAbout.img} src={faceIMG} alt="" />
                 <p>
                   facial recognition process will allow the guest to receive the

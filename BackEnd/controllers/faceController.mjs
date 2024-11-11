@@ -1,16 +1,17 @@
+// controllers/faceController.mjs
 import multer from "multer";
 import {
   RekognitionClient,
   CompareFacesCommand,
 } from "@aws-sdk/client-rekognition";
-import Image from "../models/imageModel.mjs"; // Assuming event images model
+import Image from "../models/imageModel.mjs";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 // Multer configuration for handling image uploads
 const storage = multer.memoryStorage();
-export const upload = multer({ storage });
+export const uploadFaceImage = multer({ storage });
 
 // AWS Rekognition Client Setup
 const rekognition = new RekognitionClient({

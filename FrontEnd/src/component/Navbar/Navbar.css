@@ -124,6 +124,7 @@ ul.link_list li {
     z-index: 2000;
     width: 100vw;
     position: absolute;
+    left: 0;
   }
   .moveRight {
     display: flex;

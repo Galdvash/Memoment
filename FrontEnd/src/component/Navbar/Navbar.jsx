@@ -5,7 +5,7 @@ import { UserContext } from "../../hooks/UserHooks/userContextApp";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import MenuIcon from "@mui/icons-material/Menu";
+import MenuIcon from "../../images/menu-svgrepo-com.svg";
 import SunIcon from "../../images/Sunny.png";
 import MoonIcon from "../../images/Moon.png";
 import SearchIcon from "../../images/SearchIcon.png";
@@ -57,10 +57,12 @@ const NavBar = ({ onSearch }) => {
     <header className="header">
       <nav className={`container_nav ${isSun ? "dark" : "light"}`}>
         <div className="hamburger" onClick={toggleMenu}>
-          {/* <MenuIcon
+          <img
+            src={MenuIcon}
+            alt=""
             className="menuIcon"
             style={{ width: "33px", height: "35px" }}
-          /> */}
+          />
         </div>
 
         <ul className={`link_list ${isMenuOpen ? "open" : ""}`}>
@@ -71,7 +73,7 @@ const NavBar = ({ onSearch }) => {
           </li>
 
           <li>
-            <Link className="link" to={"/"}>
+            <Link className="link" to={"/FAQ"}>
               Q&A
             </Link>
           </li>

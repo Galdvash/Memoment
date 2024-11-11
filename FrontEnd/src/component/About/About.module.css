@@ -3,16 +3,16 @@
   justify-content: space-between;
   align-items: center;
   min-height: 100vh;
-  padding: 0 2em;
   position: relative;
+  padding-bottom: 9em;
 }
 
 .container {
-  flex: 0 0 60%;
   max-width: 50%;
   display: flex;
   justify-content: center;
   transform: translateX(16em);
+  margin-right: 40px;
 }
 
 .header {
@@ -22,6 +22,9 @@
   align-items: flex-start;
 }
 .textBox {
+  h1 {
+    font-size: 2.5em;
+  }
   h1,
   p {
     text-align: left;
@@ -38,11 +41,28 @@
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-  margin: 15px 15px 10px 0px;
-  padding: 4px;
-  width: 270px;
+  margin: 15px 11px 20px 33px;
+  width: 269px;
   height: 105px;
   border-radius: 10px;
+  position: relative;
+  span {
+    position: absolute;
+    left: -35px;
+    color: white;
+    border-radius: 50%;
+    width: 41px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 41px;
+    background-color: #042a2bff;
+  }
+}
+.img {
+  width: 26%;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
 }
 
 .checkedList {

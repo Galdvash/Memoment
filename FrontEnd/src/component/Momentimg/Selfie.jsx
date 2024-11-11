@@ -1,8 +1,8 @@
-// import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import MatchedImages from "./MatchedImages"; // ודא שהנתיב נכון
+import MatchedImages from "./MatchedImages"; // Ensure the correct path
 import Webcam from "react-webcam";
-import React, { useState, useRef } from "react";
+
 const SelfieUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [message, setMessage] = useState("");
@@ -16,13 +16,32 @@ const SelfieUpload = () => {
     JSON.parse(localStorage.getItem("matchedImages")) || []
   );
   const [isUploading, setIsUploading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
   const webcamRef = useRef(null);
+
+  useEffect(() => {
+    if (uploadedSelfie && !imageData) {
+      // Load the uploaded image from the server
+      const imageUrl = `http://localhost:5000/api/selfies/${uploadedSelfie}`;
+      setImageData(imageUrl);
+      localStorage.setItem("imageData", imageUrl);
+    }
+  }, [uploadedSelfie, imageData]);
+
+  useEffect(() => {
+    // Save matchedImages to localStorage
+    if (matchedImages.length > 0) {
+      localStorage.setItem("matchedImages", JSON.stringify(matchedImages));
+    }
+  }, [matchedImages]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
     setImageData(URL.createObjectURL(file));
+    setMatchedImages([]);
+    localStorage.removeItem("matchedImages");
   };
 
   const handleUpload = async () => {
@@ -39,18 +58,20 @@ const SelfieUpload = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/selfies/upload`,
+        `http://localhost:5000/api/selfies/upload`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true, // If cookies are needed
         }
       );
 
       setMessage(response.data.message);
-      setUploadedSelfie(selectedFile.name);
-      localStorage.setItem("uploadedSelfie", selectedFile.name);
-      setMatchedImages([]);
-      localStorage.removeItem("matchedImages");
+      setUploadedSelfie(response.data.filename);
+      const imageUrl = `http://localhost:5000/api/selfies/${response.data.filename}`;
+      setImageData(imageUrl);
+      localStorage.setItem("uploadedSelfie", response.data.filename);
+      localStorage.setItem("imageData", imageUrl);
     } catch (error) {
       console.error("Error uploading selfie:", error);
       setMessage("Error uploading selfie");
@@ -59,12 +80,56 @@ const SelfieUpload = () => {
     }
   };
 
+  const handleFaceRecognition = async () => {
+    if (!uploadedSelfie) {
+      setMessage("Please upload a selfie first.");
+      return;
+    }
+
+    setIsProcessing(true);
+    setMessage("");
+
+    const formData = new FormData();
+    formData.append("sourceImage", selectedFile);
+
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/face/match-faces`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (
+        response.data.matchedImages &&
+        Array.isArray(response.data.matchedImages)
+      ) {
+        setMatchedImages(response.data.matchedImages);
+        localStorage.setItem(
+          "matchedImages",
+          JSON.stringify(response.data.matchedImages)
+        );
+        setMessage("Face recognition completed successfully.");
+      } else {
+        setMatchedImages([]);
+        setMessage("No matched images found.");
+      }
+    } catch (error) {
+      console.error("Error during face recognition:", error);
+      setMessage("Error during face recognition");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_API_URL}/selfies/${encodeURIComponent(
+        `http://localhost:5000/api/selfies/${encodeURIComponent(
           uploadedSelfie
-        )}`
+        )}`,
+        {
+          withCredentials: true, // If cookies are needed
+        }
       );
 
       localStorage.removeItem("uploadedSelfie");
@@ -81,40 +146,7 @@ const SelfieUpload = () => {
     }
   };
 
-  const handleFaceRecognition = async () => {
-    if (!selectedFile) {
-      setMessage("Please upload a selfie first.");
-      return;
-    }
-
-    setIsUploading(true);
-    setMessage("");
-
-    const formData = new FormData();
-    formData.append("sourceImage", selectedFile);
-
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/face/match-faces`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-
-      setMatchedImages(response.data.matchedImages);
-      localStorage.setItem(
-        "matchedImages",
-        JSON.stringify(response.data.matchedImages)
-      );
-      setMessage("Face recognition completed successfully.");
-    } catch (error) {
-      console.error("Error during face recognition:", error);
-      setMessage("Error during face recognition");
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  const capture = () => {
+  const handleCapture = () => {
     const imageSrc = webcamRef.current.getScreenshot();
     if (imageSrc) {
       fetch(imageSrc)
@@ -124,6 +156,8 @@ const SelfieUpload = () => {
           setSelectedFile(file);
           setImageData(URL.createObjectURL(file));
           setIsCapturing(false);
+          setMatchedImages([]);
+          localStorage.removeItem("matchedImages");
         });
     }
   };
@@ -132,7 +166,7 @@ const SelfieUpload = () => {
     <div style={{ paddingTop: "50px", textAlign: "center" }}>
       <h1>Upload Your Selfie</h1>
 
-      {/* כפתור להעלאת תמונה מהמחשב */}
+      {/* File Upload */}
       <div>
         <input
           type="file"
@@ -142,7 +176,7 @@ const SelfieUpload = () => {
         />
       </div>
 
-      {/* כפתור לצילום תמונה במכשירים ניידים */}
+      {/* Webcam Capture */}
       <div style={{ marginTop: "10px" }}>
         <button
           onClick={() => setIsCapturing(true)}
@@ -152,7 +186,7 @@ const SelfieUpload = () => {
         </button>
       </div>
 
-      {/* הצגת מצלמה אם במצב צילום */}
+      {/* Webcam Interface */}
       {isCapturing && (
         <div style={{ marginTop: "20px" }}>
           <Webcam
@@ -166,7 +200,7 @@ const SelfieUpload = () => {
             }}
           />
           <div style={{ marginTop: "10px" }}>
-            <button onClick={capture} disabled={isUploading}>
+            <button onClick={handleCapture} disabled={isUploading}>
               Capture
             </button>
             <button
@@ -180,7 +214,7 @@ const SelfieUpload = () => {
         </div>
       )}
 
-      {/* כפתור להעלאת התמונה */}
+      {/* Upload Button */}
       <div style={{ marginTop: "20px" }}>
         <button
           onClick={handleUpload}
@@ -190,9 +224,10 @@ const SelfieUpload = () => {
         </button>
       </div>
 
+      {/* Message Display */}
       {message && <p>{message}</p>}
 
-      {/* הצגת תמונת Selfie שהועלתה */}
+      {/* Display Uploaded Selfie */}
       {imageData && (
         <div style={{ marginTop: "20px" }}>
           <h2>Uploaded Selfie</h2>
@@ -209,23 +244,23 @@ const SelfieUpload = () => {
         </div>
       )}
 
-      {/* כפתורים נוספים לאחר העלאה */}
+      {/* Face Recognition and Delete Buttons */}
       {uploadedSelfie && (
         <div style={{ marginTop: "20px" }}>
-          <button onClick={handleFaceRecognition} disabled={isUploading}>
-            {isUploading ? "Processing..." : "Start Face Recognition"}
+          <button onClick={handleFaceRecognition} disabled={isProcessing}>
+            {isProcessing ? "Processing..." : "Start Face Recognition"}
           </button>
           <button
             onClick={handleDelete}
             style={{ marginLeft: "10px" }}
-            disabled={isUploading}
+            disabled={isProcessing}
           >
             Delete Selfie
           </button>
         </div>
       )}
 
-      {/* הצגת תמונות מתאימות */}
+      {/* Display Matched Images */}
       {matchedImages.length > 0 && <MatchedImages images={matchedImages} />}
     </div>
   );

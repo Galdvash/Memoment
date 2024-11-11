@@ -1,0 +1,89 @@
+/* FAQ.css */
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+.faq-title {
+  text-align: center;
+  margin-bottom: 1.5em;
+  font-size: 2em;
+  color: #042a2b;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.faq-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.faq-item.open {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.faq-question {
+  background-color: rgba(236, 236, 236, 1); /* שינוי צבע הרקע */
+  color: #042a2b;
+  padding: 1em;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+  background-color: rgba(220, 220, 220, 1);
+}
+
+.faq-question:focus {
+  outline: 2px dashed #ff1f35;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  transition: transform 0.3s ease;
+}
+
+.arrow.up {
+  border-top: 8px solid #042a2b;
+}
+
+.arrow.down {
+  border-bottom: 8px solid #042a2b;
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  transition: max-height 0.6s ease, padding 0.6s ease; /* שיפור אנימציה */
+  padding: 0 1em;
+}
+
+.faq-answer.open {
+  max-height: 500px; /* מתאים לגובה התוכן */
+  padding: 1em;
+}
+
+.faq-answer p {
+  margin: 0;
+  color: #333333;
+}

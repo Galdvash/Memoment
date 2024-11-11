@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import About from "./component/About/About";
+import FAQ from "./component/Q&A/FAQ.jsx";
 import Register from "./component/Register/Register";
 import EventImageUpload from "./component/Momentimg/EventImageUpload.jsx";
 import Selfie from "./component/Momentimg/Selfie.jsx";
@@ -13,6 +14,7 @@ const AppRoutes = ({ searchQuery }) => {
   return (
     <Routes>
       <Route path="/" element={<About />} />
+      <Route path="/FAQ" element={<FAQ />} />
       <Route path="/register" element={<Register />} />
       <Route path="/upload" element={<EventImageUpload />} />
       <Route path="/selfie" element={<Selfie />} />

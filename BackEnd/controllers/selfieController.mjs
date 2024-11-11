@@ -1,25 +1,23 @@
-import Selfie from "../models/selfieModel.mjs";
+// selfieController.mjs
 import multer from "multer";
+import Selfie from "../models/selfieModel.mjs"; // Ensure the correct path
 
-// Multer Configuration for Selfie Upload
+// Multer configuration for Selfie Upload
 const storage = multer.memoryStorage();
-export const uploadSelfie = multer({ storage });
+export const upload = multer({ storage });
 
 // Upload a single selfie to MongoDB
 export const uploadSingleSelfie = async (req, res) => {
   try {
-    // Check if the user has already uploaded a selfie (or check by filename)
+    // Check if the selfie already exists
     const existingSelfie = await Selfie.findOne({
       filename: req.file.originalname,
     });
 
     if (existingSelfie) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Selfie already exists. Please delete the existing one first.",
-        });
+      return res.status(400).json({
+        message: "Selfie already exists. Please delete the existing one first.",
+      });
     }
 
     const selfie = new Selfie({

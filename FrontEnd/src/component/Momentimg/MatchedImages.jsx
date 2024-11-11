@@ -5,7 +5,12 @@ import { saveAs } from "file-saver";
 const MatchedImages = ({ images }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  console.log("Is Mobile:", isMobile);
+
+  // Ensure images is an array
+  if (!Array.isArray(images) || images.length === 0) {
+    return null;
+  }
+
   const handleCheckboxChange = (e, filename) => {
     if (e.target.checked) {
       setSelectedImages([...selectedImages, filename]);
@@ -21,7 +26,6 @@ const MatchedImages = ({ images }) => {
     }
 
     if (isMobile) {
-      // הורדת תמונות בודדות למכשירים ניידים
       selectedImages.forEach((filename) => {
         const link = document.createElement("a");
         link.href = `http://localhost:5000/api/images/${encodeURIComponent(
@@ -33,7 +37,6 @@ const MatchedImages = ({ images }) => {
         link.remove();
       });
     } else {
-      // הורדת ZIP למחשבים שולחניים
       const zip = new JSZip();
       const folder = zip.folder("matched_images");
 
@@ -59,25 +62,37 @@ const MatchedImages = ({ images }) => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "40px" }}>
       <h2>Matched Event Images</h2>
       <button
         onClick={handleDownloadSelected}
         disabled={selectedImages.length === 0}
+        style={{ marginBottom: "20px" }}
       >
         {isMobile
           ? "Download Selected (Individually)"
           : "Download Selected (ZIP)"}
       </button>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {images.map((filename, index) => (
           <div key={index} style={{ margin: "10px", textAlign: "center" }}>
             <img
               src={`http://localhost:5000/api/images/${encodeURIComponent(
                 filename
               )}`}
-              alt="alt"
-              style={{ width: "150px", height: "150px", objectFit: "cover" }}
+              alt={`Matched image: ${filename}`}
+              style={{
+                width: "150px",
+                height: "150px",
+                objectFit: "cover",
+                borderRadius: "10px",
+              }}
             />
             <p>{filename}</p>
             <label>
