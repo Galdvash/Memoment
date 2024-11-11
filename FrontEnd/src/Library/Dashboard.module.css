@@ -1,6 +1,9 @@
 .dashboard {
+  outline: 1px solid lime;
+
+  z-index: 1000;
   width: 251px;
-  height: 838px;
+  height: 91vh;
   background-color: rgba(34, 34, 34, 1);
   border-radius: 23px;
   transition: transform 0.3s ease-in-out;
