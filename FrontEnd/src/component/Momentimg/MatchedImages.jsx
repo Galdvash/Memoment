@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider"; // השתמש ב-API URL מההוק
 
 const MatchedImages = ({ images }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const apiUrl = useApiUrl(); // קבלת URL מההוק
 
   // Ensure images is an array
   if (!Array.isArray(images) || images.length === 0) {
@@ -28,9 +30,7 @@ const MatchedImages = ({ images }) => {
     if (isMobile) {
       selectedImages.forEach((filename) => {
         const link = document.createElement("a");
-        link.href = `http://localhost:5000/api/images/${encodeURIComponent(
-          filename
-        )}`;
+        link.href = `${apiUrl}/api/images/${encodeURIComponent(filename)}`;
         link.setAttribute("download", filename);
         document.body.appendChild(link);
         link.click();
@@ -42,7 +42,7 @@ const MatchedImages = ({ images }) => {
 
       const fetchImage = async (filename) => {
         const response = await fetch(
-          `http://localhost:5000/api/images/${encodeURIComponent(filename)}`
+          `${apiUrl}/api/images/${encodeURIComponent(filename)}`
         );
         const blob = await response.blob();
         folder.file(filename, blob);
@@ -83,9 +83,7 @@ const MatchedImages = ({ images }) => {
         {images.map((filename, index) => (
           <div key={index} style={{ margin: "10px", textAlign: "center" }}>
             <img
-              src={`http://localhost:5000/api/images/${encodeURIComponent(
-                filename
-              )}`}
+              src={`${apiUrl}/api/images/${encodeURIComponent(filename)}`}
               alt={`Matched image: ${filename}`}
               style={{
                 width: "150px",

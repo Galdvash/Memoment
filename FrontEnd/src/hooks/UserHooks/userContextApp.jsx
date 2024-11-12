@@ -1,33 +1,33 @@
+// userContextApp.js (אם זה קובץ ה-UserContext שלך)
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider"; // עדכן את הנתיב בהתאם למיקום הקובץ שלך
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(null);
+  const apiUrl = useApiUrl();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
+    const token = localStorage.getItem("token"); // שליפת הטוקן מ-localStorage
     if (token) {
-      // בקשת API לשרת כדי לבדוק אם המשתמש מחובר
+      // בדיקה אם יש טוקן
       axios
-        .get("http://localhost:5000/api/users/me", {
+        .get(`${apiUrl}/api/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true, // חשוב כדי לשלוח את ה-cookie לשרת
+          withCredentials: true,
         })
         .then((response) => {
-          setUserInformation(response.data); // שמירת פרטי המשתמש אם מחובר
+          setUserInformation(response.data); // שמירת פרטי המשתמש
         })
         .catch((error) => {
-          console.error("Error:", error);
-          setUserInformation(null); // איפוס פרטי המשתמש אם לא מחובר
+          console.error("Error fetching user information:", error);
+          setUserInformation(null); // איפוס פרטי המשתמש במקרה של שגיאה
+          localStorage.removeItem("token"); // ניקוי הטוקן במקרה של טעות
         });
-    } else {
-      // אם אין טוקן, איפוס פרטי המשתמש
-      setUserInformation(null);
     }
-  }, []); // יבוצע פעם אחת כאשר הקומפוננטה נטענת
+  }, [apiUrl]);
 
   return (
     <UserContext.Provider value={{ userInformation, setUserInformation }}>

@@ -17,18 +17,17 @@ const App = () => {
 
   return (
     <div className="appBody">
-      <ThemeProvider>
-        <UserProvider>
-          <ApiProvider>
-            {" "}
-            {/* הוסף את ApiProvider כאן */}
+      <ApiProvider>
+        <ThemeProvider>
+          <UserProvider>
+            ד
             <BrowserRouter>
               <NavBar onSearch={handleSearch} />
               <AppRoutes searchQuery={searchQuery} />
             </BrowserRouter>
-          </ApiProvider>
-        </UserProvider>
-      </ThemeProvider>
+          </UserProvider>
+        </ThemeProvider>
+      </ApiProvider>
     </div>
   );
 };

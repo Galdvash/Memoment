@@ -3,13 +3,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "./userContextApp";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup"; // ייבוא Yup
 import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
 
-import * as Yup from "yup"; // ייבוא Yup
-
 const useUserApi = () => {
-  const apiUrl = useApiUrl();
-
   const [isSignIn, setIsSignIn] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoginData, setIsLoginData] = useState({
@@ -25,6 +22,7 @@ const useUserApi = () => {
   const [passwordStrength, setPasswordStrength] = useState(""); // State לחוזק הסיסמה
 
   const { userInformation, setUserInformation } = useContext(UserContext);
+  const apiUrl = useApiUrl();
   const navigate = useNavigate();
 
   const handleSignInClick = () => setIsSignIn(false);
@@ -69,13 +67,11 @@ const useUserApi = () => {
     }));
   };
 
-  // הגדרת סכמת ולידציה עם Yup
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, "Name must be at least 3 characters")
       .max(256, "Name cannot exceed 256 characters")
       .required("Name is required"),
-
     email: Yup.string()
       .email("Invalid email format")
       .matches(
@@ -84,7 +80,6 @@ const useUserApi = () => {
       )
       .min(5, "Email must be at least 5 characters long")
       .required("Email is required"),
-
     password: Yup.string()
       .required("Password is required")
       .min(8, "Password must be at least 8 characters")
@@ -116,12 +111,30 @@ const useUserApi = () => {
     e.preventDefault();
     if (await validate()) {
       try {
+        // קריאה להרשמה
         await axios.post(`${apiUrl}/api/users/register`, data);
-        toast.success("Registration successful! Please log in.");
+        toast.success("Registration successful! Logging you in...");
 
-        // נוודא שלא נשלח בקשה ליצירת סשן אוטומטי לאחר ההרשמה
+        // כניסה אוטומטית לאחר ההרשמה
+        const loginResponse = await axios.post(
+          `${apiUrl}/api/users/login`,
+          { email: data.email, password: data.password },
+          { withCredentials: true }
+        );
+
+        // שמירת הטוקן ב-localStorage או ב-cookie
+        const token = loginResponse.data.token;
+        localStorage.setItem("token", token);
+
+        // שליפת פרטי המשתמש ועדכון context
+        const userResponse = await axios.get(`${apiUrl}/api/users/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        });
+        setUserInformation(userResponse.data);
+
         setIsData({ name: "", email: "", password: "", isBusiness: false });
-        navigate("/register"); // מפנה את המשתמש לעמוד ההתחברות
+        navigate("/packages"); // הפניה לעמוד לאחר התחברות
       } catch (error) {
         console.error(error);
         toast.error(error.response?.data?.message || "Registration failed!");
@@ -139,11 +152,12 @@ const useUserApi = () => {
         isLoginData,
         { withCredentials: true }
       );
-      const token = loginResponse.data.token; // קבלת הטוקן מהתגובה
+      const token = loginResponse.data.token;
       localStorage.setItem("token", token); // שמירת הטוקן ב-localStorage
       toast.success("Login successful!");
 
       const userResponse = await axios.get(`${apiUrl}/api/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
       setUserInformation(userResponse.data);
@@ -161,14 +175,14 @@ const useUserApi = () => {
     errors,
     data,
     isLoginData,
-    passwordStrength, // מחזירים את רמת החוזק
+    passwordStrength,
     userInformation,
     handleSignInClick,
     handleSignUpClick,
     handleChange,
     handleSubmit,
     handleSubmit2,
-    handlePasswordChange, // פונקציה מעודכנת לשינוי סיסמה
+    handlePasswordChange,
   };
 };
 
