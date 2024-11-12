@@ -9,14 +9,16 @@ const EventImageUpload = () => {
   // Function to fetch all images from the server
   const fetchAllImages = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/images");
+      const response = await axios.get("http://localhost:5000/api/images", {
+        withCredentials: true, // Send cookies for authentication
+      });
       const imagePromises = response.data.map(async (image) => {
         // Fetch the binary image data for each filename
         const imgResponse = await axios.get(
           `http://localhost:5000/api/images/${encodeURIComponent(
             image.filename
           )}`,
-          { responseType: "blob" } // Fetch the image as blob (binary)
+          { responseType: "blob", withCredentials: true } // Fetch the image as blob (binary) with credentials
         );
         // Create a local URL for each image
         const imageUrl = URL.createObjectURL(imgResponse.data);
@@ -26,8 +28,16 @@ const EventImageUpload = () => {
       setUploadedImages(imagesWithUrls); // Store the images with URLs
     } catch (error) {
       console.error("Error fetching images:", error);
+      setMessage("Error fetching images.");
     }
   };
+
+  // Clean up blob URLs to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      uploadedImages.forEach((image) => URL.revokeObjectURL(image.imageUrl));
+    };
+  }, [uploadedImages]);
 
   // Fetch all images when the component mounts
   useEffect(() => {
@@ -47,9 +57,9 @@ const EventImageUpload = () => {
     }
 
     const formData = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      formData.append("images", images[i]);
-    }
+    images.forEach((image) => {
+      formData.append("images", image);
+    });
 
     try {
       const response = await axios.post(
@@ -59,6 +69,7 @@ const EventImageUpload = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true, // Send cookies for authentication
         }
       );
       setMessage(response.data.message);

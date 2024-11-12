@@ -1,13 +1,11 @@
 import Image from "../models/imageModel.mjs";
 import multer from "multer";
-
-// Multer Configuration
 const storage = multer.memoryStorage();
 export const upload = multer({ storage });
-
 export const uploadImages = async (req, res) => {
   try {
-    const files = req.files; // assuming multiple file upload
+    const userId = req.user.id;
+    const files = req.files;
 
     if (!files || files.length === 0) {
       return res.status(400).json({ message: "No images uploaded" });
@@ -17,7 +15,8 @@ export const uploadImages = async (req, res) => {
       filename: file.originalname,
       data: file.buffer,
       contentType: file.mimetype,
-      type: "event", // הוסף את השדה type עם הערך "event"
+      userId,
+      type: "event", // הוספת השדה 'type' לכל תמונה
     }));
 
     await Image.insertMany(imageDocs);
@@ -29,28 +28,26 @@ export const uploadImages = async (req, res) => {
   }
 };
 
-// Fetch all images from MongoDB
 export const getImages = async (req, res) => {
   try {
-    const images = await Image.find();
+    const userId = req.user.id; // מניח שהשתמשת ב-protect middleware כדי לקבל את userId
+    const images = await Image.find({ userId }); // חיפוש לפי מזהה המשתמש המחובר
     res.status(200).json(images);
   } catch (error) {
     console.error("Error fetching images:", error);
-    res.status(500).send("Error fetching images");
+    res.status(500).json({ message: "Error fetching images" });
   }
 };
-
-// Fetch a single image by filename from MongoDB
 export const getImageByFilename = async (req, res) => {
   try {
     const image = await Image.findOne({ filename: req.params.filename });
     if (!image) {
-      return res.status(404).send("Image not found");
+      return res.status(404).json({ message: "Image not found" });
     }
     res.contentType(image.contentType);
     res.send(image.data);
   } catch (error) {
     console.error("Error fetching image:", error);
-    res.status(500).send("Error fetching image");
+    res.status(500).json({ message: "Error fetching image" });
   }
 };

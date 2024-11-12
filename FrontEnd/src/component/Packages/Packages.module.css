@@ -1,14 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap");
 .bodyPackages {
-  padding-top: 7em;
+  height: auto;
 }
 
 .sectionContainer {
-  min-height: 100vh;
+  padding-top: 3em;
   position: relative;
 }
+.packagesIntro {
+  padding-bottom: 4em;
+}
 .cardsContainer {
-  padding-top: 7em;
   display: flex;
   justify-content: center;
   align-items: center;

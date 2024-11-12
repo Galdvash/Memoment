@@ -33,8 +33,9 @@ const NavBar = ({ onSearch }) => {
           {},
           { withCredentials: true }
         );
-        setUserInformation(null);
-        navigate("/");
+        localStorage.removeItem("token"); // מחיקת הטוקן מה-localStorage
+        setUserInformation(null); // איפוס מידע המשתמש
+        navigate("/"); // הפניה לעמוד הראשי
         toast.success("Logged out successfully");
       } catch (error) {
         console.error("Logout error:", error);
@@ -71,7 +72,6 @@ const NavBar = ({ onSearch }) => {
               <b style={{ fontFamily: "Inter, sans-serif" }}>MeMoment</b>
             </Link>
           </li>
-
           <li>
             <Link className="link" to={"/FAQ"}>
               Q&A
@@ -82,43 +82,76 @@ const NavBar = ({ onSearch }) => {
               Contact Us
             </Link>
           </li>
-          <li>
-            <Link className="link" to={"/upload"}>
-              upload
-            </Link>
-          </li>
-          <li>
-            <Link className="link" to={"/selfie"}>
-              selfie
-            </Link>
-          </li>
 
-          {/* Links for users who are not logged in */}
+          {/* הצגת Register למי שלא מחובר בלבד */}
           {!userInformation && (
-            <>
-              <li>
-                <Link className="link" to={"/packages"}>
-                  Packages
-                </Link>
-              </li>
+            <li>
+              <Link className="link" to={"/register"}>
+                Register
+              </Link>
+            </li>
+          )}
 
-              <li>
-                <Link className="link" to={"/register"}>
-                  Register
-                </Link>
-              </li>
+          {/* Links for different user roles */}
+          {userInformation && (
+            <>
+              {userInformation.role === "user" && (
+                <>
+                  <li>
+                    <Link className="link" to={"/packages"}>
+                      Packages
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link" to={"/upload"}>
+                      upload
+                    </Link>
+                  </li>
+                </>
+              )}
+              {userInformation.role === "business" && (
+                <>
+                  <li>
+                    <Link className="link" to={"/bigpackages"}>
+                      BigPackages
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link" to={"/upload"}>
+                      upload
+                    </Link>
+                  </li>
+                </>
+              )}
+              {userInformation.role === "admin" && (
+                <>
+                  <li>
+                    <Link className="link" to={"/bigpackages"}>
+                      BigPackages
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link" to={"/packages"}>
+                      Packages
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link" to={"/sandbox"}>
+                      Sandbox
+                    </Link>
+                  </li>
+                </>
+              )}
             </>
           )}
 
-          {/* Links for logged in users */}
+          {/* כפתור Logout רק למשתמשים מחוברים */}
           {userInformation && (
-            <>
-              <li>
-                <button className="link" onClick={handleLogout}>
-                  Logout
-                </button>
-              </li>
-            </>
+            <li>
+              <button className="link" onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
           )}
 
           <div className="moveRight">

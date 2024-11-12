@@ -61,7 +61,6 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 export const loginUser = async (req, res) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
   if (token) {
@@ -80,28 +79,23 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // בדיקה אם המשתמש קיים
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // בדיקת הסיסמה
     const validPass = await bcrypt.compare(password, user.password);
     if (!validPass) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // יצירת טוקן JWT
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
+      { expiresIn: "30d" }
     );
 
-    // שליחת הטוקן ב-HTTP-Only Cookie
+    // שמירת הטוקן ב-cookie ב-HTTP-only
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "./userContextApp";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup"; // ייבוא Yup
 
 const useUserApi = () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -15,14 +16,39 @@ const useUserApi = () => {
     name: "",
     email: "",
     password: "",
-    isBusiness: false, // עבור יוצרי אירועים
+    isBusiness: false,
   });
+  const [passwordStrength, setPasswordStrength] = useState(""); // State לחוזק הסיסמה
 
   const { userInformation, setUserInformation } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSignInClick = () => setIsSignIn(false);
   const handleSignUpClick = () => setIsSignIn(true);
+
+  const evaluatePasswordStrength = (password) => {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/\d/.test(password)) strength++;
+    if (/[@$!%*?&]/.test(password)) strength++;
+
+    if (strength <= 2) return "Weak";
+    if (strength === 3) return "Medium";
+    if (strength >= 4) return "Strong";
+    return "";
+  };
+
+  const handlePasswordChange = (e) => {
+    const { value } = e.target;
+    setIsData((prevData) => ({
+      ...prevData,
+      password: value,
+    }));
+    const strength = evaluatePasswordStrength(value);
+    setPasswordStrength(strength); // עדכון החוזק בסטייט
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -39,48 +65,62 @@ const useUserApi = () => {
     }));
   };
 
-  const validate = () => {
-    const newErrors = {};
+  // הגדרת סכמת ולידציה עם Yup
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(3, "Name must be at least 3 characters")
+      .max(256, "Name cannot exceed 256 characters")
+      .required("Name is required"),
 
-    if (!data.name || data.name.length < 2 || data.name.length > 256) {
-      newErrors.name = "Name must be between 2 and 256 characters.";
-    }
-    if (!data.email || data.email.length < 5) {
-      newErrors.email = "Email must be at least 5 characters long.";
-    }
-    if (
-      !data.password ||
-      data.password.length < 7 ||
-      data.password.length > 20
-    ) {
-      newErrors.password = "Password must be between 7 and 20 characters.";
-    }
+    email: Yup.string()
+      .email("Invalid email format")
+      .matches(
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        "Email must include a valid domain suffix (e.g., .com, .org)"
+      )
+      .min(5, "Email must be at least 5 characters long")
+      .required("Email is required"),
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    password: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+      .matches(/\d/, "Password must contain at least one number")
+      .matches(
+        /[@$!%*?&]/,
+        "Password must contain at least one special character"
+      ),
+  });
+
+  const validate = async () => {
+    try {
+      await validationSchema.validate(data, { abortEarly: false });
+      setErrors({});
+      return true;
+    } catch (err) {
+      const newErrors = {};
+      err.inner.forEach((error) => {
+        newErrors[error.path] = error.message;
+      });
+      setErrors(newErrors);
+      return false;
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (await validate()) {
       try {
         await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/register`,
-          data,
-          {
-            withCredentials: true,
-          }
+          data
         );
-        toast.success("Registration successful!");
+        toast.success("Registration successful! Please log in.");
 
-        const userResponse = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/users/me`,
-          { withCredentials: true }
-        );
-        setUserInformation(userResponse.data);
-
+        // נוודא שלא נשלח בקשה ליצירת סשן אוטומטי לאחר ההרשמה
         setIsData({ name: "", email: "", password: "", isBusiness: false });
-        navigate("/packages");
+        navigate("/login"); // מפנה את המשתמש לעמוד ההתחברות
       } catch (error) {
         console.error(error);
         toast.error(error.response?.data?.message || "Registration failed!");
@@ -93,17 +133,17 @@ const useUserApi = () => {
   const handleSubmit2 = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/users/login`,
+      const loginResponse = await axios.post(
+        `http://localhost:5000/api/users/login`,
         isLoginData,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
+      const token = loginResponse.data.token; // קבלת הטוקן מהתגובה
+      localStorage.setItem("token", token); // שמירת הטוקן ב-localStorage
       toast.success("Login successful!");
 
       const userResponse = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/users/me`,
+        `http://localhost:5000/api/users/me`,
         { withCredentials: true }
       );
       setUserInformation(userResponse.data);
@@ -121,12 +161,14 @@ const useUserApi = () => {
     errors,
     data,
     isLoginData,
+    passwordStrength, // מחזירים את רמת החוזק
     userInformation,
     handleSignInClick,
     handleSignUpClick,
     handleChange,
     handleSubmit,
     handleSubmit2,
+    handlePasswordChange, // פונקציה מעודכנת לשינוי סיסמה
   };
 };
 

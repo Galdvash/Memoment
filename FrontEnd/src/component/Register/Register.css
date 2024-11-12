@@ -12,11 +12,13 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
+
 .bodyRegister {
-  padding-top: 10em;
+  padding-top: 5.8em;
+  height: auto;
   display: grid;
   place-items: center;
-  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .form__title {
@@ -24,6 +26,8 @@
 }
 
 .container {
+  outline: 1px solid lime;
+
   background-color: var(--white);
   border-radius: 41px;
   box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
@@ -193,6 +197,26 @@
   padding: 0.9rem 0.9rem;
   margin: 0.5rem 0;
   width: 90%;
+}
+.strength-meter {
+  height: 8px;
+  width: 100%;
+  background-color: #e0e0e0;
+  margin-top: 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.strength-meter.weak {
+  background-color: #ff4d4d;
+}
+
+.strength-meter.medium {
+  background-color: #ffcc00;
+}
+
+.strength-meter.strong {
+  background-color: #4caf50;
 }
 @keyframes show {
   0%,

@@ -12,11 +12,13 @@ const SignInRegister = () => {
     errors,
     data,
     isLoginData,
+    passwordStrength,
     handleSignInClick,
     handleSignUpClick,
     handleChange,
     handleSubmit,
     handleSubmit2,
+    handlePasswordChange,
   } = useUserApi();
 
   return (
@@ -25,8 +27,9 @@ const SignInRegister = () => {
       <div className={`container ${isSignIn ? "right-panel-active" : ""}`}>
         {/* Sign Up Form */}
         <div className="container__form container--signup">
-          <form action="#" className="form" id="form1" onSubmit={handleSubmit}>
+          <form className="form" id="form1" onSubmit={handleSubmit}>
             <h2 className="form__title">Sign Up</h2>
+
             {/* Name Field */}
             <input
               type="text"
@@ -38,6 +41,7 @@ const SignInRegister = () => {
               required
             />
             {errors.name && <p className="error">{errors.name}</p>}
+
             {/* Email Field */}
             <input
               name="email"
@@ -49,6 +53,7 @@ const SignInRegister = () => {
               required
             />
             {errors.email && <p className="error">{errors.email}</p>}
+
             {/* Password Field */}
             <input
               type="password"
@@ -56,18 +61,33 @@ const SignInRegister = () => {
               placeholder="Password"
               className="input"
               value={data.password}
-              onChange={handleChange}
+              onChange={handlePasswordChange}
               required
             />
             {errors.password && <p className="error">{errors.password}</p>}
+
+            {/* Password Strength Meter */}
+            <div className="password-strength">
+              <p>
+                Password Strength: <strong>{passwordStrength}</strong>
+              </p>
+              <div
+                className={`strength-meter ${passwordStrength.toLowerCase()}`}
+              ></div>
+            </div>
+
             {/* Sign Up Button */}
-            <button className="btn">Sign Up</button>
+            <button className="btn" type="submit">
+              Sign Up
+            </button>
           </form>
         </div>
+
         {/* Login Form */}
         <div className="container__form container--signin">
-          <form action="#" className="form" id="form2" onSubmit={handleSubmit2}>
+          <form className="form" id="form2" onSubmit={handleSubmit2}>
             <h2 className="form__title">Sign In</h2>
+
             {/* Email Field */}
             <input
               type="email"
@@ -78,6 +98,8 @@ const SignInRegister = () => {
               onChange={handleChange}
               required
             />
+            {errors.email && <p className="error">{errors.email}</p>}
+
             {/* Password Field */}
             <input
               type="password"
@@ -88,10 +110,15 @@ const SignInRegister = () => {
               onChange={handleChange}
               required
             />
+            {errors.password && <p className="error">{errors.password}</p>}
+
             {/* Sign In Button */}
-            <button className="btn">Sign In</button>
+            <button className="btn" type="submit">
+              Sign In
+            </button>
           </form>
         </div>
+
         {/* Overlay Panels */}
         <div className="container__overlay">
           <div className="overlay">

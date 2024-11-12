@@ -1,22 +1,20 @@
-// imageRoutes.mjs
-
 import express from "express";
 import {
-  upload,
   uploadImages,
   getImages,
+  upload,
   getImageByFilename,
 } from "../controllers/imageController.mjs";
+import { protect } from "../middleware/authMiddleware.mjs";
+// קונפיגורציה להעלאת קבצים
 
 const router = express.Router();
 
-// Route for uploading images
-router.post("/upload", upload.array("images"), uploadImages);
+// מסלול להעלאת תמונות (מוגן)
+router.post("/upload", protect, upload.array("images"), uploadImages);
 
-// Route for fetching all images
-router.get("/", getImages);
-
-// Route for fetching a single image by filename
-router.get("/:filename", getImageByFilename);
+// מסלול לשליפת תמונות עבור המשתמש המחובר (מוגן)
+router.get("/", protect, getImages);
+router.get("/:filename", protect, getImageByFilename);
 
 export default router;
