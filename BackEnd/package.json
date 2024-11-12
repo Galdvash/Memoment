@@ -6,8 +6,8 @@
   "main": "app.mjs",
   "type": "module",
   "scripts": {
-    "start": "node app.mjs",
-    "dev": "nodemon app.mjs",
+    "start": "NODE_ENV=production node app.mjs",
+    "dev": "NODE_ENV=development nodemon app.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
