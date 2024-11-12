@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { registerValidation } from "../validation/userValidation.mjs";
 
+// controllers/userController.js
+
 export const registerUser = async (req, res) => {
   // ולידציה עם Joi
   const { error } = registerValidation(req.body);
@@ -12,7 +14,7 @@ export const registerUser = async (req, res) => {
     return res.status(400).json({ message: error.details[0].message });
   }
 
-  const { name, email, password, isBusiness } = req.body; // הוספתי את 'name'
+  const { name, email, password, isBusiness } = req.body;
 
   try {
     // בדיקה אם המשתמש כבר קיים
@@ -28,9 +30,9 @@ export const registerUser = async (req, res) => {
     // קביעת התפקיד על בסיס isBusiness
     const role = isBusiness ? "business" : "user";
 
-    // יצירת משתמש חדש כולל השם
+    // יצירת משתמש חדש
     const user = new User({
-      name, // הוספתי את השם
+      name,
       email,
       password: hashedPassword,
       role,
@@ -38,29 +40,14 @@ export const registerUser = async (req, res) => {
 
     await user.save();
 
-    // יצירת טוקן JWT הכולל את ה-role
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
-
-    // שליחת הטוקן ב-HTTP-Only Cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // הגדר ל-true בפרודקשן עם HTTPS
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 ימים
-      sameSite: "Lax",
-    });
-
+    // שליחת הודעת הצלחה בלבד, ללא יצירת טוקן
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 export const loginUser = async (req, res) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
   if (token) {

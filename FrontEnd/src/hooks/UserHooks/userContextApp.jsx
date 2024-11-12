@@ -1,7 +1,7 @@
-// userContextApp.js (אם זה קובץ ה-UserContext שלך)
+// userContextApp.js
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider"; // עדכן את הנתיב בהתאם למיקום הקובץ שלך
+import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
 
 export const UserContext = createContext();
 
@@ -10,23 +10,18 @@ export const UserProvider = ({ children }) => {
   const apiUrl = useApiUrl();
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // שליפת הטוקן מ-localStorage
-    if (token) {
-      // בדיקה אם יש טוקן
-      axios
-        .get(`${apiUrl}/api/users/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setUserInformation(response.data); // שמירת פרטי המשתמש
-        })
-        .catch((error) => {
-          console.error("Error fetching user information:", error);
-          setUserInformation(null); // איפוס פרטי המשתמש במקרה של שגיאה
-          localStorage.removeItem("token"); // ניקוי הטוקן במקרה של טעות
-        });
-    }
+    // Fetch user information if a session is active
+    axios
+      .get(`${apiUrl}/api/users/me`, {
+        withCredentials: true, // Ensures the cookie is sent with the request
+      })
+      .then((response) => {
+        setUserInformation(response.data); // Set user info if authenticated
+      })
+      .catch((error) => {
+        console.error("Error fetching user information:", error);
+        setUserInformation(null); // Reset if there's an error (e.g., not logged in)
+      });
   }, [apiUrl]);
 
   return (

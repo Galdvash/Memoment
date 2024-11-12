@@ -100,15 +100,19 @@ const useUserApi = () => {
     e.preventDefault();
     if (await validate()) {
       try {
-        await axios.post(`${apiUrl}/api/users/register`, data, {
-          withCredentials: true,
-        });
-        toast.success("Registration successful! Logging you in...");
-        await handleSubmit2(e); // כניסה אוטומטית לאחר ההרשמה
+        await axios.post(`${apiUrl}/api/users/register`, data);
+        toast.success("Registration successful! Please log in.");
+
+        // עדכון ל-isSignIn כדי להפעיל את האנימציה ולעבור לטופס ההתחברות
+        setIsSignIn(true);
+
+        setIsData({ name: "", email: "", password: "", isBusiness: false });
       } catch (error) {
         console.error(error);
         toast.error(error.response?.data?.message || "Registration failed!");
       }
+    } else {
+      console.log("Validation failed");
     }
   };
 

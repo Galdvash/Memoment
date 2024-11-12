@@ -1,7 +1,8 @@
+// App.js
 import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./component/Navbar/Navbar";
-import AppRoutes from "./AppRouts";
+import AppRoutes from "./AppRoutes";
 import { ThemeProvider } from "./hooks/DarkMode/DarkModeContext";
 import { UserProvider } from "./hooks/UserHooks/userContextApp";
 import { ApiProvider } from "./hooks/ApiUrl/ApiProvider";
@@ -20,7 +21,6 @@ const App = () => {
       <ApiProvider>
         <ThemeProvider>
           <UserProvider>
-            ד
             <BrowserRouter>
               <NavBar onSearch={handleSearch} />
               <AppRoutes searchQuery={searchQuery} />

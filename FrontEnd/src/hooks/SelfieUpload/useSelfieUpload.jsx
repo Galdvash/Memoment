@@ -6,15 +6,9 @@ const useSelfieUpload = () => {
   const apiUrl = useApiUrl();
   const [selectedFile, setSelectedFile] = useState(null);
   const [message, setMessage] = useState("");
-  const [uploadedSelfie, setUploadedSelfie] = useState(
-    localStorage.getItem("uploadedSelfie") || null
-  );
-  const [imageData, setImageData] = useState(
-    localStorage.getItem("imageData") || null
-  );
-  const [matchedImages, setMatchedImages] = useState(
-    JSON.parse(localStorage.getItem("matchedImages")) || []
-  );
+  const [uploadedSelfie, setUploadedSelfie] = useState(null);
+  const [imageData, setImageData] = useState(null);
+  const [matchedImages, setMatchedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
@@ -24,22 +18,14 @@ const useSelfieUpload = () => {
     if (uploadedSelfie && !imageData) {
       const imageUrl = `${apiUrl}/api/selfies/${uploadedSelfie}`;
       setImageData(imageUrl);
-      localStorage.setItem("imageData", imageUrl);
     }
   }, [uploadedSelfie, imageData, apiUrl]);
-
-  useEffect(() => {
-    if (matchedImages.length > 0) {
-      localStorage.setItem("matchedImages", JSON.stringify(matchedImages));
-    }
-  }, [matchedImages]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
     setImageData(URL.createObjectURL(file));
     setMatchedImages([]);
-    localStorage.removeItem("matchedImages");
   };
 
   const handleUpload = async () => {
@@ -67,8 +53,6 @@ const useSelfieUpload = () => {
       setUploadedSelfie(response.data.filename);
       const imageUrl = `${apiUrl}/api/selfies/${response.data.filename}`;
       setImageData(imageUrl);
-      localStorage.setItem("uploadedSelfie", response.data.filename);
-      localStorage.setItem("imageData", imageUrl);
     } catch (error) {
       console.error("Error uploading selfie:", error);
       setMessage("Error uploading selfie");
@@ -92,7 +76,10 @@ const useSelfieUpload = () => {
       const response = await axios.post(
         `${apiUrl}/api/face/match-faces`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
       );
 
       if (
@@ -100,10 +87,6 @@ const useSelfieUpload = () => {
         Array.isArray(response.data.matchedImages)
       ) {
         setMatchedImages(response.data.matchedImages);
-        localStorage.setItem(
-          "matchedImages",
-          JSON.stringify(response.data.matchedImages)
-        );
         setMessage("Face recognition completed successfully.");
       } else {
         setMatchedImages([]);
@@ -126,10 +109,6 @@ const useSelfieUpload = () => {
         }
       );
 
-      localStorage.removeItem("uploadedSelfie");
-      localStorage.removeItem("imageData");
-      localStorage.removeItem("matchedImages");
-
       setUploadedSelfie(null);
       setImageData(null);
       setMatchedImages([]);
@@ -151,7 +130,6 @@ const useSelfieUpload = () => {
           setImageData(URL.createObjectURL(file));
           setIsCapturing(false);
           setMatchedImages([]);
-          localStorage.removeItem("matchedImages");
         });
     }
   };
