@@ -46,19 +46,19 @@
   height: 105px;
   border-radius: 10px;
   position: relative;
-  span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    left: -35px;
-    color: white;
-    border-radius: 50%;
-    width: 41px;
+}
+.numbers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: -35px;
+  color: white;
+  border-radius: 50%;
+  width: 41px;
 
-    height: 41px;
-    background-color: #042a2bff;
-  }
+  height: 41px;
+  background-color: #042a2bff;
 }
 .img {
   width: 26%;

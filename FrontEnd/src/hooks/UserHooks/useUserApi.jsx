@@ -3,9 +3,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "./userContextApp";
 import { useNavigate } from "react-router-dom";
+import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
+
 import * as Yup from "yup"; // ייבוא Yup
 
 const useUserApi = () => {
+  const apiUrl = useApiUrl();
+
   const [isSignIn, setIsSignIn] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoginData, setIsLoginData] = useState({
@@ -112,10 +116,7 @@ const useUserApi = () => {
     e.preventDefault();
     if (await validate()) {
       try {
-        await axios.post(
-          `${process.env.REACT_APP_API_URL}/api/users/register`,
-          data
-        );
+        await axios.post(`${apiUrl}/api/users/register`, data);
         toast.success("Registration successful! Please log in.");
 
         // נוודא שלא נשלח בקשה ליצירת סשן אוטומטי לאחר ההרשמה
@@ -134,7 +135,7 @@ const useUserApi = () => {
     e.preventDefault();
     try {
       const loginResponse = await axios.post(
-        `http://localhost:5000/api/users/login`,
+        `${apiUrl}/api/users/login`,
         isLoginData,
         { withCredentials: true }
       );
@@ -142,10 +143,9 @@ const useUserApi = () => {
       localStorage.setItem("token", token); // שמירת הטוקן ב-localStorage
       toast.success("Login successful!");
 
-      const userResponse = await axios.get(
-        `http://localhost:5000/api/users/me`,
-        { withCredentials: true }
-      );
+      const userResponse = await axios.get(`${apiUrl}/api/users/me`, {
+        withCredentials: true,
+      });
       setUserInformation(userResponse.data);
 
       setIsLoginData({ email: "", password: "" });

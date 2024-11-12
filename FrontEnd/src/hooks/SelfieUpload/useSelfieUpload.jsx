@@ -3,7 +3,7 @@ import axios from "axios";
 import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
 
 const useSelfieUpload = () => {
-  const apiUrl = useApiUrl(); // קבלת כתובת הבסיס מהקונטקסט
+  const apiUrl = useApiUrl();
   const [selectedFile, setSelectedFile] = useState(null);
   const [message, setMessage] = useState("");
   const [uploadedSelfie, setUploadedSelfie] = useState(

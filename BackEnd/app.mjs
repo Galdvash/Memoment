@@ -14,12 +14,26 @@ dotenv.config();
 
 const app = express();
 
-// הגדרת CORS דינמי לפי הסביבה
+// הגדרת CORS דינמי לפי הסביבה עם תמיכה בתתי-דומיינים של Netlify
 const corsOptions = {
-  origin:
-    process.env.NODE_ENV === "production"
-      ? process.env.API_URL_PRODUCTION
-      : process.env.API_URL_DEVELOPMENT,
+  origin: (origin, callback) => {
+    if (process.env.NODE_ENV === "production") {
+      const allowedDomain = process.env.API_URL_PRODUCTION;
+      const allowed = new RegExp(
+        `^https?://([a-zA-Z0-9-]+\\.)?${allowedDomain.replace(
+          /(^\w+:|^)\/\//,
+          ""
+        )}$`
+      );
+      if (allowed.test(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    } else {
+      callback(null, origin);
+    }
+  },
   credentials: true,
 };
 app.use(cors(corsOptions));
