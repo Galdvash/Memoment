@@ -14,28 +14,29 @@ dotenv.config();
 
 const app = express();
 
-// הגדרת CORS דינמי לפי הסביבה עם תמיכה בתתי-דומיינים של Netlify
+// הגדרת CORS דינמי לפי הסביבה ומאפשר תמיכה גם בתתי דומיינים של Netlify
+const allowedOrigins = [
+  "https://memoment.netlify.app", // הכתובת הראשית שלך ב-Netlify
+  /\.netlify\.app$/, // תמיכה בתתי דומיינים של Netlify
+  "http://localhost:3000", // לסביבת הפיתוח המקומית
+];
+
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (process.env.NODE_ENV === "production") {
-      const allowedDomain = process.env.API_URL_PRODUCTION;
-      const allowed = new RegExp(
-        `^https?://([a-zA-Z0-9-]+\\.)?${allowedDomain.replace(
-          /(^\w+:|^)\/\//,
-          ""
-        )}$`
-      );
-      if (allowed.test(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
+  origin: function (origin, callback) {
+    if (
+      !origin ||
+      allowedOrigins.some((allowed) =>
+        allowed instanceof RegExp ? allowed.test(origin) : allowed === origin
+      )
+    ) {
+      callback(null, true);
     } else {
-      callback(null, origin);
+      callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

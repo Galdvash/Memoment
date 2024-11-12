@@ -121,7 +121,7 @@ const useUserApi = () => {
 
         // נוודא שלא נשלח בקשה ליצירת סשן אוטומטי לאחר ההרשמה
         setIsData({ name: "", email: "", password: "", isBusiness: false });
-        navigate("/login"); // מפנה את המשתמש לעמוד ההתחברות
+        navigate("/register"); // מפנה את המשתמש לעמוד ההתחברות
       } catch (error) {
         console.error(error);
         toast.error(error.response?.data?.message || "Registration failed!");
