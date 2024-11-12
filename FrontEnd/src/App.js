@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./component/Navbar/Navbar";
-import AppRoutes from "./AppRouts"; // נייבא את ה־Routes החדשים
+import AppRoutes from "./AppRouts";
 import { ThemeProvider } from "./hooks/DarkMode/DarkModeContext";
 import { UserProvider } from "./hooks/UserHooks/userContextApp";
+import { ApiProvider } from "./hooks/ApiUrl/ApiProvider";
 import "./hooks/DarkMode/DarkMode.css";
 import "./App.css";
 
@@ -18,10 +19,14 @@ const App = () => {
     <div className="appBody">
       <ThemeProvider>
         <UserProvider>
-          <BrowserRouter>
-            <NavBar onSearch={handleSearch} />
-            <AppRoutes searchQuery={searchQuery} />
-          </BrowserRouter>
+          <ApiProvider>
+            {" "}
+            {/* הוסף את ApiProvider כאן */}
+            <BrowserRouter>
+              <NavBar onSearch={handleSearch} />
+              <AppRoutes searchQuery={searchQuery} />
+            </BrowserRouter>
+          </ApiProvider>
         </UserProvider>
       </ThemeProvider>
     </div>

@@ -82,6 +82,11 @@ const NavBar = ({ onSearch }) => {
               Contact Us
             </Link>
           </li>
+          <li>
+            <Link className="link" to={"/selfie"}>
+              selfie
+            </Link>
+          </li>
 
           {/* הצגת Register למי שלא מחובר בלבד */}
           {!userInformation && (

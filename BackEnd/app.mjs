@@ -35,7 +35,11 @@ app.use(cookieParser());
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    const dbUri =
+      process.env.NODE_ENV === "development"
+        ? process.env.MONGODB_URI
+        : process.env.MONGODB_URI_ATLAS;
+    await mongoose.connect(dbUri);
     console.log("MongoDB Connected...");
   } catch (err) {
     console.error("Error connecting to MongoDB:", err.message);
