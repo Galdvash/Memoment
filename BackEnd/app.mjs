@@ -1,3 +1,4 @@
+// app.mjs
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -14,19 +15,19 @@ dotenv.config();
 
 const app = express();
 
-// הגדרת CORS דינמי לפי הסביבה ומאפשר תמיכה גם בתתי דומיינים של Netlify
-const allowedOrigins = [
-  "https://memoment.netlify.app", // הכתובת הראשית שלך ב-Netlify
-  /\.netlify\.app$/, // תמיכה בתתי דומיינים של Netlify
-  "http://localhost:3000", // לסביבת הפיתוח המקומית
-];
-
+// הגדרת CORS דינמי ותמיכה בתתי-דומיינים של Netlify
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
+    // מותר לכלול מספר דומיינים
+    const allowedOrigins = [
+      "https://memoment.netlify.app",
+      "https://*.netlify.app",
+      "http://localhost:3000",
+    ];
     if (
       !origin ||
-      allowedOrigins.some((allowed) =>
-        allowed instanceof RegExp ? allowed.test(origin) : allowed === origin
+      allowedOrigins.some((o) =>
+        origin.match(new RegExp(`^${o.replace(/\*/g, ".*")}$`))
       )
     ) {
       callback(null, true);
@@ -36,7 +37,6 @@ const corsOptions = {
   },
   credentials: true,
 };
-
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

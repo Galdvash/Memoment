@@ -117,12 +117,16 @@ export const logoutUser = (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    // המידע על המשתמש נמצא ב-req.user מ-Middleware של האימות
+    if (!req.user) {
+      return res.status(401).json({ message: "User not authenticated" });
+    }
     res.status(200).json(req.user);
   } catch (error) {
+    console.error("Error in getMe:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password");
