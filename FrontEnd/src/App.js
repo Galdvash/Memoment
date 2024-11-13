@@ -17,18 +17,16 @@ const App = () => {
   };
 
   return (
-    <div className="appBody">
-      <ApiProvider>
-        <ThemeProvider>
-          <UserProvider>
-            <BrowserRouter>
-              <NavBar onSearch={handleSearch} />
-              <AppRoutes searchQuery={searchQuery} />
-            </BrowserRouter>
-          </UserProvider>
-        </ThemeProvider>
-      </ApiProvider>
-    </div>
+    <ApiProvider>
+      <ThemeProvider>
+        <UserProvider>
+          <BrowserRouter>
+            <NavBar onSearch={handleSearch} />
+            <AppRoutes searchQuery={searchQuery} />
+          </BrowserRouter>
+        </UserProvider>
+      </ThemeProvider>
+    </ApiProvider>
   );
 };
 
