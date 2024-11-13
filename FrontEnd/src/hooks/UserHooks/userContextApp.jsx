@@ -10,15 +10,20 @@ export const UserProvider = ({ children }) => {
   const apiUrl = useApiUrl();
 
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/api/users/me`, { withCredentials: true })
-      .then((response) => {
-        setUserInformation(response.data); // Set user info if authenticated
-      })
-      .catch((error) => {
-        console.error("Error fetching user information:", error);
-        setUserInformation(null); // Reset if there's an error (e.g., not logged in)
-      });
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get(`${apiUrl}/api/users/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setUserInformation(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user information:", error);
+          setUserInformation(null);
+        });
+    }
   }, [apiUrl]);
 
   return (

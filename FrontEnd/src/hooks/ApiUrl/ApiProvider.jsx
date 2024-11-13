@@ -4,8 +4,8 @@ import React, { createContext, useContext } from "react";
 // בוחרים את ה-URL לפי הסביבה הנוכחית
 const apiUrl =
   process.env.NODE_ENV === "production"
-    ? "https://memoment.onrender.com"
-    : "http://localhost:5000";
+    ? process.env.REACT_APP_API_URL_PRODUCTION
+    : process.env.REACT_APP_API_URL_DEVELOPMENT;
 
 const ApiContext = createContext(apiUrl);
 

@@ -9,10 +9,7 @@ import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
 const useUserApi = () => {
   const [isSignIn, setIsSignIn] = useState(false);
   const [errors, setErrors] = useState({});
-  const [isLoginData, setIsLoginData] = useState({
-    email: "",
-    password: "",
-  });
+  const [isLoginData, setIsLoginData] = useState({ email: "", password: "" });
   const [data, setIsData] = useState({
     name: "",
     email: "",
@@ -25,19 +22,16 @@ const useUserApi = () => {
   const apiUrl = useApiUrl();
   const navigate = useNavigate();
 
-  // בדיקה אוטומטית אם המשתמש מחובר
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const userResponse = await axios.get(`${apiUrl}/api/users/me`, {
-          withCredentials: true,
-        });
-        setUserInformation(userResponse.data);
-      } catch (error) {
-        setUserInformation(null); // המשתמש לא מחובר
-      }
-    };
-    checkUser();
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get(`${apiUrl}/api/users/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => setUserInformation(response.data))
+        .catch(() => setUserInformation(null));
+    }
   }, [apiUrl, setUserInformation]);
 
   const handleSignInClick = () => setIsSignIn(false);
@@ -55,10 +49,7 @@ const useUserApi = () => {
 
   const handlePasswordChange = (e) => {
     const { value } = e.target;
-    setIsData((prevData) => ({
-      ...prevData,
-      password: value,
-    }));
+    setIsData((prevData) => ({ ...prevData, password: value }));
     setPasswordStrength(evaluatePasswordStrength(value));
   };
 
@@ -88,9 +79,7 @@ const useUserApi = () => {
       return true;
     } catch (err) {
       const newErrors = {};
-      err.inner.forEach((error) => {
-        newErrors[error.path] = error.message;
-      });
+      err.inner.forEach((error) => (newErrors[error.path] = error.message));
       setErrors(newErrors);
       return false;
     }
@@ -102,54 +91,42 @@ const useUserApi = () => {
       try {
         await axios.post(`${apiUrl}/api/users/register`, data);
         toast.success("Registration successful! Please log in.");
-
-        // עדכון ל-isSignIn כדי להפעיל את האנימציה ולעבור לטופס ההתחברות
         setIsSignIn(true);
-
         setIsData({ name: "", email: "", password: "", isBusiness: false });
       } catch (error) {
-        console.error(error);
         toast.error(error.response?.data?.message || "Registration failed!");
       }
-    } else {
-      console.log("Validation failed");
     }
   };
 
   const handleSubmit2 = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${apiUrl}/api/users/login`, isLoginData, {
-        withCredentials: true,
-      });
+      const loginResponse = await axios.post(
+        `${apiUrl}/api/users/login`,
+        isLoginData
+      );
+      const token = loginResponse.data.token;
+      localStorage.setItem("token", token); // Save token to localStorage
+
       toast.success("Login successful!");
 
       const userResponse = await axios.get(`${apiUrl}/api/users/me`, {
-        withCredentials: true,
+        headers: { Authorization: `Bearer ${token}` },
       });
       setUserInformation(userResponse.data);
       setIsLoginData({ email: "", password: "" });
       navigate("/packages");
     } catch (error) {
-      console.error(error);
       toast.error(error.response?.data?.message || "Login failed!");
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(
-        `${apiUrl}/api/users/logout`,
-        {},
-        { withCredentials: true }
-      );
-      setUserInformation(null);
-      toast.success("Logged out successfully.");
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout error:", error);
-      toast.error("Logout failed!");
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove token from localStorage
+    setUserInformation(null);
+    toast.success("Logged out successfully.");
+    navigate("/login");
   };
 
   return {

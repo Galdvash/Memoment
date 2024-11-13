@@ -1,5 +1,3 @@
-// controllers/userController.js
-
 import User from "../models/UserModel.mjs";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -56,15 +54,7 @@ export const loginUser = async (req, res) => {
       { expiresIn: "30d" }
     );
 
-    // שמירת ה־token ב־cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      sameSite: "Lax",
-    });
-
-    res.status(200).json({ message: "Logged in successfully" });
+    res.status(200).json({ token, message: "Logged in successfully" });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Server error" });
@@ -72,17 +62,15 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = (req, res) => {
-  res.cookie("token", "", { maxAge: 1 });
   res.status(200).json({ message: "Logged out successfully" });
 };
 
 export const getMe = async (req, res) => {
   try {
-    // Check if req.user exists, meaning the user is authenticated
     if (req.user) {
-      res.status(200).json(req.user); // If authenticated, return user data
+      res.status(200).json(req.user);
     } else {
-      res.status(200).json({ message: "Visitor access - no user data" }); // Allow access without error for general visitors
+      res.status(200).json({ message: "Visitor access - no user data" });
     }
   } catch (error) {
     console.error("Error in getMe:", error);

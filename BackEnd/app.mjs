@@ -2,7 +2,6 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.mjs";
 import imageRoutes from "./routes/imageRoutes.mjs";
@@ -15,19 +14,18 @@ dotenv.config();
 
 const app = express();
 
-// הגדרת CORS דינמי ותמיכה בתתי-דומיינים של Netlify
+// הגדרת CORS דינמי
 const corsOptions = {
   origin:
     process.env.NODE_ENV === "production"
       ? "https://memoment.netlify.app"
       : "http://localhost:3000",
-  credentials: true,
+  credentials: true, // נחוץ במידה ותשוב לשימוש ב-cookies בעתיד
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 // חיבור דינמי ל-MongoDB
 const connectDB = async () => {
