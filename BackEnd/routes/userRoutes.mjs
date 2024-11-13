@@ -1,4 +1,4 @@
-// routes/userRoutes.js
+// routes/userRoutes.mjs
 
 import express from "express";
 import {
@@ -12,18 +12,15 @@ import { protect, authorizeRoles } from "../middleware/authMiddleware.mjs";
 
 const router = express.Router();
 
-// נתיב להרשמת משתמש חדש
 router.post("/register", registerUser);
 
-// נתיב להתחברות משתמש
 router.post("/login", loginUser);
 
-// נתיב להתנתקות משתמש
 router.post("/logout", logoutUser);
 
-// נתיב לקבלת מידע על המשתמש המחובר
 router.get("/me", protect, getMe);
 
+// רק מנהל יכול לגשת לרשימת כל המשתמשים
 router.get("/users", protect, authorizeRoles("admin"), getAllUsers);
 
 export default router;

@@ -17,26 +17,13 @@ const app = express();
 
 // הגדרת CORS דינמי ותמיכה בתתי-דומיינים של Netlify
 const corsOptions = {
-  origin: (origin, callback) => {
-    // מותר לכלול מספר דומיינים
-    const allowedOrigins = [
-      "https://memoment.netlify.app",
-      "https://*.netlify.app",
-      "http://localhost:3000",
-    ];
-    if (
-      !origin ||
-      allowedOrigins.some((o) =>
-        origin.match(new RegExp(`^${o.replace(/\*/g, ".*")}$`))
-      )
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://memoment.netlify.app"
+      : "http://localhost:3000",
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

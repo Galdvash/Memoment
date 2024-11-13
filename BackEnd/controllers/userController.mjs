@@ -5,10 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { registerValidation } from "../validation/userValidation.mjs";
 
-// controllers/userController.js
-
 export const registerUser = async (req, res) => {
-  // ולידציה עם Joi
   const { error } = registerValidation(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
@@ -17,20 +14,15 @@ export const registerUser = async (req, res) => {
   const { name, email, password, isBusiness } = req.body;
 
   try {
-    // בדיקה אם המשתמש כבר קיים
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    // הצפנת הסיסמה
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
-    // קביעת התפקיד על בסיס isBusiness
     const role = isBusiness ? "business" : "user";
 
-    // יצירת משתמש חדש
     const user = new User({
       name,
       email,
@@ -39,8 +31,6 @@ export const registerUser = async (req, res) => {
     });
 
     await user.save();
-
-    // שליחת הודעת הצלחה בלבד, ללא יצירת טוקן
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Registration error:", error);
@@ -49,20 +39,6 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      if (decoded) {
-        return res
-          .status(400)
-          .json({ message: "User already logged in with an active session" });
-      }
-    } catch (error) {
-      // הטוקן אינו תקף, ממשיכים בתהליך התחברות
-    }
-  }
-
   const { email, password } = req.body;
 
   try {
@@ -82,7 +58,6 @@ export const loginUser = async (req, res) => {
       { expiresIn: "30d" }
     );
 
-    // שמירת הטוקן ב-cookie ב-HTTP-only
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

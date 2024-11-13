@@ -2,6 +2,7 @@
 
 import jwt from "jsonwebtoken";
 import User from "../models/UserModel.mjs";
+
 export const protect = async (req, res, next) => {
   let token;
 
@@ -27,6 +28,7 @@ export const protect = async (req, res, next) => {
   }
 };
 
+// Middleware for role-based authorization
 export const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
