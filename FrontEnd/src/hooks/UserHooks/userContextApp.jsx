@@ -10,11 +10,8 @@ export const UserProvider = ({ children }) => {
   const apiUrl = useApiUrl();
 
   useEffect(() => {
-    // Fetch user information if a session is active
     axios
-      .get(`${apiUrl}/api/users/me`, {
-        withCredentials: true, // Ensures the cookie is sent with the request
-      })
+      .get(`${apiUrl}/api/users/me`, { withCredentials: true })
       .then((response) => {
         setUserInformation(response.data); // Set user info if authenticated
       })

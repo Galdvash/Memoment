@@ -43,14 +43,12 @@ export const loginUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (!user) {
+    if (!user)
       return res.status(400).json({ message: "Invalid email or password" });
-    }
 
     const validPass = await bcrypt.compare(password, user.password);
-    if (!validPass) {
+    if (!validPass)
       return res.status(400).json({ message: "Invalid email or password" });
-    }
 
     const token = jwt.sign(
       { id: user._id, role: user.role },
@@ -58,6 +56,7 @@ export const loginUser = async (req, res) => {
       { expiresIn: "30d" }
     );
 
+    // שמירת ה־token ב־cookie
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -79,10 +78,12 @@ export const logoutUser = (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: "User not authenticated" });
+    // Check if req.user exists, meaning the user is authenticated
+    if (req.user) {
+      res.status(200).json(req.user); // If authenticated, return user data
+    } else {
+      res.status(200).json({ message: "Visitor access - no user data" }); // Allow access without error for general visitors
     }
-    res.status(200).json(req.user);
   } catch (error) {
     console.error("Error in getMe:", error);
     res.status(500).json({ message: "Server error" });
