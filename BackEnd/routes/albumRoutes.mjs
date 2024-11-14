@@ -1,20 +1,20 @@
-// routes/albumRoutes.mjs
 import express from "express";
 import {
   finalizeAlbum,
   getAlbumById,
+  getAllAlbums,
 } from "../controllers/albumController.mjs";
 import multer from "multer";
+import { protect } from "../middleware/authMiddleware.mjs";
 
 const router = express.Router();
 
-// Multer setup
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Route to finalize album creation with all data
 router.post(
   "/finalize",
+  protect,
   upload.fields([
     { name: "coverImage", maxCount: 1 },
     { name: "images", maxCount: 10 },
@@ -23,7 +23,8 @@ router.post(
   finalizeAlbum
 );
 
-// Route to get album by ID
-router.get("/:albumId", getAlbumById);
+router.get("/:albumId", protect, getAlbumById); // הוסף את ה-middleware
+
+router.get("/", protect, getAllAlbums);
 
 export default router;

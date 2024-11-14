@@ -2,27 +2,12 @@
 import mongoose from "mongoose";
 
 const albumSchema = new mongoose.Schema({
-  eventName: {
-    type: String,
-    required: true,
-  },
-  location: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
-  },
-  eventType: {
-    type: String,
-    enum: ["wedding", "party", "barMitzvah"],
-    required: true,
-  },
-  isPrivate: {
-    type: Boolean,
-    default: false,
-  },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  eventName: { type: String, required: true },
+  location: { type: String, required: true },
+  date: { type: Date, required: true },
+  eventType: { type: String, required: true },
+  isPrivate: { type: Boolean, default: false },
   coverImage: {
     filename: String,
     data: Buffer,

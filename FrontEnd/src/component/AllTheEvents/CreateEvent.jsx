@@ -89,7 +89,7 @@ const CreateEvent = () => {
       if (albumId) {
         console.log("Album created successfully with ID:", albumId);
         handleReset();
-        navigate(`/your-album/${albumId}`);
+        navigate(`/all-albums`);
       } else {
         console.error("No albumId found in response.");
       }
@@ -157,7 +157,13 @@ const CreateEvent = () => {
           />
         );
       case 3:
-        return <Step3 formData={completedFormData} setFormData={setFormData} />;
+        return (
+          <Step3
+            formData={completedFormData}
+            setFormData={setFormData}
+            handleCreateAlbum={handleCreateAlbum}
+          />
+        );
       default:
         return <div>Unknown Step</div>;
     }

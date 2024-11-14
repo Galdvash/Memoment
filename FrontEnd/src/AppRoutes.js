@@ -8,10 +8,11 @@ import Selfie from "./component/Momentimg/Selfie.jsx";
 import Packages from "./component/Packages/Packages.jsx";
 import EventPhoneUpload from "./component/EventPhoneUpload/EventPhoneUpload.jsx";
 import CreateEvent from "./component/AllTheEvents/CreateEvent.jsx";
-import YourAlbum from "./component/AllTheEvents/YourAlbum.jsx";
+import YourAlbum from "./component/AllTheEvents/Allbums/YourAlbum.jsx";
+import AllAlbums from "./component/AllTheEvents/Allbums/AllAlbums.jsx";
 import { UserContext } from "./hooks/UserHooks/userContextApp";
 
-const allowedPaths = ["/your-album/:albumId", "/"];
+const allowedPaths = ["/", "/your-album/:albumId", "/all-albums"];
 const AppRoutes = ({ searchQuery }) => {
   const { userInformation } = useContext(UserContext);
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ const AppRoutes = ({ searchQuery }) => {
       <Route path="/packages" element={<Packages />} />
       <Route path="/EventPhoneUpload" element={<EventPhoneUpload />} />
       <Route path="/CreateEvent" element={<CreateEvent />} />
+      <Route path="/all-albums" element={<AllAlbums />} />{" "}
+      {/* הוסף את הנתיב ל-AllAlbums */}
       <Route path="/your-album/:albumId" element={<YourAlbum />} />
     </Routes>
   );

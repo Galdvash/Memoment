@@ -1,6 +1,5 @@
 // controllers/albumController.mjs
 import Album from "../models/albumModel.mjs";
-
 export const finalizeAlbum = async (req, res) => {
   try {
     const { eventName, location, date, eventType, isPrivate } = req.body;
@@ -30,6 +29,7 @@ export const finalizeAlbum = async (req, res) => {
 
     // יצירת אובייקט האלבום
     const album = new Album({
+      user: req.user._id, // הוסף את שדה ה-user
       eventName,
       location,
       date: new Date(date),
@@ -104,5 +104,15 @@ export const getAlbumById = async (req, res) => {
   } catch (error) {
     console.error("Error fetching album:", error);
     res.status(500).json({ message: "Error fetching album" });
+  }
+};
+export const getAllAlbums = async (req, res) => {
+  try {
+    const userId = req.user.id; // הנחה: ה-userId נשמר ב-request על ידי middleware האימות
+    const albums = await Album.find({ user: userId });
+    res.status(200).json(albums);
+  } catch (error) {
+    console.error("Error fetching albums:", error);
+    res.status(500).json({ message: "Error fetching albums" });
   }
 };

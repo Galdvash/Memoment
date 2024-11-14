@@ -1,13 +1,14 @@
-// src/components/YourAlbum.jsx
+// src/components/AllTheEvents/YourAlbum.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
+import { useParams, useNavigate } from "react-router-dom";
+import { useApiUrl } from "../../../hooks/ApiUrl/ApiProvider";
 
 const YourAlbum = () => {
   const { albumId } = useParams();
   const apiUrl = useApiUrl();
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [album, setAlbum] = useState(null);
   const [error, setError] = useState(null);
 
@@ -104,6 +105,14 @@ const YourAlbum = () => {
           </a>
         )}
       </div>
+
+      {/* הוספת כפתור חזרה ל-AllAlbums */}
+      <button
+        style={{ marginTop: "20px" }}
+        onClick={() => navigate("/all-albums")}
+      >
+        View All Albums
+      </button>
     </div>
   );
 };
