@@ -1,3 +1,4 @@
+// models/UserModel.mjs
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
@@ -25,12 +26,8 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["user", "business", "admin"], // נוסיף 'admin' לתפקידים
+    enum: ["user", "business", "admin"], // רק תפקידים
     default: "user",
-  },
-  isBusiness: {
-    type: Boolean,
-    default: false,
   },
   createdAt: {
     type: Date,

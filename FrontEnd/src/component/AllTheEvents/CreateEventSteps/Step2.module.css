@@ -1,0 +1,21 @@
+/* components/CreateEventSteps/Step2.module.css */
+.step2Container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.uploadBox {
+  width: 200px;
+  height: 200px;
+  border: 2px dashed #ff1f35;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: transparent;
+  color: #000;
+  cursor: pointer;
+}

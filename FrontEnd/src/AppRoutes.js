@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import About from "./component/About/About";
 import FAQ from "./component/Q&A/FAQ.jsx";
 import Register from "./component/Register/Register";
@@ -8,18 +8,27 @@ import Selfie from "./component/Momentimg/Selfie.jsx";
 import Packages from "./component/Packages/Packages.jsx";
 import EventPhoneUpload from "./component/EventPhoneUpload/EventPhoneUpload.jsx";
 import CreateEvent from "./component/AllTheEvents/CreateEvent.jsx";
+import YourAlbum from "./component/AllTheEvents/YourAlbum.jsx";
 import { UserContext } from "./hooks/UserHooks/userContextApp";
 
+const allowedPaths = ["/your-album/:albumId", "/"];
 const AppRoutes = ({ searchQuery }) => {
   const { userInformation } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    // Redirect to dashboard if the user is logged in and revisits the site
-    if (userInformation) {
-      navigate("/CreateEvent"); // Change "/dashboard" to your actual dashboard path
+    const isAllowed = allowedPaths.some((path) => {
+      if (path.includes(":albumId")) {
+        return location.pathname.startsWith("/your-album/");
+      }
+      return path === location.pathname;
+    });
+
+    if (userInformation && !isAllowed) {
+      navigate("/CreateEvent");
     }
-  }, [userInformation, navigate]);
+  }, [userInformation, navigate, location.pathname]);
 
   return (
     <Routes>
@@ -31,6 +40,7 @@ const AppRoutes = ({ searchQuery }) => {
       <Route path="/packages" element={<Packages />} />
       <Route path="/EventPhoneUpload" element={<EventPhoneUpload />} />
       <Route path="/CreateEvent" element={<CreateEvent />} />
+      <Route path="/your-album/:albumId" element={<YourAlbum />} />
     </Routes>
   );
 };

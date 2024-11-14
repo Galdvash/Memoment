@@ -17,16 +17,16 @@ const App = () => {
   };
 
   return (
-    <ApiProvider>
-      <ThemeProvider>
-        <UserProvider>
-          <BrowserRouter>
+    <BrowserRouter future={{ v7_relativeSplatPath: true }}>
+      <UserProvider>
+        <ThemeProvider>
+          <ApiProvider>
             <NavBar onSearch={handleSearch} />
             <AppRoutes searchQuery={searchQuery} />
-          </BrowserRouter>
-        </UserProvider>
-      </ThemeProvider>
-    </ApiProvider>
+          </ApiProvider>
+        </ThemeProvider>
+      </UserProvider>
+    </BrowserRouter>
   );
 };
 

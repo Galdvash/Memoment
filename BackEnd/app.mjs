@@ -9,6 +9,7 @@ import selfieRoutes from "./routes/selfieRoutes.mjs";
 import faceRoutes from "./routes/faceRoutes.mjs";
 import excelRoutes from "./routes/excelRoutes.mjs";
 import twilioRoutes from "./routes/twilioRoutes.mjs";
+import albumRoutes from "./routes/albumRoutes.mjs";
 
 dotenv.config();
 
@@ -26,7 +27,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 // חיבור דינמי ל-MongoDB
 const connectDB = async () => {
   try {
@@ -56,7 +56,7 @@ app.use("/api/selfies", selfieRoutes);
 app.use("/api/face", faceRoutes);
 app.use("/api/excel", excelRoutes);
 app.use("/api/events", twilioRoutes);
-
+app.use("/api/albums", albumRoutes);
 // Handle undefined routes
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });

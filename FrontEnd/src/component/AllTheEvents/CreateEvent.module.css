@@ -81,9 +81,19 @@ h4 {
   text-align: center;
   border: 1px solid #b22330;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .resetButton {
   background: #ff4c4c;
   border-color: #9e2626;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button:hover {
+  opacity: 0.8;
 }

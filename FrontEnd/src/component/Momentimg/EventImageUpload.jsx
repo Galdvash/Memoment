@@ -1,22 +1,32 @@
-import React, { useState, useEffect } from "react";
+// components/EventImageUpload.jsx
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
 
-const EventImageUpload = () => {
+const EventImageUpload = ({ albumId }) => {
   const [images, setImages] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [message, setMessage] = useState("");
-  const apiUrl = useApiUrl(); // ה-URL לפי הסביבה (Production או Development)
+  const apiUrl = useApiUrl();
 
-  const fetchAllImages = async () => {
+  const fetchAllImages = useCallback(async () => {
     try {
       const response = await axios.get(`${apiUrl}/api/images`, {
-        withCredentials: true,
+        params: { albumId },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       const imagePromises = response.data.map(async (image) => {
         const imgResponse = await axios.get(
           `${apiUrl}/api/images/${encodeURIComponent(image.filename)}`,
-          { responseType: "blob", withCredentials: true }
+          {
+            params: { albumId },
+            responseType: "blob",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         const imageUrl = URL.createObjectURL(imgResponse.data);
         return { filename: image.filename, imageUrl };
@@ -27,17 +37,14 @@ const EventImageUpload = () => {
       console.error("Error fetching images:", error);
       setMessage("Error fetching images.");
     }
-  };
-
-  useEffect(() => {
-    return () => {
-      uploadedImages.forEach((image) => URL.revokeObjectURL(image.imageUrl));
-    };
-  }, [uploadedImages]);
+  }, [apiUrl, albumId]);
 
   useEffect(() => {
     fetchAllImages();
-  });
+    return () => {
+      uploadedImages.forEach((image) => URL.revokeObjectURL(image.imageUrl));
+    };
+  }, [fetchAllImages, uploadedImages]);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -52,6 +59,7 @@ const EventImageUpload = () => {
     }
 
     const formData = new FormData();
+    formData.append("albumId", albumId);
     images.forEach((image) => {
       formData.append("images", image);
     });
@@ -63,8 +71,8 @@ const EventImageUpload = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          withCredentials: true,
         }
       );
       setMessage(response.data.message);

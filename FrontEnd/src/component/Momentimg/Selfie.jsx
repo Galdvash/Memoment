@@ -3,7 +3,8 @@ import useSelfieUpload from "../../hooks/SelfieUpload/useSelfieUpload";
 import MatchedImages from "./MatchedImages";
 import Webcam from "react-webcam";
 
-const SelfieUpload = () => {
+const SelfieUpload = ({ albumId }) => {
+  // נוסיף albumId כ-prop
   const {
     selectedFile,
     message,
@@ -13,14 +14,14 @@ const SelfieUpload = () => {
     isUploading,
     isProcessing,
     isCapturing,
-    setIsCapturing, // נוסיף setIsCapturing כאן
+    setIsCapturing,
     webcamRef,
     handleFileChange,
     handleUpload,
     handleFaceRecognition,
     handleDelete,
     handleCapture,
-  } = useSelfieUpload();
+  } = useSelfieUpload(albumId);
 
   return (
     <div style={{ paddingTop: "50px", textAlign: "center" }}>
@@ -112,7 +113,9 @@ const SelfieUpload = () => {
         </div>
       )}
 
-      {matchedImages.length > 0 && <MatchedImages images={matchedImages} />}
+      {matchedImages.length > 0 && (
+        <MatchedImages images={matchedImages} albumId={albumId} />
+      )}
     </div>
   );
 };

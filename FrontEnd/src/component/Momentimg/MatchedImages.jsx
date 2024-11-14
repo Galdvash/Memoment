@@ -1,23 +1,26 @@
+// components/MatchedImages.jsx
 import React, { useState } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider"; // השתמש ב-API URL מההוק
+import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
 
-const MatchedImages = ({ images }) => {
+const MatchedImages = ({ images, albumId }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  const apiUrl = useApiUrl(); // קבלת URL מההוק
+  const apiUrl = useApiUrl();
 
-  // Ensure images is an array
   if (!Array.isArray(images) || images.length === 0) {
     return null;
   }
 
   const handleCheckboxChange = (e, filename) => {
+    // הגדרת הפונקציה
     if (e.target.checked) {
-      setSelectedImages([...selectedImages, filename]);
+      setSelectedImages((prevSelected) => [...prevSelected, filename]);
     } else {
-      setSelectedImages(selectedImages.filter((img) => img !== filename));
+      setSelectedImages((prevSelected) =>
+        prevSelected.filter((img) => img !== filename)
+      );
     }
   };
 
@@ -30,7 +33,9 @@ const MatchedImages = ({ images }) => {
     if (isMobile) {
       selectedImages.forEach((filename) => {
         const link = document.createElement("a");
-        link.href = `${apiUrl}/api/images/${encodeURIComponent(filename)}`;
+        link.href = `${apiUrl}/api/images/${encodeURIComponent(
+          filename
+        )}?albumId=${albumId}`;
         link.setAttribute("download", filename);
         document.body.appendChild(link);
         link.click();
@@ -42,7 +47,9 @@ const MatchedImages = ({ images }) => {
 
       const fetchImage = async (filename) => {
         const response = await fetch(
-          `${apiUrl}/api/images/${encodeURIComponent(filename)}`
+          `${apiUrl}/api/images/${encodeURIComponent(
+            filename
+          )}?albumId=${albumId}`
         );
         const blob = await response.blob();
         folder.file(filename, blob);
@@ -83,7 +90,9 @@ const MatchedImages = ({ images }) => {
         {images.map((filename, index) => (
           <div key={index} style={{ margin: "10px", textAlign: "center" }}>
             <img
-              src={`${apiUrl}/api/images/${encodeURIComponent(filename)}`}
+              src={`${apiUrl}/api/images/${encodeURIComponent(
+                filename
+              )}?albumId=${albumId}`}
               alt={`Matched image: ${filename}`}
               style={{
                 width: "150px",
@@ -96,7 +105,7 @@ const MatchedImages = ({ images }) => {
             <label>
               <input
                 type="checkbox"
-                onChange={(e) => handleCheckboxChange(e, filename)}
+                onChange={(e) => handleCheckboxChange(e, filename)} // הגדרת הפונקציה כאן
                 checked={selectedImages.includes(filename)}
               />
               Select
