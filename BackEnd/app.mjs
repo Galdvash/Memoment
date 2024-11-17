@@ -6,10 +6,10 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.mjs";
 import imageRoutes from "./routes/imageRoutes.mjs";
 import selfieRoutes from "./routes/selfieRoutes.mjs";
-import faceRoutes from "./routes/faceRoutes.mjs";
 import excelRoutes from "./routes/excelRoutes.mjs";
 import twilioRoutes from "./routes/twilioRoutes.mjs";
 import albumRoutes from "./routes/albumRoutes.mjs";
+import eventRoutes from "./routes/eventRoutes.mjs";
 
 dotenv.config();
 
@@ -53,10 +53,11 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/images", imageRoutes);
 app.use("/api/selfies", selfieRoutes);
-app.use("/api/face", faceRoutes);
 app.use("/api/excel", excelRoutes);
 app.use("/api/events", twilioRoutes);
 app.use("/api/albums", albumRoutes);
+app.use("/api/events", eventRoutes);
+
 // Handle undefined routes
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });

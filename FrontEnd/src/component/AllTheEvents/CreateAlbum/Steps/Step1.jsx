@@ -1,4 +1,4 @@
-// components/CreateEventSteps/Step1.jsx
+// src/components/AllTheEvents/CreateAlbum/Steps/Step1.jsx
 import React from "react";
 
 const Step1 = ({ formData, handleChange, handleCoverImageChange }) => (
@@ -11,7 +11,7 @@ const Step1 = ({ formData, handleChange, handleCoverImageChange }) => (
           type="text"
           name="eventName"
           value={formData.eventName}
-          onChange={handleChange}
+          onChange={handleChange} // שימוש ב-handleChange
           placeholder="Enter event name"
         />
       </label>
@@ -21,7 +21,7 @@ const Step1 = ({ formData, handleChange, handleCoverImageChange }) => (
           type="text"
           name="location"
           value={formData.location}
-          onChange={handleChange}
+          onChange={handleChange} // שימוש ב-handleChange
           placeholder="Enter location"
         />
       </label>
@@ -31,7 +31,7 @@ const Step1 = ({ formData, handleChange, handleCoverImageChange }) => (
           type="date"
           name="date"
           value={formData.date}
-          onChange={handleChange}
+          onChange={handleChange} // שימוש ב-handleChange
         />
       </label>
       <label>
@@ -39,7 +39,7 @@ const Step1 = ({ formData, handleChange, handleCoverImageChange }) => (
         <select
           name="eventType"
           value={formData.eventType}
-          onChange={handleChange}
+          onChange={handleChange} // שימוש ב-handleChange
         >
           <option value="">Select event type</option>
           <option value="wedding">חתונה</option>

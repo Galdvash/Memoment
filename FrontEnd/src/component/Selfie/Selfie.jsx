@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useSelfieUpload from "../../hooks/SelfieUpload/useSelfieUpload";
-import MatchedImages from "./MatchedImages";
+import MatchedImages from "../Selfie/MatchedImages";
 import Webcam from "react-webcam";
+import { useParams } from "react-router-dom";
 
-const SelfieUpload = ({ albumId }) => {
-  // נוסיף albumId כ-prop
+const SelfieUpload = () => {
+  const { albumId } = useParams();
   const {
     selectedFile,
     message,
@@ -23,9 +24,22 @@ const SelfieUpload = ({ albumId }) => {
     handleCapture,
   } = useSelfieUpload(albumId);
 
+  // Save states to localStorage
+  useEffect(() => {
+    localStorage.setItem("selectedFile", selectedFile ? selectedFile.name : "");
+    localStorage.setItem("uploadedSelfie", uploadedSelfie || "");
+    localStorage.setItem("imageData", imageData || "");
+    localStorage.setItem(
+      "matchedImages",
+      JSON.stringify(matchedImages) || "[]"
+    );
+  }, [selectedFile, uploadedSelfie, imageData, matchedImages]);
+
   return (
     <div style={{ paddingTop: "50px", textAlign: "center" }}>
       <h1>Upload Your Selfie</h1>
+
+      {/* Input for selecting file */}
       <div>
         <input
           type="file"
@@ -35,6 +49,7 @@ const SelfieUpload = ({ albumId }) => {
         />
       </div>
 
+      {/* Button for taking selfie with Webcam */}
       <div style={{ marginTop: "10px" }}>
         <button
           onClick={() => setIsCapturing(true)}
@@ -44,6 +59,7 @@ const SelfieUpload = ({ albumId }) => {
         </button>
       </div>
 
+      {/* Webcam for taking selfie */}
       {isCapturing && (
         <div style={{ marginTop: "20px" }}>
           <Webcam
@@ -71,6 +87,7 @@ const SelfieUpload = ({ albumId }) => {
         </div>
       )}
 
+      {/* Button for uploading selfie */}
       <div style={{ marginTop: "20px" }}>
         <button
           onClick={handleUpload}
@@ -80,8 +97,10 @@ const SelfieUpload = ({ albumId }) => {
         </button>
       </div>
 
+      {/* Displaying message */}
       {message && <p>{message}</p>}
 
+      {/* Display uploaded selfie */}
       {imageData && (
         <div style={{ marginTop: "20px" }}>
           <h2>Uploaded Selfie</h2>
@@ -113,8 +132,9 @@ const SelfieUpload = ({ albumId }) => {
         </div>
       )}
 
+      {/* Display matched images */}
       {matchedImages.length > 0 && (
-        <MatchedImages images={matchedImages} albumId={albumId} />
+        <MatchedImages matchedImages={matchedImages} albumId={albumId} />
       )}
     </div>
   );

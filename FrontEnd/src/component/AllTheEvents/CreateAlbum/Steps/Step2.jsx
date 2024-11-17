@@ -1,7 +1,22 @@
-// src/components/AllTheEvents/CreateEventSteps/Step2.jsx
 import React from "react";
 
-const Step2 = ({ handleImageFileChange, handleExcelFileChange }) => {
+const Step2 = ({ formData, setFormData }) => {
+  const handleImageFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setFormData((prev) => ({
+      ...prev,
+      images: files, // שמירת תמונות ב-formData
+    }));
+  };
+
+  const handleExcelFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prev) => ({
+      ...prev,
+      excelFile: file, // שמירת קובץ אקסל ב-formData
+    }));
+  };
+
   return (
     <div>
       <h2>Step 2: Upload Album Images and Guest List</h2>

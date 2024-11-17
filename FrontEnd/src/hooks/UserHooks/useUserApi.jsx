@@ -102,20 +102,26 @@ const useUserApi = () => {
   const handleSubmit2 = async (e) => {
     e.preventDefault();
     try {
+      // קבלת הטוקן
       const loginResponse = await axios.post(
         `${apiUrl}/api/users/login`,
         isLoginData
       );
       const token = loginResponse.data.token;
-      localStorage.setItem("token", token); // Save token to localStorage
+      localStorage.setItem("token", token);
 
-      toast.success("Login successful!");
-
+      // קבלת מידע המשתמש
       const userResponse = await axios.get(`${apiUrl}/api/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      // שמירת ID המשתמש בלוקל סטורג'
+      localStorage.setItem("userId", userResponse.data._id);
+
       setUserInformation(userResponse.data);
       setIsLoginData({ email: "", password: "" });
+
+      toast.success("Login successful!");
       navigate("/packages");
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");

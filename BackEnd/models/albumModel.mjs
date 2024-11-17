@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 const albumSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  event: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
   eventName: { type: String, required: true },
   location: { type: String, required: true },
   date: { type: Date, required: true },
@@ -13,6 +14,8 @@ const albumSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
+  // הסר את השדה הבא
+  // images: [{ type: mongoose.Schema.Types.ObjectId, ref: "Selfie" }],
   images: [
     {
       filename: String,

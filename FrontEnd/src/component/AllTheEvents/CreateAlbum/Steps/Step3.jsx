@@ -18,15 +18,11 @@ const Step3 = ({ formData, setFormData }) => {
     };
   }, [formData.albumImage]);
 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
+  const handlePrivacyChange = (e) => {
+    const value = e.target.value;
     setFormData({
       ...formData,
-      [name]: checked,
-    });
-    console.log("Updated form data (Step3 - privacy):", {
-      ...formData,
-      [name]: checked,
+      isPrivate: value === "private",
     });
   };
 
@@ -54,25 +50,23 @@ const Step3 = ({ formData, setFormData }) => {
         <h3>הגדרות פרטיות</h3>
         <label>
           <input
-            type="checkbox"
-            name="isPrivate"
-            checked={formData.isPrivate}
-            onChange={handleCheckboxChange}
+            type="radio"
+            name="privacy"
+            value="public"
+            checked={formData.isPrivate === false}
+            onChange={handlePrivacyChange}
           />
-          האלבום פרטי
+          אלבום ציבורי
         </label>
         <label style={{ marginLeft: "20px" }}>
           <input
-            type="checkbox"
-            name="isPublic"
-            checked={!formData.isPrivate}
-            onChange={(e) =>
-              handleCheckboxChange({
-                target: { name: "isPrivate", checked: !e.target.checked },
-              })
-            }
+            type="radio"
+            name="privacy"
+            value="private"
+            checked={formData.isPrivate === true}
+            onChange={handlePrivacyChange}
           />
-          האלבום ציבורי
+          אלבום פרטי
         </label>
       </div>
 

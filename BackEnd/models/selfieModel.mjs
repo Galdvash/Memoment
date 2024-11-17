@@ -1,14 +1,12 @@
-// backend/models/selfieModel.mjs
 import mongoose from "mongoose";
 
 const selfieSchema = new mongoose.Schema({
-  filename: String,
-  data: Buffer,
-  contentType: String, // 'image/jpeg' or 'image/png'
-  uploadedAt: {
-    type: Date,
-    default: Date.now,
-  },
+  filename: { type: String, required: true },
+  data: { type: Buffer, required: true },
+  contentType: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.model("Selfie", selfieSchema);
+const Selfie = mongoose.model("Selfie", selfieSchema);
+
+export default Selfie;

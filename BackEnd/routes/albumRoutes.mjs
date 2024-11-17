@@ -1,30 +1,24 @@
+// routes/albumRoutes.mjs
 import express from "express";
 import {
-  finalizeAlbum,
+  createAlbum,
   getAlbumById,
   getAllAlbums,
 } from "../controllers/albumController.mjs";
-import multer from "multer";
 import { protect } from "../middleware/authMiddleware.mjs";
+import uploadFields from "../middleware/uploadMiddleware.mjs"; // ייבוא המידלוור החדש
 
 const router = express.Router();
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
+// שימוש במידלוור uploadFields בנתיב ה-POST
 router.post(
   "/finalize",
   protect,
-  upload.fields([
-    { name: "coverImage", maxCount: 1 },
-    { name: "images", maxCount: 10 },
-    { name: "guestListFile", maxCount: 1 },
-  ]),
-  finalizeAlbum
+  uploadFields, // שימוש במידלוור החדש
+  createAlbum
 );
 
-router.get("/:albumId", protect, getAlbumById); // הוסף את ה-middleware
-
 router.get("/", protect, getAllAlbums);
+router.get("/:albumId", protect, getAlbumById);
 
 export default router;

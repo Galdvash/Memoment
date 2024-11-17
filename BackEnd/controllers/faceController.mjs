@@ -1,19 +1,14 @@
-// controllers/faceController.mjs
-import multer from "multer";
+// backend/controllers/faceController.mjs
 import {
   RekognitionClient,
   CompareFacesCommand,
 } from "@aws-sdk/client-rekognition";
-import Image from "../models/imageModel.mjs";
+import Album from "../models/albumModel.mjs";
 import dotenv from "dotenv";
+import Selfie from "../models/selfieModel.mjs";
 
 dotenv.config();
 
-// Multer configuration for handling image uploads
-const storage = multer.memoryStorage();
-export const uploadFaceImage = multer({ storage });
-
-// AWS Rekognition Client Setup
 const rekognition = new RekognitionClient({
   region: process.env.AWS_REGION,
   credentials: {
@@ -21,41 +16,59 @@ const rekognition = new RekognitionClient({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
-
-// Controller function for face recognition
 export const matchFaces = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).send("No source image uploaded");
+    const { albumId, userId } = req.params;
+
+    if (!req.file || !albumId || !userId) {
+      return res
+        .status(400)
+        .send("No source image uploaded, albumId or userId missing");
     }
 
     const sourceImageBuffer = req.file.buffer;
 
-    // Fetch all event images from MongoDB
-    const eventImages = await Image.find({ type: "event" });
-    console.log(`Found ${eventImages.length} event images in the database.`);
+    const album = await Album.findOne({ _id: albumId, user: userId }).populate(
+      "images"
+    );
+    if (!album) {
+      return res
+        .status(404)
+        .send("Album not found or does not belong to the user");
+    }
+
+    const eventImages = album.images;
 
     const matchedImages = [];
 
-    // Compare each event image with the uploaded source image using AWS Rekognition
+    // השווה את התמונה המקורית עם כל תמונה באלבום
     for (const eventImage of eventImages) {
       const targetImageBuffer = eventImage.data;
 
       const params = {
         SourceImage: { Bytes: sourceImageBuffer },
         TargetImage: { Bytes: targetImageBuffer },
-        SimilarityThreshold: 80, // Adjust the similarity threshold as needed
+        SimilarityThreshold: 80,
       };
 
       const compareFacesCommand = new CompareFacesCommand(params);
       const result = await rekognition.send(compareFacesCommand);
 
       if (result.FaceMatches && result.FaceMatches.length > 0) {
-        matchedImages.push(eventImage.filename); // Add matched image filenames to the array
+        matchedImages.push(eventImage.filename);
       }
     }
 
+    const selfie = await Selfie.findOne({ album: albumId, user: userId });
+    if (selfie) {
+      selfie.matchedImages = matchedImages;
+      await selfie.save();
+    } else {
+      return res.status(404).send("Selfie not found for the user and album");
+    }
+
     res.status(200).json({ matchedImages });
+    console.log("Matched images sent to client:", matchedImages);
   } catch (error) {
     console.error("Error matching faces:", error);
     res.status(500).send("Error matching faces");

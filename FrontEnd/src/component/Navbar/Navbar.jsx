@@ -1,9 +1,7 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ThemeContext } from "../../hooks/DarkMode/DarkModeContext";
-import { UserContext } from "../../hooks/UserHooks/userContextApp";
-import axios from "axios";
-import { toast } from "react-toastify";
+// src/components/Navbar/Navbar.jsx
+import React from "react";
+import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MenuIcon from "../../images/menu-svgrepo-com.svg";
 import SunIcon from "../../images/Sunny.png";
@@ -11,48 +9,21 @@ import MoonIcon from "../../images/Moon.png";
 import SearchIcon from "../../images/SearchIcon.png";
 import Button from "../../Library/Button.jsx";
 import "./Navbar.css";
+import useNavBar from "../../hooks/useNavBar/useNavbar.jsx"; // עדכון הנתיב בהתאם למיקום החדש של useNavBar
 
 const NavBar = ({ onSearch }) => {
-  const { isSun, handleIconClick } = useContext(ThemeContext);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { userInformation, setUserInformation } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  const handleSearchIconClick = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  const handleLogout = async () => {
-    const confirmLogout = window.confirm("Are you sure you want to log out?");
-    if (confirmLogout) {
-      try {
-        await axios.post(
-          "http://localhost:5000/api/users/logout",
-          {},
-          { withCredentials: true }
-        );
-        localStorage.removeItem("token"); // מחיקת הטוקן מה-localStorage
-        setUserInformation(null); // איפוס מידע המשתמש
-        navigate("/"); // הפניה לעמוד הראשי
-        toast.success("Logged out successfully");
-      } catch (error) {
-        console.error("Logout error:", error);
-        toast.error("Logout failed!");
-      }
-    }
-  };
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleSearchInputChange = (event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
-    onSearch(query);
-  };
+  const {
+    isSun,
+    handleIconClick,
+    isExpanded,
+    searchQuery,
+    isMenuOpen,
+    handleSearchIconClick,
+    handleLogout,
+    toggleMenu,
+    handleSearchInputChange,
+    userInformation,
+  } = useNavBar(onSearch);
 
   return (
     <header className="header">
@@ -60,7 +31,7 @@ const NavBar = ({ onSearch }) => {
         <div className="hamburger" onClick={toggleMenu}>
           <img
             src={MenuIcon}
-            alt=""
+            alt="Menu"
             className="menuIcon"
             style={{ width: "33px", height: "35px" }}
           />
@@ -84,7 +55,17 @@ const NavBar = ({ onSearch }) => {
           </li>
           <li>
             <Link className="link" to={"/selfie"}>
-              selfie
+              Selfie
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to={"/your-album/:albumId"}>
+              your-album
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to={"/all-albums"}>
+              all-albums
             </Link>
           </li>
 
@@ -109,7 +90,7 @@ const NavBar = ({ onSearch }) => {
                   </li>
                   <li>
                     <Link className="link" to={"/upload"}>
-                      upload
+                      Upload
                     </Link>
                   </li>
                 </>
@@ -123,7 +104,7 @@ const NavBar = ({ onSearch }) => {
                   </li>
                   <li>
                     <Link className="link" to={"/upload"}>
-                      upload
+                      Upload
                     </Link>
                   </li>
                 </>
@@ -189,7 +170,7 @@ const NavBar = ({ onSearch }) => {
             <li>
               <img
                 src={isSun ? SunIcon : MoonIcon}
-                alt="Sun Icon"
+                alt="Theme Toggle Icon"
                 onClick={handleIconClick}
                 className="moon_sun_icon"
               />
@@ -197,6 +178,7 @@ const NavBar = ({ onSearch }) => {
           </div>
         </ul>
       </nav>
+      <ToastContainer />
     </header>
   );
 };

@@ -1,14 +1,15 @@
-// src/components/AllAlbums.jsx
+// src/components/AllTheEvents/Allbums/AllAlbums.jsx
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useApiUrl } from "../../../hooks/ApiUrl/ApiProvider";
 import { UserContext } from "../../../hooks/UserHooks/userContextApp";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AllAlbums = () => {
   const apiUrl = useApiUrl();
-  const { userInformation } = useContext(UserContext);
+  const { userInformation, loading } = useContext(UserContext);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [albums, setAlbums] = useState([]);
   const [error, setError] = useState(null);
 
@@ -20,30 +21,53 @@ const AllAlbums = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Fetched albums:", response.data); // בדיקה
         setAlbums(response.data);
       } catch (error) {
-        console.error("Error fetching albums:", error);
+        console.error("Error fetching albums:", error.response || error);
         setError("Failed to load albums.");
       }
     };
 
-    if (userInformation) {
+    if (userInformation && !loading) {
       fetchAllAlbums();
     }
-  }, [apiUrl, token, userInformation]);
+  }, [apiUrl, token, userInformation, loading]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (error) {
     return <div>{error}</div>;
   }
 
   if (!albums.length) {
-    return <div>No albums found.</div>;
+    return (
+      <div>
+        <h2>No albums found</h2>
+        <button onClick={() => navigate("/CreateAlbum")}>
+          Create New Album
+        </button>
+      </div>
+    );
   }
 
   return (
     <div>
       <h2>All Your Albums</h2>
+      <button
+        onClick={() => navigate("/CreateAlbum")}
+        style={{
+          marginBottom: "20px",
+          padding: "10px",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          border: "none",
+          cursor: "pointer",
+        }}
+      >
+        Create New Album
+      </button>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {albums.map((album) => (
           <div
@@ -70,17 +94,29 @@ const AllAlbums = () => {
               <strong>Privacy:</strong> {album.isPrivate ? "Private" : "Public"}
             </p>
             {album.coverImage && album.coverImage.data ? (
-              <img
-                src={`data:${album.coverImage.contentType};base64,${album.coverImage.data}`}
-                alt="Cover"
-                style={{ width: "150px", height: "150px", objectFit: "cover" }}
-              />
+              <div>
+                <img
+                  src={`data:${album.coverImage.contentType};base64,${album.coverImage.data}`}
+                  alt="Cover"
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
             ) : (
-              <p>No cover image</p>
+              <p>No cover image available</p>
             )}
-            <Link to={`/your-album/${album._id}`}>
-              <button style={{ marginTop: "10px" }}>View Album</button>
-            </Link>
+            <button onClick={() => navigate(`/your-album/${album._id}`)}>
+              View Album
+            </button>
+            <button
+              onClick={() => navigate(`/selfie/${album._id}`)}
+              style={{ marginTop: "10px" }}
+            >
+              Face Recognition
+            </button>
           </div>
         ))}
       </div>
