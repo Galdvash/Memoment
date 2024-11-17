@@ -3,6 +3,8 @@ import {
   CompareFacesCommand,
 } from "@aws-sdk/client-rekognition";
 import dotenv from "dotenv";
+import Selfie from "../models/selfieModel.mjs";
+
 import Album from "../models/albumModel.mjs";
 dotenv.config();
 
