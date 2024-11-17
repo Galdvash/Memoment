@@ -1,25 +1,17 @@
-// backend/controllers/albumController.mjs
-// backend/controllers/albumController.mjs
 import Album from "../models/albumModel.mjs";
-import Image from "../models/imageModel.mjs";
 
 export const createAlbum = async (req, res) => {
   try {
     const { eventName, location, date, eventType, isPrivate } = req.body;
     const userId = req.user._id;
 
-    // אימות שדות נדרשים
+    // בדיקת שדות נדרשים
     if (!eventName || !eventType || !location || !date) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // עיבוד הקבצים
-    const coverImageFile = req.files["coverImage"]
-      ? req.files["coverImage"][0]
-      : null;
-    const imagesFiles = req.files["images"] || [];
-
-    // הכנת שדה coverImage (אם קיים)
+    // עיבוד קובץ coverImage (אם קיים)
+    const coverImageFile = req.files["coverImage"]?.[0];
     const coverImage = coverImageFile
       ? {
           filename: coverImageFile.originalname,
@@ -28,27 +20,38 @@ export const createAlbum = async (req, res) => {
         }
       : null;
 
-    // יצירת אובייקט האלבום
+    // עיבוד קובץ guestListFile (אם קיים)
+    const guestListFile = req.files["guestListFile"]?.[0];
+    const guestList = guestListFile
+      ? {
+          filename: guestListFile.originalname,
+          data: guestListFile.buffer,
+          contentType: guestListFile.mimetype,
+        }
+      : null;
+
+    // עיבוד תמונות (אם קיימות)
+    const imagesFiles = req.files["images"] || [];
+    const images = imagesFiles.map((file) => ({
+      filename: file.originalname,
+      data: file.buffer,
+      contentType: file.mimetype,
+    }));
+
+    // יצירת האלבום
     const newAlbum = new Album({
       user: userId,
       eventName,
       eventType,
-      isPrivate: isPrivate === "true" || isPrivate === true,
       location,
       date,
-      coverImage, // הוספת שדה coverImage ישירות לאובייקט
+      isPrivate: isPrivate === "true" || isPrivate === true,
+      coverImage,
+      guestListFile: guestList,
+      images,
     });
 
-    // הוספת תמונות לאלבום (אם קיימות)
-    if (imagesFiles.length > 0) {
-      newAlbum.images = imagesFiles.map((file) => ({
-        filename: file.originalname,
-        data: file.buffer,
-        contentType: file.mimetype,
-      }));
-    }
-
-    // שמירת האלבום במסד הנתונים
+    // שמירת האלבום
     await newAlbum.save();
 
     res

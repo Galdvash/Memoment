@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.088652c5.css",
-    "main.js": "/static/js/main.5c3267af.js",
+    "main.js": "/static/js/main.302afa3b.js",
     "static/js/488.9c92ff38.chunk.js": "/static/js/488.9c92ff38.chunk.js",
     "static/media/Iphone 1 (1).svg": "/static/media/Iphone 1 (1).4aefb2158853c6cd32912bd1e5d46cb0.svg",
     "static/media/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/static/media/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.0db2560300f3732179ce5019daa838f8.svg",
@@ -13,11 +13,11 @@
     "static/media/security_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg": "/static/media/security_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.ed2336d87bb2c5ad39694650d0449426.svg",
     "static/media/menu-svgrepo-com.svg": "/static/media/menu-svgrepo-com.22a05970d93e0f98250a9ec63d516662.svg",
     "main.088652c5.css.map": "/static/css/main.088652c5.css.map",
-    "main.5c3267af.js.map": "/static/js/main.5c3267af.js.map",
+    "main.302afa3b.js.map": "/static/js/main.302afa3b.js.map",
     "488.9c92ff38.chunk.js.map": "/static/js/488.9c92ff38.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.088652c5.css",
-    "static/js/main.5c3267af.js"
+    "static/js/main.302afa3b.js"
   ]
 }

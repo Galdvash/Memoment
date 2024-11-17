@@ -105,7 +105,6 @@ const useCreateAlbum = () => {
         date: formData.date,
         eventType: formData.eventType,
         isPrivate: formData.isPrivate,
-        albumImage: formData.albumImage,
         images: formData.images,
         excelFile: formData.excelFile,
         coverImage: formData.coverImage,

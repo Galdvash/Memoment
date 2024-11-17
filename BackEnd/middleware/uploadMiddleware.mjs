@@ -32,10 +32,10 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-// const uploadFields = upload.fields([
-//   { name: "coverImage", maxCount: 1 },
-//   { name: "images", maxCount: 10 },
-//   { name: "guestListFile", maxCount: 1 },
-// ]);
+export const uploadFields = upload.fields([
+  { name: "coverImage", maxCount: 1 },
+  { name: "images" }, // ללא מגבלה
+  { name: "guestListFile", maxCount: 1 },
+]);
 
-export default upload.single("sourceImage"); // מקבל תמונה בודדת בשם "sourceImage"
+export default uploadFields;
