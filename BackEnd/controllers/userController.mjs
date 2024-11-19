@@ -43,19 +43,32 @@ export const registerUser = asyncHandler(async (req, res) => {
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
+  // בדיקת שדות חובה
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Email and password are required");
+  }
+
+  // חיפוש משתמש לפי אימייל
   const user = await User.findOne({ email });
   if (!user) {
-    return res.status(400).json({ message: "Invalid email or password" });
+    res.status(400);
+    throw new Error("Invalid email or password");
   }
 
-  const validPass = await bcrypt.compare(password, user.password);
-  if (!validPass) {
-    return res.status(400).json({ message: "Invalid email or password" });
+  // אימות סיסמה
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    res.status(400);
+    throw new Error("Invalid email or password");
   }
 
-  const token = generateToken(user._id, user.role);
+  // יצירת טוקן
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
 
-  res.status(200).json({ token, message: "Logged in successfully" });
+  res.status(200).json({ token });
 });
 
 // התנתקות משתמש
