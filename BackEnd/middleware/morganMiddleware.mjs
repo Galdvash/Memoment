@@ -1,16 +1,7 @@
+// middleware/morganMiddleware.mjs
 import morgan from "morgan";
+import { colorizeMethod } from "../config/logger.mjs";
 import chalk from "chalk";
-
-// פונקציה לצביעת סוג הבקשה (GET, POST וכו')
-const colorizeMethod = (method) => {
-  const colors = {
-    GET: chalk.green,
-    POST: chalk.blue,
-    PUT: chalk.yellow,
-    DELETE: chalk.red,
-  };
-  return colors[method] ? colors[method](method) : chalk.white(method);
-};
 
 // פונקציה לצביעת זמן תגובה
 const colorizeResponseTime = (responseTime) => {
@@ -31,9 +22,9 @@ const morganMiddleware = morgan((tokens, req, res) => {
   // יצירת תאריך ושעה בפורמט ברור
   const now = new Date();
   const date = `${now.toLocaleDateString("en-GB")}`; // תאריך (DD/MM/YYYY)
-  const time = `${now.toLocaleTimeString("en-GB")}`; // שעה (HH:MM:SS)
+  const timeStr = `${now.toLocaleTimeString("en-GB")}`; // שעה (HH:MM:SS)
 
-  return `[${date} ${time}] ${method} ${url} - Status: ${status}, Response Time: ${coloredResponseTime}`;
+  return `[${date} ${timeStr}] ${method} ${url} - Status: ${status}, Response Time: ${coloredResponseTime}`;
 });
 
 export default morganMiddleware;
