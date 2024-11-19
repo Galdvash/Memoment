@@ -13,6 +13,14 @@ export const registerValidation = (data) => {
       "string.min": "Email must be at least 5 characters long",
       "string.max": "Email must be less than 255 characters",
     }),
+    phoneNumber: Joi.string()
+      .pattern(/^0\d{9}$/)
+      .allow(null, "")
+      .messages({
+        "string.pattern.base":
+          "Phone number must start with 0 and have 10 digits",
+        "string.empty": "Phone number is required",
+      }),
     password: Joi.string().min(6).max(255).required().messages({
       "string.empty": "Password is required",
       "string.min": "Password must be at least 6 characters long",

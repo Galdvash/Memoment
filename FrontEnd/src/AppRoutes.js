@@ -15,6 +15,8 @@ import YourAlbum from "./component/AllTheEvents/Allbums/YourAlbum.jsx";
 import AllAlbums from "./component/AllTheEvents/Allbums/AllAlbums.jsx";
 import UpdateProfile from "./Library/UpdateProfile.jsx";
 import VerifyPassword from "./Library/VerifyPassword.jsx";
+import ForgotPassword from "./component/ForgotPassword.jsx"; // ייבוא רכיב שכחתי סיסמה
+import ResetPassword from "./component/ResetPassword/ResetPassword.jsx";
 import { UserContext } from "./hooks/UserHooks/userContextApp";
 
 const allowedPaths = [
@@ -31,6 +33,8 @@ const allowedPaths = [
   "/selfie/:albumId",
   "/your-album/:albumId",
   "/matched-images/:albumId/:userId",
+  "/forgot-password", // נתיב לבקשת איפוס סיסמה
+  "/reset-password/:token", // נתיב לאיפוס סיסמה באמצעות טוקן
 ];
 
 const AppRoutes = ({ searchQuery }) => {
@@ -48,6 +52,9 @@ const AppRoutes = ({ searchQuery }) => {
           location.pathname.startsWith("/your-album/") ||
           location.pathname.startsWith("/selfie/")
         );
+      }
+      if (path.includes(":token")) {
+        return location.pathname.startsWith("/reset-password/");
       }
       return path === location.pathname;
     });
@@ -99,6 +106,8 @@ const AppRoutes = ({ searchQuery }) => {
         path="/matched-images/:albumId/:userId"
         element={<MatchedImages />}
       />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
     </Routes>
   );
 };

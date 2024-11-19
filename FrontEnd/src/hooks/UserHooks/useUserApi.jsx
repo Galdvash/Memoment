@@ -13,6 +13,7 @@ const useUserApi = () => {
   const [data, setIsData] = useState({
     name: "",
     email: "",
+    phoneNumber: "", // שדה חדש למספר טלפון
     password: "",
     isBusiness: false,
   });
@@ -63,6 +64,9 @@ const useUserApi = () => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().min(3).max(256).required(),
     email: Yup.string().email().min(5).required(),
+    phoneNumber: Yup.string()
+      .matches(/^0\d{8,9}$/, "Invalid phone number format") // פורמט תקין למספר טלפון ישראלי
+      .required(),
     password: Yup.string()
       .required()
       .min(8)
@@ -93,10 +97,16 @@ const useUserApi = () => {
         if (data.isBusiness) {
           userData.role = "business";
         }
-        await axios.post(`${apiUrl}/api/users/register`, data);
+        await axios.post(`${apiUrl}/api/users/register`, userData); // הוספת phoneNumber כאן
         toast.success("Registration successful! Please log in.");
         setIsSignIn(true);
-        setIsData({ name: "", email: "", password: "", isBusiness: false });
+        setIsData({
+          name: "",
+          email: "",
+          phoneNumber: "", // איפוס השדה
+          password: "",
+          isBusiness: false,
+        });
       } catch (error) {
         toast.error(error.response?.data?.message || "Registration failed!");
       }

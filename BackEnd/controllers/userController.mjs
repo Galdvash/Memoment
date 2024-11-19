@@ -17,20 +17,32 @@ export const registerUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: error.details[0].message });
   }
 
-  const { name, email, password, isBusiness } = req.body;
+  const { name, email, password, phoneNumber, isBusiness } = req.body;
 
+  // בדיקת האם האימייל כבר קיים
   const userExists = await User.findOne({ email });
   if (userExists) {
     return res.status(400).json({ message: "Email already exists" });
   }
 
+  // בדיקת האם מספר הטלפון כבר קיים
+  if (phoneNumber) {
+    const phoneExists = await User.findOne({ phoneNumber });
+    if (phoneExists) {
+      return res.status(400).json({ message: "Phone number already exists" });
+    }
+  }
+
+  // יצירת סיסמה מוצפנת
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const role = isBusiness ? "business" : "user";
 
+  // יצירת משתמש חדש
   const user = new User({
     name,
     email,
+    phoneNumber: phoneNumber || null, // אם אין מספר טלפון, שמור אותו כ-null
     password: hashedPassword,
     role,
   });
@@ -195,3 +207,83 @@ export const verifyPassword = asyncHandler(async (req, res) => {
     res.status(401).json({ message: "Invalid password" });
   }
 });
+
+// איפוס סיסמה
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { resetToken, newPassword } = req.body;
+  console.log("Received resetToken:", resetToken);
+  console.log("Received newPassword:", newPassword);
+
+  try {
+    // מציאת המשתמש עם הטוקן והתוקף
+    const user = await User.findOne({
+      resetPasswordToken: resetToken,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      console.log("Invalid or expired reset token");
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired reset token" });
+    }
+
+    // האשטת הסיסמה החדשה
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // עדכון הסיסמה והסרת הטוקן
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+    console.log("Password updated successfully for user:", user.email);
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ message: "Failed to reset password" });
+  }
+});
+export const addPhoneNumber = async (req, res) => {
+  const { userId, phoneNumber } = req.body;
+
+  try {
+    // בדיקת פורמט מספר טלפון - ווידוא שהוא רק מכיל ספרות
+    if (!phoneNumber.match(/^\d+$/)) {
+      return res.status(400).json({ message: "Invalid phone number format" });
+    }
+
+    // המרת מספר הטלפון לפורמט E.164 (למשל: +972523637089)
+    const formatPhoneNumberToE164 = (phoneNumber) => {
+      if (phoneNumber.startsWith("0")) {
+        return `+972${phoneNumber.slice(1)}`; // הוספת קידומת בינלאומית לישראל
+      }
+      return phoneNumber; // אם המספר כבר בפורמט בינלאומי
+    };
+    // חיפוש משתמש לפי ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // בדיקה אם מספר הטלפון כבר בשימוש על ידי משתמש אחר
+    const existingUser = await User.findOne({
+      phoneNumber: formattedPhoneNumber,
+    });
+    if (existingUser && existingUser._id.toString() !== userId) {
+      return res
+        .status(400)
+        .json({ message: "Phone number already associated with another user" });
+    }
+
+    // עדכון מספר הטלפון ביוזר
+    user.phoneNumber = formattedPhoneNumber;
+    await user.save();
+
+    res.status(200).json({ message: "Phone number added successfully" });
+  } catch (error) {
+    console.error("Error adding phone number:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

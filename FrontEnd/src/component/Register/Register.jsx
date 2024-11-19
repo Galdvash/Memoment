@@ -1,6 +1,5 @@
-// components/Register/SignInRegister.jsx
-
 import React from "react";
+import { Link } from "react-router-dom"; // הוסף את השימוש ב-React Router
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useUserApi from "../../hooks/UserHooks/useUserApi";
@@ -66,6 +65,20 @@ const SignInRegister = () => {
               required
             />
             {errors.password && <p className="error">{errors.password}</p>}
+            {/* Phone Number Field */}
+            <input
+              type="text"
+              name="phoneNumber"
+              placeholder="Phone Number"
+              className="input"
+              value={data.phoneNumber}
+              onChange={handleChange}
+              required
+            />
+            {errors.phoneNumber && (
+              <p className="error">{errors.phoneNumber}</p>
+            )}
+
             {/* Checkbox for Business Account */}
             <label className="checkbox-label">
               <input
@@ -130,6 +143,9 @@ const SignInRegister = () => {
             <button className="btn" type="submit">
               Sign In
             </button>
+            <Link to="/forgot-password" className="forgot-password-link">
+              שכחתי את הסיסמה
+            </Link>
           </form>
         </div>
 
