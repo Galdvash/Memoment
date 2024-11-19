@@ -39,7 +39,13 @@ export const sendResetEmail = asyncHandler(async (req, res) => {
       <a href="${resetLink}">${resetLink}</a>
       <p>If you did not request this, please ignore this email.</p>
     `;
-
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.log("SMTP Connection Error:", error);
+      } else {
+        console.log("SMTP Server is ready to take our messages");
+      }
+    });
     await transporter.sendMail({
       to: email,
       subject: "Password Reset Request",
