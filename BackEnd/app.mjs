@@ -1,11 +1,11 @@
-// app.mjs
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import morganMiddleware from "./middleware/morganMiddleware.mjs";
-import routes from "./routes/index.mjs"; // ייבוא מיקום חדש
+import routes from "./routes/index.mjs";
 import errorHandler from "./middleware/errorHandler.mjs";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
