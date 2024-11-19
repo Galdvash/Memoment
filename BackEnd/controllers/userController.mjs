@@ -11,7 +11,7 @@ const generateToken = (id, role) => {
 };
 
 // רישום משתמש חדש
-export const registerUser = asyncHandler(async (req, res) => {
+export const registerUser = async (req, res) => {
   const { error } = registerValidation(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
@@ -49,7 +49,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   await user.save();
   res.status(201).json({ message: "User registered successfully" });
-});
+};
 
 // התחברות משתמש
 export const loginUser = asyncHandler(async (req, res) => {
