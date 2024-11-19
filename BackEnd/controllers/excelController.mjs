@@ -1,8 +1,7 @@
 // Import Multer and XLSX
 import multer from "multer";
-import xlsx from "xlsx";
 import Phone from "../models/phoneModel.mjs"; // Your MongoDB model for saving phone numbers
-
+import xlsx from "xlsx";
 // Multer setup for file upload
 const storage = multer.memoryStorage(); // Store file in memory
 export const upload = multer({ storage });
@@ -38,4 +37,31 @@ export const uploadExcelFile = async (req, res) => {
     console.error("Error processing file:", error);
     res.status(500).json({ message: "Error processing file" });
   }
+};
+
+export const processGuestList = (guestListFile) => {
+  if (!guestListFile || !guestListFile.buffer) {
+    throw new Error("Guest list file is missing or invalid.");
+  }
+
+  const workbook = xlsx.read(guestListFile.buffer, { type: "buffer" });
+
+  if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
+    throw new Error("No sheets found in the Excel file.");
+  }
+
+  const sheetName = workbook.SheetNames[0];
+  const sheet = workbook.Sheets[sheetName];
+
+  if (!sheet) {
+    throw new Error(`Sheet "${sheetName}" is invalid or empty.`);
+  }
+
+  const jsonData = xlsx.utils.sheet_to_json(sheet);
+
+  if (!jsonData || jsonData.length === 0) {
+    throw new Error("Guest list is empty.");
+  }
+
+  return jsonData;
 };

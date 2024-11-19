@@ -10,6 +10,7 @@ import excelRoutes from "./routes/excelRoutes.mjs";
 import twilioRoutes from "./routes/twilioRoutes.mjs";
 import albumRoutes from "./routes/albumRoutes.mjs";
 import eventRoutes from "./routes/eventRoutes.mjs";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -24,6 +25,8 @@ const corsOptions = {
   credentials: true, // נחוץ במידה ותשוב לשימוש ב-cookies בעתיד
 };
 
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -44,6 +47,8 @@ const connectDB = async () => {
 
 connectDB();
 
+app.use(express.json({ limit: "50mb" })); // הגדלת המגבלה ל-50 מגהבייט
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 // בסיס למענה ראשוני
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -57,6 +62,15 @@ app.use("/api/excel", excelRoutes);
 app.use("/api/events", twilioRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/api/events", eventRoutes);
+app.use((err, req, res, next) => {
+  if (err.type === "entity.too.large") {
+    return res
+      .status(413)
+      .json({ message: "Payload too large. Please upload smaller files." });
+  }
+  console.error(err);
+  res.status(500).json({ message: "An unexpected error occurred." });
+});
 
 // Handle undefined routes
 app.use((req, res) => {
@@ -68,7 +82,13 @@ app.use((err, req, res) => {
   console.error(err.stack);
   res.status(500).json({ message: err.message });
 });
-
+app.use((err, req, res, next) => {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode).json({
+    message: err.message,
+    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+  });
+});
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

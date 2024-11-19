@@ -89,6 +89,10 @@ const useUserApi = () => {
     e.preventDefault();
     if (await validate()) {
       try {
+        const userData = { ...data };
+        if (data.isBusiness) {
+          userData.role = "business";
+        }
         await axios.post(`${apiUrl}/api/users/register`, data);
         toast.success("Registration successful! Please log in.");
         setIsSignIn(true);
@@ -122,7 +126,15 @@ const useUserApi = () => {
       setIsLoginData({ email: "", password: "" });
 
       toast.success("Login successful!");
-      navigate("/packages");
+
+      // בדיקת תפקיד המשתמש והפניה לעמוד המתאים
+      if (userResponse.data.role === "user") {
+        navigate("/regular-packages");
+      } else if (userResponse.data.role === "business") {
+        navigate("/packages");
+      } else {
+        toast.error("Unauthorized role!"); // במידה ותפקיד לא מוכר
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");
     }

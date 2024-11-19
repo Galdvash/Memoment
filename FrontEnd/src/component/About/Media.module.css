@@ -1,0 +1,62 @@
+@media screen and (max-width: 1400px) {
+  .header {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+@media screen and (max-width: 955px) {
+  .bodyAbout {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .textBox {
+    h1 {
+      font-size: 2em;
+    }
+    h1,
+    p {
+      text-align: center;
+    }
+  }
+  .asideIMG {
+    margin-top: 1.5rem;
+  }
+}
+@media screen and (max-width: 650px) {
+  .bodyAbout {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .textBox {
+    h1 {
+      font-size: 1.5rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+    h1,
+    p {
+      text-align: center;
+      max-width: 100%;
+    }
+  }
+  .flexBoxOne,
+  .flexBoxTwo {
+    flex-direction: column;
+  }
+  .asideIMG {
+    margin-top: 1.5rem;
+  }
+}

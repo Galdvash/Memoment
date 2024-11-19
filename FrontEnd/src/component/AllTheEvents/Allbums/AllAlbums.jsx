@@ -1,5 +1,4 @@
-// src/components/AllTheEvents/Allbums/AllAlbums.jsx
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import axios from "axios";
 import { useApiUrl } from "../../../hooks/ApiUrl/ApiProvider";
 import { UserContext } from "../../../hooks/UserHooks/userContextApp";
@@ -13,25 +12,70 @@ const AllAlbums = () => {
   const [albums, setAlbums] = useState([]);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchAllAlbums = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/api/albums`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setAlbums(response.data);
-      } catch (error) {
-        console.error("Error fetching albums:", error.response || error);
-        setError("Failed to load albums.");
-      }
-    };
+  const fetchAllAlbums = useCallback(async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/albums`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setAlbums(response.data);
+    } catch (error) {
+      console.error("Error fetching albums:", error.response || error);
+      setError("Failed to load albums.");
+    }
+  }, [apiUrl, token]);
 
+  useEffect(() => {
     if (userInformation && !loading) {
       fetchAllAlbums();
     }
-  }, [apiUrl, token, userInformation, loading]);
+  }, [fetchAllAlbums, userInformation, loading]);
+
+  const handleViewAlbum = async (albumId) => {
+    const viewedAlbums = JSON.parse(localStorage.getItem("viewedAlbums")) || [];
+
+    if (!viewedAlbums.includes(albumId)) {
+      // הוסף את מזהה האלבום לרשימה המקומית
+      localStorage.setItem(
+        "viewedAlbums",
+        JSON.stringify([...viewedAlbums, albumId])
+      );
+
+      // שלח בקשה לשרת לצפייה באלבום
+      try {
+        await axios.get(`${apiUrl}/api/albums/${albumId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } catch (error) {
+        console.error("Error viewing album:", error.response || error);
+      }
+    }
+
+    // הפנה את המשתמש לעמוד האלבום
+    navigate(`/your-album/${albumId}`);
+  };
+
+  const handleDeleteAlbum = async (albumId) => {
+    if (!window.confirm("Are you sure you want to delete this album?")) {
+      return;
+    }
+
+    try {
+      await axios.delete(`${apiUrl}/api/albums/${albumId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setAlbums((prevAlbums) =>
+        prevAlbums.filter((album) => album._id !== albumId)
+      );
+      alert("Album deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting album:", error.response || error);
+      alert("Failed to delete album. Please try again.");
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -80,19 +124,6 @@ const AllAlbums = () => {
               textAlign: "center",
             }}
           >
-            <h3>{album.eventName}</h3>
-            <p>
-              <strong>Location:</strong> {album.location}
-            </p>
-            <p>
-              <strong>Date:</strong> {new Date(album.date).toLocaleDateString()}
-            </p>
-            <p>
-              <strong>Type:</strong> {album.eventType}
-            </p>
-            <p>
-              <strong>Privacy:</strong> {album.isPrivate ? "Private" : "Public"}
-            </p>
             {album.coverImage && album.coverImage.data ? (
               <div>
                 <img
@@ -108,7 +139,26 @@ const AllAlbums = () => {
             ) : (
               <p>No cover image available</p>
             )}
-            <button onClick={() => navigate(`/your-album/${album._id}`)}>
+            <h3>{album.eventName}</h3>
+            <p>
+              <strong>Location:</strong> {album.location}
+            </p>
+            <p>
+              <strong>Date:</strong> {new Date(album.date).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Type:</strong> {album.eventType}
+            </p>
+            <p>
+              <strong>Guests:</strong> {album.numberOfGuests || 0}
+            </p>
+            <p>
+              <strong>Views:</strong> {album.views || 0}
+            </p>
+            <p>
+              <strong>Privacy:</strong> {album.isPrivate ? "Private" : "Public"}
+            </p>
+            <button onClick={() => handleViewAlbum(album._id)}>
               View Album
             </button>
             <button
@@ -116,6 +166,19 @@ const AllAlbums = () => {
               style={{ marginTop: "10px" }}
             >
               Face Recognition
+            </button>
+            <button
+              onClick={() => handleDeleteAlbum(album._id)}
+              style={{
+                marginTop: "10px",
+                backgroundColor: "red",
+                color: "white",
+                border: "none",
+                cursor: "pointer",
+                padding: "5px 10px",
+              }}
+            >
+              Delete Album
             </button>
           </div>
         ))}

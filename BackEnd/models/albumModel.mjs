@@ -1,4 +1,3 @@
-// models/albumModel.mjs
 import mongoose from "mongoose";
 
 const albumSchema = new mongoose.Schema({
@@ -14,8 +13,6 @@ const albumSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
-  // הסר את השדה הבא
-  // images: [{ type: mongoose.Schema.Types.ObjectId, ref: "Selfie" }],
   images: [
     {
       filename: String,
@@ -28,6 +25,12 @@ const albumSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
+  numberOfGuests: {
+    type: Number,
+    default: 0,
+  },
+  views: { type: Number, default: 0 }, // הוספת שדה עם ברירת מחדל
+
   createdAt: {
     type: Date,
     default: Date.now,

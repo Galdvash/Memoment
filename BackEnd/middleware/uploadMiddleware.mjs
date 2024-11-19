@@ -1,18 +1,15 @@
-// middleware/uploadMiddleware.mjs
 import multer from "multer";
 
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (file.fieldname === "coverImage" || file.fieldname === "images") {
-    // מאפשר רק קבצי תמונה
     if (file.mimetype.startsWith("image/")) {
       cb(null, true);
     } else {
       cb(new Error("Not an image! Please upload only images."), false);
     }
   } else if (file.fieldname === "guestListFile") {
-    // מאפשר קבצי Excel או CSV
     if (
       file.mimetype ===
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
@@ -30,11 +27,12 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
+  limits: { fileSize: 10 * 1024 * 1024 },
 });
 
 export const uploadFields = upload.fields([
   { name: "coverImage", maxCount: 1 },
-  { name: "images" }, // ללא מגבלה
+  { name: "images", maxCount: 20 },
   { name: "guestListFile", maxCount: 1 },
 ]);
 

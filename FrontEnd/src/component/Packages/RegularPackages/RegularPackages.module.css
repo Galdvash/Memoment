@@ -1,0 +1,94 @@
+.bodyPackages {
+  height: auto;
+}
+
+.sectionContainer {
+  padding-top: 3em;
+  position: relative;
+}
+
+.packagesIntro {
+  padding-bottom: 4em;
+  text-align: center;
+}
+
+.cardsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardPackage {
+  width: 327px;
+  height: 606px;
+  margin: 0 1.5em; /* כדי לשמור על הריווח */
+  background-color: #fdfcfc;
+  box-shadow: none; /* ללא צללית ברירת מחדל */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-shadow: 0px 8px 7px rgba(0, 0, 0, 0.3);
+
+  transition: all 0.3s ease-in-out; /* מעבר חלק לכל המאפיינים */
+}
+.cardPackage:hover {
+  box-shadow: 0px 11px 22px rgba(0, 0, 0, 0.3);
+}
+.cardPackage:hover .titleCard {
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3);
+  background-color: #ff1f35; /* לדוגמה, שינוי צבע */
+  color: white; /* שינוי צבע טקסט */
+  transform: scale(1.1); /* הגדלה קטנה */
+  transition: all 0.4s ease-in-out; /* מעבר חלק לכל המאפיינים */
+}
+.titleCard {
+  position: absolute;
+  top: -1em;
+  left: 1em;
+  width: 120px;
+  height: 34px;
+  background-color: rgba(25, 234, 32, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.centerText {
+  text-align: center;
+}
+
+.item {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.item span {
+  font-family: "IBM Plex Sans Hebrew", sans-serif;
+  font-weight: bold;
+}
+
+.icon {
+  width: 15px;
+  height: 20px;
+  margin-right: 4px;
+}
+
+.btn {
+  background-color: #ff1f35;
+  color: #ffffff;
+  font-size: 1rem;
+  width: 175px;
+  height: 57px;
+  border-radius: 30px;
+  border: none;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #e5192e;
+}

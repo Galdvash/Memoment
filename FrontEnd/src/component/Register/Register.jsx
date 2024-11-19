@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useUserApi from "../../hooks/UserHooks/useUserApi";
 import "./Register.css";
+import "./RegisterMedia.css";
 
 const SignInRegister = () => {
   const {
@@ -65,7 +66,20 @@ const SignInRegister = () => {
               required
             />
             {errors.password && <p className="error">{errors.password}</p>}
-
+            {/* Checkbox for Business Account */}
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                name="isBusiness"
+                checked={data.isBusiness}
+                onChange={(e) =>
+                  handleChange({
+                    target: { name: "isBusiness", value: e.target.checked },
+                  })
+                }
+              />
+              Register as Business
+            </label>
             {/* Password Strength Meter */}
             <div className="password-strength">
               <p>

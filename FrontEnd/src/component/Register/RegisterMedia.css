@@ -1,0 +1,15 @@
+@media screen and (max-width: 650px) {
+  .overlay__panel {
+    h3 {
+      font-size: 1.5rem;
+
+      margin: 15px 0px 1.1em 0px;
+    }
+    p {
+      color: #fff;
+      margin-bottom: 2em;
+      max-width: 100%;
+      font-size: 1.1em;
+    }
+  }
+}

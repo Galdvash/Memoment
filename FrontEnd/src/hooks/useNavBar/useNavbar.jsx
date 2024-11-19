@@ -32,8 +32,8 @@ const useNavBar = (onSearch) => {
         );
         localStorage.removeItem("token"); // מחיקת הטוקן מה-localStorage
         setUserInformation(null); // איפוס מידע המשתמש
-        toast.success("Logged out successfully");
         navigate("/");
+        toast.success("Logged out successfully");
       } catch (error) {
         console.error("Logout error:", error);
         toast.error("Logout failed!");

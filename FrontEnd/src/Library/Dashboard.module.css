@@ -1,7 +1,5 @@
 .dashboard {
-  outline: 1px solid lime;
-
-  z-index: 1000;
+  z-index: 100;
   width: 251px;
   height: 91vh;
   background-color: rgba(34, 34, 34, 1);

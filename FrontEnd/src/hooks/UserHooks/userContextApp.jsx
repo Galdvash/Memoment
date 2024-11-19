@@ -8,6 +8,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(null);
   const [loading, setLoading] = useState(true); // מצב טעינה
+  const [isPasswordVerified, setIsPasswordVerified] = useState(false); // האם הסיסמה אומתה
   const apiUrl = useApiUrl();
 
   useEffect(() => {
@@ -34,7 +35,13 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ userInformation, loading, setUserInformation }}
+      value={{
+        userInformation,
+        loading,
+        isPasswordVerified,
+        setIsPasswordVerified,
+        setUserInformation,
+      }}
     >
       {children}
     </UserContext.Provider>

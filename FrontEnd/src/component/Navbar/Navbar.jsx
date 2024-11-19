@@ -10,7 +10,6 @@ import SearchIcon from "../../images/SearchIcon.png";
 import Button from "../../Library/Button.jsx";
 import "./Navbar.css";
 import useNavBar from "../../hooks/useNavBar/useNavbar.jsx"; // עדכון הנתיב בהתאם למיקום החדש של useNavBar
-
 const NavBar = ({ onSearch }) => {
   const {
     isSun,
@@ -53,21 +52,6 @@ const NavBar = ({ onSearch }) => {
               Contact Us
             </Link>
           </li>
-          <li>
-            <Link className="link" to={"/selfie"}>
-              Selfie
-            </Link>
-          </li>
-          <li>
-            <Link className="link" to={"/your-album/:albumId"}>
-              your-album
-            </Link>
-          </li>
-          <li>
-            <Link className="link" to={"/all-albums"}>
-              all-albums
-            </Link>
-          </li>
 
           {/* הצגת Register למי שלא מחובר בלבד */}
           {!userInformation && (
@@ -84,27 +68,28 @@ const NavBar = ({ onSearch }) => {
               {userInformation.role === "user" && (
                 <>
                   <li>
-                    <Link className="link" to={"/packages"}>
-                      Packages
+                    <Link className="link" to={"/all-albums"}>
+                      all-albums
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" to={"/upload"}>
-                      Upload
+                    <Link className="link" to="/update-profile">
+                      Update Profile{" "}
                     </Link>
                   </li>
                 </>
               )}
               {userInformation.role === "business" && (
                 <>
+                  {" "}
                   <li>
-                    <Link className="link" to={"/bigpackages"}>
-                      BigPackages
+                    <Link className="link" to={"/all-albums"}>
+                      all-albums
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" to={"/upload"}>
-                      Upload
+                    <Link className="link" to="/update-profile">
+                      Update Profile{" "}
                     </Link>
                   </li>
                 </>
@@ -133,7 +118,7 @@ const NavBar = ({ onSearch }) => {
 
           {/* כפתור Logout רק למשתמשים מחוברים */}
           {userInformation && (
-            <li>
+            <li style={{ backgorund: "none" }}>
               <button className="link" onClick={handleLogout}>
                 Logout
               </button>
