@@ -27,12 +27,13 @@ const corsOptions = {
       : "http://localhost:3000",
   credentials: true, // נחוץ במידה ותשוב לשימוש ב-cookies בעתיד
 };
+
+app.options("*", cors(corsOptions)); // אפשרות לכל הבקשות
 app.use(morganMiddleware); // מורגן לוגינג
 // app.use(express.json({ limit: "50mb" }))
 // app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // חיבור דינמי ל-MongoDB
