@@ -4,7 +4,7 @@ import { useApiUrl } from "../../../hooks/ApiUrl/ApiProvider";
 import { UserContext } from "../../../hooks/UserHooks/userContextApp";
 import { useNavigate } from "react-router-dom";
 import styleAlbums from "./AllAlbums.module.css";
-
+import LoadingCamera from "../../../Library/LoadingCamera";
 const AllAlbums = () => {
   const apiUrl = useApiUrl();
   const { userInformation, loading } = useContext(UserContext);
@@ -86,7 +86,7 @@ const AllAlbums = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingCamera />; // שימוש בקומפוננטת טעינה
   }
 
   if (error) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./AllUsers.module.css";
 import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
+import LodingCamera from "../../Library/LoadingCamera"; // עדכן את הנתיב בהתאם למיקום הקובץ
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -17,9 +18,12 @@ const AllUsers = () => {
   }); // נתוני העריכה
 
   const apiUrl = useApiUrl(); // הגדר את כתובת ה-API שלך
+  const [loading, setLoading] = useState(false); // הוספנו מצב טעינה
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true); // התחל טעינה
+
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(`${apiUrl}/api/admin/users`, {
@@ -33,6 +37,8 @@ const AllUsers = () => {
           "Error fetching users:",
           error.response?.data || error.message
         );
+      } finally {
+        setLoading(false); // סיים טעינה
       }
     };
 
@@ -45,6 +51,8 @@ const AllUsers = () => {
       setSelectedUserForAlbums(null);
       setAlbums([]);
     } else {
+      setLoading(true); // התחל טעינה
+
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
@@ -62,6 +70,8 @@ const AllUsers = () => {
           "Error fetching albums:",
           error.response?.data || error.message
         );
+      } finally {
+        setLoading(false); // סיים טעינה
       }
     }
   };
@@ -94,6 +104,8 @@ const AllUsers = () => {
   };
 
   const handleSave = async () => {
+    setLoading(true); // התחל טעינה
+
     try {
       const token = localStorage.getItem("token");
       await axios.put(
@@ -116,9 +128,11 @@ const AllUsers = () => {
         "Error updating user:",
         error.response?.data || error.message
       );
+    } finally {
+      setLoading(false); // סיים טעינה
     }
   };
-
+  if (loading) return <LodingCamera />;
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>כל המשתמשים</h1>

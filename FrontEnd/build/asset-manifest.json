@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.f841d34d.css",
-    "main.js": "/static/js/main.b48572e8.js",
+    "main.js": "/static/js/main.25b43de6.js",
     "static/js/488.9c92ff38.chunk.js": "/static/js/488.9c92ff38.chunk.js",
     "static/media/Iphone 1 (1).svg": "/static/media/Iphone 1 (1).4aefb2158853c6cd32912bd1e5d46cb0.svg",
     "static/media/Face.svg": "/static/media/Face.8077a5e2c3f311b4eb68e576d0e735b8.svg",
@@ -20,11 +20,11 @@
     "static/media/Memoment.svg": "/static/media/Memoment.e88426673456f82661f9375bb7c4eac0.svg",
     "static/media/menu-svgrepo-com.svg": "/static/media/menu-svgrepo-com.22a05970d93e0f98250a9ec63d516662.svg",
     "main.f841d34d.css.map": "/static/css/main.f841d34d.css.map",
-    "main.b48572e8.js.map": "/static/js/main.b48572e8.js.map",
+    "main.25b43de6.js.map": "/static/js/main.25b43de6.js.map",
     "488.9c92ff38.chunk.js.map": "/static/js/488.9c92ff38.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f841d34d.css",
-    "static/js/main.b48572e8.js"
+    "static/js/main.25b43de6.js"
   ]
 }
