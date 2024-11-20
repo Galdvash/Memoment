@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useApiUrl } from "../hooks/ApiUrl/ApiProvider"; // ייבוא ה-hook לשימוש ב-apiUrl
-
+import styleForgotPass from "./ForgotPassword.module.css";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -21,19 +21,24 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-container">
-      <h2>שכחת את הסיסמה?</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="הכנס את כתובת המייל שלך"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <button type="submit">שלח קישור לאיפוס סיסמה</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className={styleForgotPass["forgot-password-container"]}>
+      <div className={styleForgotPass.warpper}>
+        <h2>Forgot Your Password ?</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Enter Your Email Here..."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className={styleForgotPass.input}
+          />
+          <button type="submit" className={styleForgotPass.button}>
+            Send Request To Verify Email{" "}
+          </button>
+        </form>
+        {message && <p className={styleForgotPass.message}>{message}</p>}
+      </div>
     </div>
   );
 };
