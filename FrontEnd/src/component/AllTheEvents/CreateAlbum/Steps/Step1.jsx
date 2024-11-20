@@ -123,7 +123,7 @@ const Step1 = ({
         {/* תמונה ראשית */}
         <div className={styleStepOne.formGroup}>
           <label htmlFor="coverImage" className={styleStepOne.formLabel}>
-            תמונה ראשית (לא חובה):
+            תמונה ראשית חובה !:
           </label>
           <input
             type="file"
