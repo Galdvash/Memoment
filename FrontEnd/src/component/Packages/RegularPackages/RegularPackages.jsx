@@ -1,14 +1,53 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../hooks/UserHooks/userContextApp";
+import axios from "axios";
+import { useApiUrl } from "../../../hooks/ApiUrl/ApiProvider";
 import checkedIMG from "../../../images/checked-tick-svgrepo-com 3.svg";
 import styles from "./RegularPackages.module.css";
 
 const RegularPackages = () => {
   const { userInformation } = useContext(UserContext);
+  const navigate = useNavigate();
+  const apiUrl = useApiUrl();
+  const [hasAlbum, setHasAlbum] = useState(false);
 
+  useEffect(() => {
+    const checkUserAlbums = async () => {
+      if (userInformation?.role === "user") {
+        try {
+          const response = await axios.get(`${apiUrl}/api/albums`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+
+          // אם יש לפחות אלבום אחד, עדכן את המצב
+          if (response.data.length > 0) {
+            setHasAlbum(true);
+          }
+        } catch (error) {
+          console.error("Error checking albums:", error);
+        }
+      }
+    };
+
+    checkUserAlbums();
+  }, [userInformation, apiUrl]);
+
+  // ניתוב למשתמשים רגילים שלא מורשים
   if (userInformation?.role !== "user") {
     return <p>Access Denied. This page is for regular users only.</p>;
   }
+
+  // אם למשתמש כבר יש אלבום
+  const handleNavigate = () => {
+    if (hasAlbum) {
+      navigate("/all-albums");
+    } else {
+      navigate("/CreateAlbum");
+    }
+  };
 
   return (
     <div className={styles.bodyPackages}>
@@ -38,7 +77,9 @@ const RegularPackages = () => {
                 <span>Unlimited guests</span>
               </div>
               <p>Include all your guests without limits.</p>
-              <button className={styles.btn}>Choose Package</button>
+              <button className={styles.btn} onClick={handleNavigate}>
+                Choose Package
+              </button>
             </div>
           </div>
 
@@ -59,7 +100,9 @@ const RegularPackages = () => {
                 <span>One year storage</span>
               </div>
               <p>Keep all your event memories safely stored for a year.</p>
-              <button className={styles.btn}>Choose Package</button>
+              <button className={styles.btn} onClick={handleNavigate}>
+                Choose Package
+              </button>
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
 
 const useUserApi = () => {
   const [isSignIn, setIsSignIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoginData, setIsLoginData] = useState({ email: "", password: "" });
   const [data, setIsData] = useState({
@@ -91,6 +92,7 @@ const useUserApi = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (await validate()) {
       try {
         const userData = { ...data };
@@ -111,12 +113,14 @@ const useUserApi = () => {
         toast.error(error.response?.data?.message || "Registration failed!");
       }
     }
+    setIsLoading(false);
   };
 
   const handleSubmit2 = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      // קבלת הטוקן
+      // שליחה לשרת לקבלת טוקן
       const loginResponse = await axios.post(
         `${apiUrl}/api/users/login`,
         isLoginData
@@ -124,41 +128,41 @@ const useUserApi = () => {
       const token = loginResponse.data.token;
       localStorage.setItem("token", token);
 
-      // קבלת מידע המשתמש
+      // שליפה של המידע על המשתמש מהשרת
       const userResponse = await axios.get(`${apiUrl}/api/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // שמירת ID המשתמש בלוקל סטורג'
-      localStorage.setItem("userId", userResponse.data._id);
-
+      // שמירת המידע על המשתמש בקונטקסט
       setUserInformation(userResponse.data);
+
+      // הודעת הצלחה וניווט לפי תפקיד
+      toast.success("Login successful!");
       setIsLoginData({ email: "", password: "" });
 
-      toast.success("Login successful!");
-
-      // בדיקת תפקיד המשתמש והפניה לעמוד המתאים
       if (userResponse.data.role === "user") {
         navigate("/regular-packages");
       } else if (userResponse.data.role === "business") {
         navigate("/packages");
-      } else {
-        toast.error("Unauthorized role!"); // במידה ותפקיד לא מוכר
+      } else if (userResponse.data.role === "admin") {
+        navigate("/admin");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");
     }
+    setIsLoading(false);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove token from localStorage
-    setUserInformation(null);
+    localStorage.removeItem("token"); // מחיקת הטוקן
+    setUserInformation(null); // איפוס המידע על המשתמש
     toast.success("Logged out successfully.");
     navigate("/login");
   };
 
   return {
     isSignIn,
+    isLoading,
     errors,
     data,
     isLoginData,

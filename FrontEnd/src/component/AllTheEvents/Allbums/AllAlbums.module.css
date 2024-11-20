@@ -1,0 +1,80 @@
+.container {
+  padding: 20px;
+}
+
+.heading {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.createButton {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.albumsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.albumCard {
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 220px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.coverImage {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.albumTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.albumDetails {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.viewButton,
+.faceRecognitionButton,
+.deleteButton {
+  padding: 8px 12px;
+  margin-top: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.viewButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.faceRecognitionButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.deleteButton {
+  background-color: red;
+  color: white;
+}

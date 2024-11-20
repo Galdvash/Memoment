@@ -2,34 +2,38 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styleAbout from "./About.module.css";
 import mediaAbout from "./Media.module.css";
-import circleIMG from "../../images/add_circle_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";
-import sendToMobileIMG from "../../images/send_to_mobile_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";
-import securityIMG from "../../images/security_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";
 import checkedIMG from "../../images/checked-tick-svgrepo-com 3.svg";
 import iphoneIMG from "../../images/Iphone 1 (1).svg";
-import faceIMG from "../../images/face_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 1.svg";
+import securityIMG from "../../images/Shield.svg";
+import faceIMG from "../../images/Face.svg";
+import circleIMG from "../../images/Plus.svg";
+import sendToMobileIMG from "../../images/Mobile.svg";
+import gradientIMG from "../../images/Ellipse 8 (2).svg";
 import { UserContext } from "../../hooks/UserHooks/userContextApp";
 const About = () => {
   const navigate = useNavigate();
   const { userInformation, loading } = useContext(UserContext);
   const handleNavigate = () => {
     if (userInformation) {
-      navigate("/CreateEvent");
+      navigate("/packages");
     } else {
       navigate("/register");
     }
   };
+
   if (loading) {
     return <p>Loading user information...</p>;
   }
   return (
-    <div className={` ${styleAbout.bodyAbout} ${mediaAbout.bodyAbout}`}>
+    <div
+      className={`bodyAbout ${styleAbout.bodyAbout} ${mediaAbout.bodyAbout}`}
+    >
       <div className={`${styleAbout.container} ${mediaAbout.container}`}>
         <header className={`${styleAbout.header} ${mediaAbout.header}`}>
           <div className={`${styleAbout.textBox} ${mediaAbout.textBox}`}>
             <h1>
               Make your event unforgettable <br /> with advanced facial
-              recognition.
+              recognition
             </h1>
             <p>
               Upload your event photos to a smart digital gallery, share it with
@@ -96,10 +100,10 @@ const About = () => {
             className={`${styleAbout.checkedList} ${mediaAbout.checkedList}`}
           >
             <div>
-              <img src={checkedIMG} alt=""></img> 99.4% accuracy
+              <img src={checkedIMG} alt=""></img> 99.4% Accuracy
             </div>
             <div>
-              <img src={checkedIMG} alt=""></img> All the information is secure.
+              <img src={checkedIMG} alt=""></img> All the information is secure
             </div>
             <div>
               <img src={checkedIMG} alt=""></img> Your guests will love you!
@@ -113,6 +117,11 @@ const About = () => {
           </button>
         </header>
       </div>
+      <img
+        className={`${styleAbout.gradientIMG} ${mediaAbout.gradientIMG}`}
+        src={gradientIMG}
+        alt="gradient"
+      />
       <aside className={`${styleAbout.asideIMG} ${mediaAbout.asideIMG}`}>
         <img
           className={`${styleAbout.iphoneIMG} ${mediaAbout.iphoneIMG}`}

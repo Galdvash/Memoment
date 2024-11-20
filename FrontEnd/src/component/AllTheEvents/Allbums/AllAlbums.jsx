@@ -3,6 +3,7 @@ import axios from "axios";
 import { useApiUrl } from "../../../hooks/ApiUrl/ApiProvider";
 import { UserContext } from "../../../hooks/UserHooks/userContextApp";
 import { useNavigate } from "react-router-dom";
+import styles from "./AllAlbums.module.css";
 
 const AllAlbums = () => {
   const apiUrl = useApiUrl();
@@ -32,17 +33,25 @@ const AllAlbums = () => {
     }
   }, [fetchAllAlbums, userInformation, loading]);
 
+  const handleCreateAlbum = () => {
+    if (userInformation?.role === "user" && albums.length > 0) {
+      alert(
+        "You can only create one album as a regular user. Upgrade your account to create more albums."
+      );
+      return;
+    }
+    navigate("/CreateAlbum");
+  };
+
   const handleViewAlbum = async (albumId) => {
     const viewedAlbums = JSON.parse(localStorage.getItem("viewedAlbums")) || [];
 
     if (!viewedAlbums.includes(albumId)) {
-      // הוסף את מזהה האלבום לרשימה המקומית
       localStorage.setItem(
         "viewedAlbums",
         JSON.stringify([...viewedAlbums, albumId])
       );
 
-      // שלח בקשה לשרת לצפייה באלבום
       try {
         await axios.get(`${apiUrl}/api/albums/${albumId}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -52,7 +61,6 @@ const AllAlbums = () => {
       }
     }
 
-    // הפנה את המשתמש לעמוד האלבום
     navigate(`/your-album/${albumId}`);
   };
 
@@ -85,98 +93,61 @@ const AllAlbums = () => {
     return <div>{error}</div>;
   }
 
-  if (!albums.length) {
-    return (
-      <div>
-        <h2>No albums found</h2>
-        <button onClick={() => navigate("/CreateAlbum")}>
-          Create New Album
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div>
-      <h2>All Your Albums</h2>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>All Your Albums</h2>
       <button
-        onClick={() => navigate("/CreateAlbum")}
-        style={{
-          marginBottom: "20px",
-          padding: "10px",
-          backgroundColor: "#4CAF50",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-        }}
+        className={styles.createButton}
+        onClick={handleCreateAlbum} // מניעת יצירת אלבום נוסף
       >
         Create New Album
       </button>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div className={styles.albumsGrid}>
         {albums.map((album) => (
-          <div
-            key={album._id}
-            style={{
-              margin: "10px",
-              border: "1px solid #ccc",
-              padding: "10px",
-              width: "200px",
-              textAlign: "center",
-            }}
-          >
+          <div key={album._id} className={styles.albumCard}>
             {album.coverImage && album.coverImage.data ? (
-              <div>
-                <img
-                  src={`data:${album.coverImage.contentType};base64,${album.coverImage.data}`}
-                  alt="Cover"
-                  style={{
-                    width: "150px",
-                    height: "150px",
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
+              <img
+                src={`data:${album.coverImage.contentType};base64,${album.coverImage.data}`}
+                alt="Cover"
+                className={styles.coverImage}
+              />
             ) : (
-              <p>No cover image available</p>
+              <p className={styles.noCoverText}>No cover image available</p>
             )}
-            <h3>{album.eventName}</h3>
-            <p>
+            <h3 className={styles.albumTitle}>{album.eventName}</h3>
+            <p className={styles.albumDetails}>
               <strong>Location:</strong> {album.location}
             </p>
-            <p>
+            <p className={styles.albumDetails}>
               <strong>Date:</strong> {new Date(album.date).toLocaleDateString()}
             </p>
-            <p>
+            <p className={styles.albumDetails}>
               <strong>Type:</strong> {album.eventType}
             </p>
-            <p>
+            <p className={styles.albumDetails}>
               <strong>Guests:</strong> {album.numberOfGuests || 0}
             </p>
-            <p>
+            <p className={styles.albumDetails}>
               <strong>Views:</strong> {album.views || 0}
             </p>
-            <p>
+            <p className={styles.albumDetails}>
               <strong>Privacy:</strong> {album.isPrivate ? "Private" : "Public"}
             </p>
-            <button onClick={() => handleViewAlbum(album._id)}>
+            <button
+              className={styles.viewButton}
+              onClick={() => handleViewAlbum(album._id)}
+            >
               View Album
             </button>
             <button
+              className={styles.faceRecognitionButton}
               onClick={() => navigate(`/selfie/${album._id}`)}
-              style={{ marginTop: "10px" }}
             >
               Face Recognition
             </button>
             <button
+              className={styles.deleteButton}
               onClick={() => handleDeleteAlbum(album._id)}
-              style={{
-                marginTop: "10px",
-                backgroundColor: "red",
-                color: "white",
-                border: "none",
-                cursor: "pointer",
-                padding: "5px 10px",
-              }}
             >
               Delete Album
             </button>

@@ -5,10 +5,12 @@ import "react-toastify/dist/ReactToastify.css";
 import useUserApi from "../../hooks/UserHooks/useUserApi";
 import "./Register.css";
 import "./RegisterMedia.css";
+import LoadingCamera from "../../Library/LoadingCamera";
 
 const SignInRegister = () => {
   const {
     isSignIn,
+    isLoading,
     errors,
     data,
     isLoginData,
@@ -20,7 +22,9 @@ const SignInRegister = () => {
     handleSubmit2,
     handlePasswordChange,
   } = useUserApi();
-
+  if (isLoading) {
+    return <LoadingCamera />;
+  }
   return (
     <div className="bodyRegister bodyAbout">
       <ToastContainer />

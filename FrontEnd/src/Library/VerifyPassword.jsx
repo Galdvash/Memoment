@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useApiUrl } from "../hooks/ApiUrl/ApiProvider";
 import styles from "./VerifyPassword.module.css";
-
 const VerifyPassword = ({ redirectPath }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);

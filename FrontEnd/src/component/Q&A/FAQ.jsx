@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./FAQ.module.css";
+import styless from "./FAQ.module.css";
 import faqData from "../../Library/faqData";
 
 const FAQ = () => {
@@ -10,15 +10,15 @@ const FAQ = () => {
   };
 
   return (
-    <div className={styles.faqContainer}>
-      <h2 className={styles.faqTitle}>שאלות ותשובות</h2>
-      <div className={styles.faqInnerContainer}>
-        <div className={styles.faqQuestions}>
+    <div className={styless.faqContainer}>
+      <h2 className={styless.faqTitle}>שאלות ותשובות</h2>
+      <div className={styless.faqInnerContainer}>
+        <div className={styless.faqQuestions}>
           {faqData.map((item) => (
             <div
               key={item.id}
-              className={`${styles.faqItem} ${
-                openFAQ === item.id ? styles.active : ""
+              className={`${styless.faqItem} ${
+                openFAQ === item.id ? styless.active : ""
               }`}
               onClick={() => toggleFAQ(item.id)}
             >
@@ -26,15 +26,15 @@ const FAQ = () => {
             </div>
           ))}
         </div>
-        <div className={styles.faqAnswers}>
+        <div className={styless.faqAnswers}>
           {faqData.map((item) => (
             <div
               key={item.id}
-              className={`${styles.faqAnswerContent} ${
-                openFAQ === item.id ? styles.show : ""
+              className={`${styless.faqAnswerContent} ${
+                openFAQ === item.id ? styless.show : ""
               }`}
             >
-              <h2 className={styles.faqAnswerTitle}>{item.title}</h2>
+              <h2 className={styless.faqAnswerTitle}>{item.title}</h2>
               <p>{item.answer}</p>
             </div>
           ))}

@@ -1,4 +1,3 @@
-// src/hooks/CreateAlbumHook/useCreateAlbum.js
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +10,7 @@ const useCreateAlbum = () => {
     date: "",
     eventType: "",
     isPrivate: false,
-    coverImage: null, // לוודא שהשדה קיים
+    coverImage: null,
     images: [],
     excelFile: null,
   });
@@ -21,17 +20,34 @@ const useCreateAlbum = () => {
   const apiUrl = useApiUrl();
   const token = localStorage.getItem("token");
 
-  // משתנים נוספים לניהול התקדמות
   const [progressWidth, setProgressWidth] = useState(0);
   const [currentStep, setCurrentStep] = useState(
     Number(localStorage.getItem("currentStep")) || 1
   );
-  const [completedSteps, setCompletedSteps] = useState([]);
+  const [completedSteps, setCompletedSteps] = useState(
+    JSON.parse(localStorage.getItem("completedSteps")) || []
+  );
   const steps = ["1", "2", "3"];
 
+  // עדכון רוחב פס ההתקדמות
+  useEffect(() => {
+    const width = ((currentStep - 1) / (steps.length - 1)) * 100;
+    setProgressWidth(width.toFixed(2));
+  }, [currentStep, steps.length]);
+
+  // שמירת מצב השלבים ב-Local Storage
+  useEffect(() => {
+    localStorage.setItem("completedSteps", JSON.stringify(completedSteps));
+    localStorage.setItem("currentStep", currentStep);
+  }, [completedSteps, currentStep]);
+
   const handleStart = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
-    setCompletedSteps((prevSteps) => [...prevSteps, currentStep]);
+    if (currentStep < steps.length) {
+      setCompletedSteps((prev) =>
+        [...new Set([...prev, currentStep])].sort((a, b) => a - b)
+      );
+      setCurrentStep((prevStep) => prevStep + 1);
+    }
   };
 
   const handleReset = () => {
@@ -44,18 +60,15 @@ const useCreateAlbum = () => {
       date: "",
       eventType: "",
       isPrivate: false,
-      coverImage: null, // לוודא שהשדה קיים
+      coverImage: null,
       images: [],
       excelFile: null,
     });
-    localStorage.removeItem("completedFormData");
     localStorage.removeItem("currentStep");
+    localStorage.removeItem("completedSteps");
+    localStorage.removeItem("completedFormData");
     setError(null);
   };
-
-  useEffect(() => {
-    setProgressWidth((currentStep / steps.length) * 100);
-  }, [currentStep, steps.length]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -69,7 +82,7 @@ const useCreateAlbum = () => {
     const file = e.target.files[0];
     setFormData((prev) => ({
       ...prev,
-      coverImage: file, // מעדכן את השדה coverImage
+      coverImage: file,
     }));
   };
 
@@ -77,37 +90,12 @@ const useCreateAlbum = () => {
     e.preventDefault();
     try {
       const formDataToSend = new FormData();
-
-      formDataToSend.append("eventName", formData.eventName);
-      formDataToSend.append("location", formData.location);
-      formDataToSend.append("date", formData.date);
-      formDataToSend.append("eventType", formData.eventType);
-      formDataToSend.append("isPrivate", formData.isPrivate);
-
-      if (formData.coverImage) {
-        formDataToSend.append("coverImage", formData.coverImage);
-      }
-
-      if (formData.images && formData.images.length > 0) {
-        formData.images.forEach((image) => {
-          formDataToSend.append("images", image);
-        });
-      }
-
-      if (formData.excelFile) {
-        formDataToSend.append("guestListFile", formData.excelFile);
-      }
-
-      // הוסף לוג לפני שליחת הבקשה
-      console.log("FormData to send:", {
-        eventName: formData.eventName,
-        location: formData.location,
-        date: formData.date,
-        eventType: formData.eventType,
-        isPrivate: formData.isPrivate,
-        images: formData.images,
-        excelFile: formData.excelFile,
-        coverImage: formData.coverImage,
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "images" && Array.isArray(value)) {
+          value.forEach((image) => formDataToSend.append("images", image));
+        } else {
+          formDataToSend.append(key, value);
+        }
       });
 
       const response = await axios.post(
@@ -121,37 +109,30 @@ const useCreateAlbum = () => {
         }
       );
 
-      const albumId =
-        response.data.albumId || response.data._id || response.data.id;
-      if (albumId) {
+      if (response.data?.albumId) {
         handleReset();
-        navigate(`/all-albums`);
-      } else {
-        console.error("No albumId found in response.");
-        setError("Failed to retrieve album ID from response.");
+        navigate("/all-albums");
       }
     } catch (error) {
-      console.error("Error creating album:", error.response || error);
-      setError(
-        error.response?.data?.message ||
-          "Failed to create album. Please try again."
-      );
+      setError(error.response?.data?.message || "Failed to create album.");
     }
   };
 
   return {
     formData,
-    error,
-    progressWidth,
+    setFormData,
     currentStep,
+    setCurrentStep,
     completedSteps,
+    setCompletedSteps,
+    progressWidth,
     steps,
     handleStart,
     handleReset,
     handleChange,
     handleCoverImageChange,
     handleSubmit,
-    setFormData,
+    error,
   };
 };
 

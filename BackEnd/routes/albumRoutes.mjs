@@ -10,6 +10,7 @@ import {
 } from "../controllers/albumController.mjs";
 import { protect } from "../middleware/authMiddleware.mjs";
 import uploadFields from "../middleware/uploadMiddleware.mjs";
+import { checkAlbumLimit } from "../middleware/albumLimitMiddleware.mjs";
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get("/", protect, getAllAlbums);
 router.get("/:albumId", protect, getAlbumById);
 
 // יצירת אלבום חדש
-router.post("/finalize", protect, uploadFields, createAlbum);
+router.post("/finalize", protect, checkAlbumLimit, uploadFields, createAlbum);
 
 // עדכון אלבום (ללא העלאת קבצים)
 router.put("/:albumId", protect, updateAlbumById);

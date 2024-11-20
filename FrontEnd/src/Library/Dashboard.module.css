@@ -1,37 +1,78 @@
 .dashboard {
   z-index: 100;
   width: 251px;
-  height: 91vh;
+  margin-top: 7px;
+  height: 90vh;
   background-color: rgba(34, 34, 34, 1);
   border-radius: 23px;
-  transition: transform 0.3s ease-in-out;
-  position: relative;
+  transition: all 0.7s ease-in-out;
+  position: fixed; /* שומר את התפריט תמיד באותו מקום */
+  left: 0;
+  /* מיקום מאונך */
   overflow: hidden;
 }
 
-.open {
+.dashboard.open {
   transform: translateX(0);
 }
 
-.closed {
-  transform: translateX(-200px); /* הסטת ה-Dashboard */
+.dashboard.closed {
+  transform: translateX(-200px); /* במקום לסגור עד הסוף */
+}
+
+.menuButton.rotate img {
+  transform: rotate(180deg);
 }
 
 .menuButton {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  position: fixed; /* קובע את הכפתור למיקום קבוע בפינה הימנית העליונה */
+  top: 10px;
+  right: 10px; /* מעביר את הכפתור לצד ימין */
   background: transparent;
   border: none;
+  padding: 0;
   cursor: pointer;
-  outline: none;
-  transition: transform 0.3s ease-in-out;
+  z-index: 101; /* שומר שהכפתור תמיד מעל */
 }
 
-.rotate {
-  transform: rotate(180deg);
+.menuIcon {
+  width: 30px;
+  height: 30px;
 }
 .content {
-  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   padding: 20px;
+}
+
+.navLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: #0056b3;
+}
+
+.icon {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.bottomLink {
+  margin-top: auto;
 }

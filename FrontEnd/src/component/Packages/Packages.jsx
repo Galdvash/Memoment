@@ -6,7 +6,7 @@ import stylePackages from "./Packages.module.css";
 const Packages = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/CreateEvent");
+    navigate("/CreateAlbum");
   };
 
   return (

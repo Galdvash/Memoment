@@ -79,21 +79,7 @@ const NavBar = ({ onSearch }) => {
                   </li>
                 </>
               )}
-              {userInformation.role === "business" && (
-                <>
-                  {" "}
-                  <li>
-                    <Link className="link" to={"/all-albums"}>
-                      all-albums
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="link" to="/update-profile">
-                      Update Profile{" "}
-                    </Link>
-                  </li>
-                </>
-              )}
+              {userInformation.role === "business" && <></>}
               {userInformation.role === "admin" && (
                 <>
                   <li>
@@ -116,16 +102,15 @@ const NavBar = ({ onSearch }) => {
             </>
           )}
 
-          {/* כפתור Logout רק למשתמשים מחוברים */}
-          {userInformation && (
-            <li style={{ backgorund: "none" }}>
-              <button className="link" onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
-          )}
-
           <div className="moveRight">
+            {/* כפתור Logout רק למשתמשים מחוברים */}
+            {userInformation && (
+              <li style={{ backgorund: "none" }}>
+                <button className="link" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            )}
             {!userInformation && (
               <Link className="link" to={"/register"}>
                 <Button />

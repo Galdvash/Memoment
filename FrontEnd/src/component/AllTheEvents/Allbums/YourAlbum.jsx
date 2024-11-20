@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useApiUrl } from "../../../hooks/ApiUrl/ApiProvider";
 import styles from "./YourAlbum.module.css";
-
+import Dashboard from "../../../Library/Dashboard";
 const YourAlbum = () => {
   const { albumId } = useParams();
   const apiUrl = useApiUrl();
@@ -112,6 +112,7 @@ const YourAlbum = () => {
 
   return (
     <div>
+      <Dashboard />
       <h2>{isEditing ? "עריכת אלבום" : album.eventName}</h2>
       {isEditing ? (
         <div className={styles.editForm}>

@@ -1,40 +1,65 @@
 .header {
-  width: 100%;
+  width: 100vw;
   height: 80px;
-  position: sticky;
+  position: relative; /* מאפשר child עם position:absolute או fixed */
   box-shadow: 0px 0px 10px #f7ded0;
   transition: background-color 0.8s, color 0.3s ease-out;
   z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-nav.container_nav {
-  display: flex;
-  margin-right: 52em;
+  justify-content: center; /* חלוקת המקום בין hamburger ל-link_list */
+  overflow: hidden; /* מונע גלישה של תוכן */
+  padding-right: 67rem;
 }
 
+.container_nav {
+  display: flex;
+}
 .link_list {
   display: flex;
-  align-items: baseline;
+  justify-content: center;
+  padding-left: 50px;
   list-style: none;
   background: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  z-index: 1000;
 }
+
 ul.link_list li {
   padding-left: 1rem;
 }
+
 .link {
+  position: relative;
   border: none;
   background-color: transparent;
   text-decoration: none;
   font-size: 18px;
+  color: #000; /* צבע ברירת מחדל */
 }
+
+.link:hover {
+  color: #ff1f35; /* צבע בעת hover */
+}
+
 .moveRight {
+  position: fixed; /* מיקום קבוע */
+  top: 10px; /* מרחק מהחלק העליון */
+  right: 10px; /* מרחק מהצד הימני */
   display: flex;
-  align-items: baseline;
-  position: fixed;
-  margin-left: 10px;
-  right: 0;
+  align-items: center;
+  list-style: none;
+  text-decoration: none;
+  background: #f5f5f5;
+  padding: 0 1rem;
+  border-radius: 10px;
+  box-shadow: 0px 5px 6px 0px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* מעל שאר האלמנטים */
+}
+
+.moveRight li {
+  padding: 0.5rem;
 }
 .link::after {
   content: "";
@@ -121,6 +146,7 @@ ul.link_list li {
     top: 80px;
     transition: transform 2s ease;
   }
+
   .link_list.open {
     box-shadow: 0px 5px 6px 0px #ffd3b9;
     display: flex;
@@ -129,9 +155,13 @@ ul.link_list li {
     position: absolute;
     left: 0;
   }
+
   .moveRight {
+    display: none;
+  }
+
+  .moveRight.open {
     display: flex;
-    position: static;
     margin-bottom: 7px;
   }
   .hamburger {

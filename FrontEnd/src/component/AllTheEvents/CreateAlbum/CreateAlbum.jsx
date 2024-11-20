@@ -1,7 +1,5 @@
-// src/components/AllTheEvents/CreateAlbum/CreateAlbum.jsx
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./CreateAlbum.module.css";
-import Dashboard from "../../../Library/Dashboard";
 import useCreateAlbum from "../../../hooks/CreateAlbumHook/useCreateAlbum";
 import Step1 from "./Steps/Step1";
 import Step2 from "./Steps/Step2";
@@ -10,23 +8,18 @@ import Step3 from "./Steps/Step3";
 const CreateAlbum = () => {
   const {
     formData,
-    error,
-    progressWidth,
+    setFormData,
     currentStep,
     completedSteps,
+    progressWidth,
     steps,
     handleStart,
     handleReset,
     handleChange,
     handleCoverImageChange,
     handleSubmit,
-    setFormData,
+    error,
   } = useCreateAlbum();
-
-  useEffect(() => {
-    localStorage.setItem("completedFormData", JSON.stringify(formData));
-    localStorage.setItem("currentStep", currentStep);
-  }, [formData, currentStep]);
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -34,20 +27,14 @@ const CreateAlbum = () => {
         return (
           <Step1
             formData={formData}
-            handleChange={handleChange} // העברת handleChange
-            handleCoverImageChange={handleCoverImageChange} // העברת handleFileChange
+            handleChange={handleChange}
+            handleCoverImageChange={handleCoverImageChange}
           />
         );
       case 2:
         return <Step2 formData={formData} setFormData={setFormData} />;
       case 3:
-        return (
-          <Step3
-            formData={formData}
-            setFormData={setFormData}
-            handleCreateAlbum={handleSubmit} // שימוש ב-handleSubmit
-          />
-        );
+        return <Step3 formData={formData} handleCreateAlbum={handleSubmit} />;
       default:
         return <div>Unknown Step</div>;
     }
@@ -55,22 +42,18 @@ const CreateAlbum = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Dashboard />
       <div className={styles.container}>
-        <h4 className={styles.header}>Connect The Dots</h4>
+        <h4 className={styles.header}>Create New Album</h4>
         <div className={styles.progressContainer}>
           <ul className={styles.progressList}>
-            {steps.map((stepItem, index) => (
+            {steps.map((step, index) => (
               <li
                 key={index}
                 className={`${styles.progressItem} ${
-                  index + 1 === currentStep ||
-                  completedSteps.includes(index + 1)
-                    ? styles.completed
-                    : ""
-                }`}
+                  completedSteps.includes(index + 1) ? styles.completed : ""
+                } ${currentStep === index + 1 ? styles.red : ""}`}
               >
-                {stepItem}
+                {step}
               </li>
             ))}
           </ul>
@@ -81,45 +64,21 @@ const CreateAlbum = () => {
         </div>
         <div>{renderStepContent()}</div>
         <div className={styles.buttonContainer}>
-          {currentStep < 3 && (
-            <div
-              className={styles.button}
-              onClick={handleStart}
-              style={{
-                backgroundColor: "#4CAF50",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
+          {currentStep < steps.length && (
+            <button className={styles.button} onClick={handleStart}>
               Next Step
-            </div>
+            </button>
           )}
-          {currentStep === 3 && (
-            <div
-              className={styles.button}
-              onClick={handleSubmit}
-              style={{
-                backgroundColor: "#ff1f35",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
+          {currentStep === steps.length && (
+            <button className={styles.button} onClick={handleSubmit}>
               Finish and Create Album
-            </div>
+            </button>
           )}
-          <div
-            className={`${styles.button} ${styles.resetButton}`}
-            onClick={handleReset}
-            style={{
-              backgroundColor: "#ccc",
-              color: "black",
-              cursor: "pointer",
-            }}
-          >
+          <button className={styles.resetButton} onClick={handleReset}>
             Reset
-          </div>
+          </button>
         </div>
-        {error && <p className={styles.error}>{error}</p>} {/* הצגת שגיאה */}
+        {error && <p className={styles.error}>{error}</p>}
       </div>
     </div>
   );

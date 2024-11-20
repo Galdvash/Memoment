@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import "./ResetPassword.css";
 import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider"; // ייבוא ה-hook לשימוש ב-apiUrl
 
 const ResetPassword = () => {

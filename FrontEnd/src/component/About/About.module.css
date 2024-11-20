@@ -1,24 +1,29 @@
 .bodyAbout {
-  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  padding-top: 2em;
-  height: auto;
+  height: 91.2vh;
+  overflow: hidden; /* מניעת גלילה */
+  position: relative; /* חיוני עבור clip-path */
 }
 
 .header {
   position: relative;
   display: flex;
   flex-direction: column;
+  padding-bottom: 10rem;
 }
 .textBox {
   h1 {
     font-size: 2.5em;
+    font-weight: 700;
+  }
+  p {
+    font-weight: 400;
   }
   h1,
   p {
+    padding-bottom: 1.5rem;
     max-width: 99%;
     text-align: left;
     text-wrap: balance;
@@ -35,10 +40,11 @@
   align-items: center;
   background-color: white;
   margin: 15px 11px 20px 33px;
-  width: 269px;
+  width: 320px;
   height: 105px;
   border-radius: 10px;
   position: relative;
+  padding: 3px;
 }
 .numbers {
   display: flex;
@@ -49,29 +55,26 @@
   color: white;
   border-radius: 50%;
   width: 41px;
-
   height: 41px;
   background-color: #042a2bff;
 }
 .img {
-  width: 26%;
-  padding-left: 0.3em;
-  padding-right: 0.3em;
+  padding-left: 1rem;
+  padding-right: 0.6rem;
 }
 
 .checkedList {
   display: flex;
-  align-items: center;
-  font-weight: bold;
-  padding-top: 10px;
-  img {
-    padding-inline: 2px;
+  div {
+    display: flex;
+    padding-right: 1.5rem;
+    font-weight: bold;
+    img {
+      padding-right: 0.4rem;
+    }
   }
 }
-.checkedList div {
-  display: flex;
-  margin-left: 10px;
-}
+
 .btn {
   background-color: #ff1f35;
   color: #ffffff;
@@ -83,5 +86,22 @@
   margin-top: 30px;
 }
 .asideIMG {
-  outline: 1px solid lime;
+  position: relative;
+  overflow-y: hidden; /* חותך תוכן מעבר לגבולות */
+}
+.asideIMG img {
+  width: 423px; /* מתאים לרוחב ההורה */
+  height: auto;
+  overflow: hidden;
+  max-height: 100%; /* מוודא שהתמונה לא תעבור את גובה המסך */
+  object-fit: cover; /* שומר על פרופורציות תוך כדי התאמה */
+  padding-top: 9.7rem;
+  z-index: 100;
+}
+.gradientIMG {
+  position: absolute;
+  z-index: 50;
+  right: 0;
+  top: 10em;
+  filter: blur(100px);
 }
