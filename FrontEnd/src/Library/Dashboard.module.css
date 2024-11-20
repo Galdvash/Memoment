@@ -1,14 +1,14 @@
 .dashboard {
   z-index: 100;
-  width: 251px;
+  width: 300px;
   margin-top: 7px;
-  height: 90vh;
+  height: 99.16778vh;
   background-color: rgba(34, 34, 34, 1);
   border-radius: 23px;
   transition: all 0.7s ease-in-out;
-  position: fixed; /* שומר את התפריט תמיד באותו מקום */
+  position: fixed;
   left: 0;
-  /* מיקום מאונך */
+
   overflow: hidden;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .dashboard.closed {
-  transform: translateX(-200px); /* במקום לסגור עד הסוף */
+  transform: translateX(-250px);
 }
 
 .menuButton.rotate img {
@@ -25,14 +25,14 @@
 }
 
 .menuButton {
-  position: fixed; /* קובע את הכפתור למיקום קבוע בפינה הימנית העליונה */
+  position: fixed;
   top: 10px;
-  right: 10px; /* מעביר את הכפתור לצד ימין */
+  right: 10px;
   background: transparent;
   border: none;
   padding: 0;
   cursor: pointer;
-  z-index: 101; /* שומר שהכפתור תמיד מעל */
+  z-index: 101;
 }
 
 .menuIcon {
@@ -75,4 +75,17 @@
 
 .bottomLink {
   margin-top: auto;
+}
+@media screen and (max-width: 450px) {
+  .dashboard {
+    z-index: 100;
+    width: 400px;
+  }
+  .dashboard.open {
+    transform: translateX(0px);
+  }
+
+  .dashboard.closed {
+    transform: translateX(-355px);
+  }
 }

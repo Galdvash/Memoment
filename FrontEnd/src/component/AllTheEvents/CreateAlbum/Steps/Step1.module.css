@@ -1,0 +1,59 @@
+.stepOneContainer {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.stepHeader {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: "Arial", sans-serif;
+}
+
+.stepForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formLabel {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.formInput,
+.formFileInput {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.formInput:focus,
+.formFileInput:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.errorInput {
+  border-color: #ff1f35; /* מסגרת אדומה לשדה לא תקין */
+}
+
+.errorMessage {
+  color: #ff1f35; /* צבע אדום להודעת השגיאה */
+  font-size: 12px;
+  margin-top: 1px;
+}

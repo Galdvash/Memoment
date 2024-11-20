@@ -15,7 +15,7 @@ const useCreateAlbum = () => {
     excelFile: null,
   });
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState([]);
   const navigate = useNavigate();
   const apiUrl = useApiUrl();
   const token = localStorage.getItem("token");
@@ -42,11 +42,34 @@ const useCreateAlbum = () => {
   }, [completedSteps, currentStep]);
 
   const handleStart = () => {
+    const isStepValid = () => {
+      switch (currentStep) {
+        case 1:
+          // בדוק רק שדות חובה בשלב 1
+          return formData.eventName && formData.location && formData.date;
+        case 2:
+          // בדוק אם העלו תמונות או קובץ אקסל (לא שניהם חובה)
+          return formData.images.length > 0 || formData.excelFile;
+        case 3:
+          // בדוק אם checkbox של פרטיות מסומן
+          return formData.isPrivate === true;
+        default:
+          return true;
+      }
+    };
+
+    if (!isStepValid()) {
+      setError(`Please complete all required fields for step ${currentStep}.`);
+      return;
+    }
+
+    // אם כל השדות הנדרשים מלאים, המשך לשלב הבא
     if (currentStep < steps.length) {
       setCompletedSteps((prev) =>
         [...new Set([...prev, currentStep])].sort((a, b) => a - b)
       );
       setCurrentStep((prevStep) => prevStep + 1);
+      setError(null); // נקה שגיאות במעבר מוצלח
     }
   };
 
@@ -90,14 +113,32 @@ const useCreateAlbum = () => {
     e.preventDefault();
     try {
       const formDataToSend = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key === "images" && Array.isArray(value)) {
-          value.forEach((image) => formDataToSend.append("images", image));
-        } else {
-          formDataToSend.append(key, value);
-        }
-      });
 
+      // שדות טקסטואליים
+      formDataToSend.append("eventName", formData.eventName);
+      formDataToSend.append("location", formData.location);
+      formDataToSend.append("date", formData.date);
+      formDataToSend.append("eventType", formData.eventType);
+      formDataToSend.append("isPrivate", formData.isPrivate);
+
+      // קובץ coverImage (אינו חובה)
+      if (formData.coverImage) {
+        formDataToSend.append("coverImage", formData.coverImage);
+      }
+
+      // קובץ guestListFile
+      if (formData.excelFile) {
+        formDataToSend.append("guestListFile", formData.excelFile);
+      }
+
+      // קבצים images
+      if (formData.images.length > 0) {
+        formData.images.forEach((image) => {
+          formDataToSend.append("images", image);
+        });
+      }
+
+      // בקשת POST לשרת
       const response = await axios.post(
         `${apiUrl}/api/albums/finalize`,
         formDataToSend,
@@ -109,11 +150,13 @@ const useCreateAlbum = () => {
         }
       );
 
+      // הצלחה
       if (response.data?.albumId) {
         handleReset();
         navigate("/all-albums");
       }
     } catch (error) {
+      console.error("Error submitting album:", error);
       setError(error.response?.data?.message || "Failed to create album.");
     }
   };

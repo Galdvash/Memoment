@@ -1,6 +1,6 @@
 // src/components/AllTheEvents/CreateEventSteps/Step3.jsx
 import React, { useEffect, useState } from "react";
-
+import styleStepThree from "./Step3.module.css";
 const Step3 = ({ formData, setFormData }) => {
   const [coverImageURL, setCoverImageURL] = useState(null);
 
@@ -27,11 +27,12 @@ const Step3 = ({ formData, setFormData }) => {
   };
 
   return (
-    <div>
-      <h2>שלב 3: סקירה ואישור</h2>
+    <div className={styleStepThree.stepThreeContainer}>
+      <h2 className={styleStepThree.stepHeader}>שלב 3: סקירה ואישור</h2>
 
-      <div>
-        <h3>פרטי האירוע</h3>
+      {/* פרטי האירוע */}
+      <div className={styleStepThree.eventDetails}>
+        <h3 className={styleStepThree.subHeader}>פרטי האירוע</h3>
         <p>
           <strong>שם האירוע:</strong> {formData.eventName}
         </p>
@@ -46,9 +47,10 @@ const Step3 = ({ formData, setFormData }) => {
         </p>
       </div>
 
-      <div>
-        <h3>הגדרות פרטיות</h3>
-        <label>
+      {/* הגדרות פרטיות */}
+      <div className={styleStepThree.privacySettings}>
+        <h3 className={styleStepThree.subHeader}>הגדרות פרטיות</h3>
+        <label className={styleStepThree.radioLabel}>
           <input
             type="radio"
             name="privacy"
@@ -58,7 +60,7 @@ const Step3 = ({ formData, setFormData }) => {
           />
           אלבום ציבורי
         </label>
-        <label style={{ marginLeft: "20px" }}>
+        <label className={styleStepThree.radioLabel}>
           <input
             type="radio"
             name="privacy"
@@ -70,22 +72,28 @@ const Step3 = ({ formData, setFormData }) => {
         </label>
       </div>
 
-      <div>
-        <h3>תמונת שער</h3>
+      {/* תמונת שער */}
+      <div className={styleStepThree.coverImageContainer}>
+        <h3 className={styleStepThree.subHeader}>תמונת שער</h3>
         {formData.albumImage && coverImageURL ? (
           <img
             src={coverImageURL}
             alt="Cover"
-            style={{ width: "150px", height: "150px", objectFit: "cover" }}
+            className={styleStepThree.coverImage}
           />
         ) : (
-          <p>לא נטענה תמונת שער</p>
+          <p className={styleStepThree.errorText}>לא נטענה תמונת שער</p>
         )}
       </div>
 
-      <div>
-        <h3>קובץ רשימת אורחים</h3>
-        {formData.excelFile && <p>{formData.excelFile.name}</p>}
+      {/* קובץ רשימת אורחים */}
+      <div className={styleStepThree.guestListContainer}>
+        <h3 className={styleStepThree.subHeader}>קובץ רשימת אורחים</h3>
+        {formData.excelFile ? (
+          <p className={styleStepThree.fileName}>{formData.excelFile.name}</p>
+        ) : (
+          <p className={styleStepThree.errorText}>לא נטען קובץ רשימת אורחים</p>
+        )}
       </div>
     </div>
   );

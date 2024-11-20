@@ -1,80 +1,128 @@
+/* קונטיינר ראשי */
 .container {
   padding: 20px;
+  background-color: #f9f9f9;
 }
 
+/* כותרת */
 .heading {
+  font-size: 2rem;
   text-align: center;
-  font-size: 24px;
   margin-bottom: 20px;
+  color: #333;
 }
 
+/* כפתור יצירת אלבום */
 .createButton {
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: #4caf50;
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
+.createButton:hover {
+  background-color: #0056b3;
+}
+
+/* גריד של האלבומים */
 .albumsGrid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
-  justify-content: center;
+  justify-items: center; /* ממרכז את הכרטיסים בגריד */
 }
 
+/* כרטיס אלבום */
 .albumCard {
-  border: 1px solid #ccc;
-  padding: 15px;
-  width: 220px;
-  text-align: center;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  width: 90%; /* רוחב הכרטיס */
+  text-align: center; /* ממרכז את הטקסט */
+}
+
+.albumCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* תמונה */
+.imageContainer {
+  position: relative;
+  width: 80%; /* רוחב התמונה */
+  margin: 0 auto;
+  top: -20px; /* מעלה את התמונה מעל הכרטיס */
+  z-index: 1;
 }
 
 .coverImage {
-  width: 180px;
-  height: 180px;
+  width: 100%;
+  height: auto;
   object-fit: cover;
-  margin-bottom: 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* קו דק מתחת לתמונה */
+.imageSeparator {
+  width: 100%;
+  height: 7px;
+  background-color: #007bff;
+  margin-top: -7px; /* מעלה את הקו כך שיתחבר לתמונה */
+  z-index: 0;
+}
+
+/* פרטי האלבום */
 .albumTitle {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 1.2rem;
   margin: 10px 0;
+  color: #333;
 }
 
 .albumDetails {
-  font-size: 14px;
-  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #555;
+  margin: 5px 0;
 }
 
+/* כפתורי פעולה */
 .viewButton,
-.faceRecognitionButton,
 .deleteButton {
-  padding: 8px 12px;
-  margin-top: 10px;
+  display: inline-block;
+  width: 45%;
+  margin: 10px 2.5%;
+  padding: 8px 0;
+  font-size: 1rem;
+  text-align: center;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 .viewButton {
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
 }
 
-.faceRecognitionButton {
-  background-color: #6c757d;
-  color: white;
+.viewButton:hover {
+  background-color: #218838;
 }
 
 .deleteButton {
-  background-color: red;
+  background-color: #dc3545;
   color: white;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
 }

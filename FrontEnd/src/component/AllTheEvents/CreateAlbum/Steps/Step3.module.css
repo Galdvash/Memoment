@@ -1,4 +1,4 @@
-/* מיכל ראשי */
+/* מיכל הראשי */
 .step2Container {
   display: flex;
   flex-direction: column;
@@ -14,15 +14,12 @@
   font-size: 2rem;
   margin-bottom: 20px;
   color: #333;
-  text-align: center;
 }
 
 /* מיכל הכרטיסים */
 .uploadContainer {
   display: flex;
-  gap: 20px; /* רווח בין הכרטיסים */
-  flex-wrap: wrap; /* תמיכה ברספונסיביות */
-  justify-content: center;
+  gap: 20px;
 }
 
 /* כרטיס */
@@ -36,11 +33,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* אפקט מעבר חלק */
-  position: relative;
+  transition: all 0.3s ease;
 }
 
-/* כרטיס שנבחר */
+/* אנימציה לבחירה */
 .cardSelected {
   background-color: #e0f7fa; /* רקע כחול בהיר */
   transform: scale(1.05); /* הגדלה קלה */
@@ -69,31 +65,49 @@
 
 /* הודעת הצלחה */
 .successMessage {
-  color: #2e7d32; /* ירוק להצלחה */
-  font-size: 1rem;
-  margin-top: 10px;
-  animation: fadeIn 0.5s ease;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50; /* ירוק להצלחה */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: fadeInOut 1.5s ease;
 }
 
 /* אנימציית fade-in */
-@keyframes fadeIn {
-  from {
+@keyframes fadeInOut {
+  0% {
     opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
   }
-  to {
+  10% {
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
   }
 }
 
-/* קלט קובץ מוסתר */
+/* קלט קובץ */
 .fileInput {
   display: none;
 }
 
-/* כפתור העלאה */
 .uploadButton {
   padding: 10px 20px;
-  background-color: #007bff; /* כחול לכפתור */
+  background-color: #007bff;
   color: white;
   font-size: 1rem;
   border: none;

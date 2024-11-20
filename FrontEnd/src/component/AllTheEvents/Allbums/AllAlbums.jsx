@@ -3,7 +3,7 @@ import axios from "axios";
 import { useApiUrl } from "../../../hooks/ApiUrl/ApiProvider";
 import { UserContext } from "../../../hooks/UserHooks/userContextApp";
 import { useNavigate } from "react-router-dom";
-import styles from "./AllAlbums.module.css";
+import styleAlbums from "./AllAlbums.module.css";
 
 const AllAlbums = () => {
   const apiUrl = useApiUrl();
@@ -94,59 +94,51 @@ const AllAlbums = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.heading}>All Your Albums</h2>
-      <button
-        className={styles.createButton}
-        onClick={handleCreateAlbum} // מניעת יצירת אלבום נוסף
-      >
+    <div className={styleAlbums.container}>
+      <h2 className={styleAlbums.heading}>All Your Albums</h2>
+      <button className={styleAlbums.createButton} onClick={handleCreateAlbum}>
         Create New Album
       </button>
-      <div className={styles.albumsGrid}>
+      <div className={styleAlbums.albumsGrid}>
         {albums.map((album) => (
-          <div key={album._id} className={styles.albumCard}>
-            {album.coverImage && album.coverImage.data ? (
-              <img
-                src={`data:${album.coverImage.contentType};base64,${album.coverImage.data}`}
-                alt="Cover"
-                className={styles.coverImage}
-              />
-            ) : (
-              <p className={styles.noCoverText}>No cover image available</p>
-            )}
-            <h3 className={styles.albumTitle}>{album.eventName}</h3>
-            <p className={styles.albumDetails}>
-              <strong>Location:</strong> {album.location}
-            </p>
-            <p className={styles.albumDetails}>
+          <div key={album._id} className={styleAlbums.albumCard}>
+            {/* תמונה עם עיצוב ייחודי */}
+            <div className={styleAlbums.imageContainer}>
+              {album.coverImage && album.coverImage.data ? (
+                <img
+                  src={`data:${album.coverImage.contentType};base64,${album.coverImage.data}`}
+                  alt="Cover"
+                  className={styleAlbums.coverImage}
+                />
+              ) : (
+                <p className={styleAlbums.noCoverText}>
+                  No cover image available
+                </p>
+              )}
+              <p className={styleAlbums.locationText}>{album.location}</p>
+            </div>
+            {/* פרטי האלבום */}
+            <h3 className={styleAlbums.albumTitle}>{album.eventName}</h3>
+            <p className={styleAlbums.albumDetails}>
               <strong>Date:</strong> {new Date(album.date).toLocaleDateString()}
             </p>
-            <p className={styles.albumDetails}>
+            <p className={styleAlbums.albumDetails}>
               <strong>Type:</strong> {album.eventType}
             </p>
-            <p className={styles.albumDetails}>
+            <p className={styleAlbums.albumDetails}>
               <strong>Guests:</strong> {album.numberOfGuests || 0}
             </p>
-            <p className={styles.albumDetails}>
+            <p className={styleAlbums.albumDetails}>
               <strong>Views:</strong> {album.views || 0}
             </p>
-            <p className={styles.albumDetails}>
-              <strong>Privacy:</strong> {album.isPrivate ? "Private" : "Public"}
-            </p>
             <button
-              className={styles.viewButton}
+              className={styleAlbums.viewButton}
               onClick={() => handleViewAlbum(album._id)}
             >
               View Album
             </button>
             <button
-              className={styles.faceRecognitionButton}
-              onClick={() => navigate(`/selfie/${album._id}`)}
-            >
-              Face Recognition
-            </button>
-            <button
-              className={styles.deleteButton}
+              className={styleAlbums.deleteButton}
               onClick={() => handleDeleteAlbum(album._id)}
             >
               Delete Album

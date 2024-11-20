@@ -73,7 +73,7 @@ const AppRoutes = ({ searchQuery }) => {
       navigate("/register");
     }
   }, [userInformation, navigate, location.pathname]);
-  const pathsWithoutDashboard = ["/packages"];
+  const pathsWithoutDashboard = ["/", "/packages", "/FAQ"];
 
   // תנאי להצגת ה-Dashboard
   const shouldShowDashboard =
