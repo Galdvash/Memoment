@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import morganMiddleware from "./middleware/morganMiddleware.mjs";
-import routes from "./routes/index.mjs";
+import routes from "./appRout.mjs";
 import errorHandler from "./middleware/errorHandler.mjs";
 import bodyParser from "body-parser";
+import adminRoutes from "./routes/adminRoutes.mjs";
 
 dotenv.config();
 
@@ -18,8 +19,8 @@ const corsOptions = {
       ? "https://memoment.netlify.app"
       : "http://localhost:3000",
   credentials: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  allowedHeaders: "Content-Type,Authorization",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization", "role"],
 };
 
 // הפעלת CORS
@@ -32,6 +33,7 @@ app.use(morganMiddleware);
 // Body parsing
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(bodyParser.json());
 
 // חיבור ל-MongoDB
 const connectDB = async () => {
@@ -51,6 +53,8 @@ const connectDB = async () => {
 connectDB();
 
 // Routes
+app.use("/api/admin", adminRoutes);
+
 app.use("/api", routes);
 
 // Handle undefined routes

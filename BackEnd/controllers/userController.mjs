@@ -12,43 +12,55 @@ const generateToken = (id, role) => {
 
 // רישום משתמש חדש
 export const registerUser = async (req, res) => {
-  const { error } = registerValidation(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
+  try {
+    const { name, email, password, phoneNumber, role } = req.body;
 
-  const { name, email, password, phoneNumber, isBusiness } = req.body;
+    // בדיקות לשדות חובה
+    if (!name || !email || !password || !phoneNumber) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-  // בדיקת האם האימייל כבר קיים
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    return res.status(400).json({ message: "Email already exists" });
-  }
+    // בדיקת פורמט המספר
+    if (!/^0\d{9}$/.test(phoneNumber)) {
+      return res.status(400).json({ message: "Invalid phone number format" });
+    }
 
-  // בדיקת האם מספר הטלפון כבר קיים
-  if (phoneNumber) {
+    // בדיקת תקינות role (אם לא נשלח, נשתמש בברירת מחדל "user")
+    const validRoles = ["user", "business", "admin"];
+    const userRole = role && validRoles.includes(role) ? role : "user";
+
+    // בדיקה אם האימייל כבר קיים
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    // בדיקה אם מספר הטלפון כבר קיים
     const phoneExists = await User.findOne({ phoneNumber });
     if (phoneExists) {
       return res.status(400).json({ message: "Phone number already exists" });
     }
+
+    // יצירת סיסמה מוצפנת
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // יצירת משתמש חדש
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      phoneNumber,
+      role: userRole, // תפקיד המשתמש
+    });
+
+    await user.save();
+
+    res.status(201).json({ message: "User registered successfully", user });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ message: "Server error" });
   }
-
-  // יצירת סיסמה מוצפנת
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  const role = isBusiness ? "business" : "user";
-
-  // יצירת משתמש חדש
-  const user = new User({
-    name,
-    email,
-    phoneNumber: phoneNumber || null, // אם אין מספר טלפון, שמור אותו כ-null
-    password: hashedPassword,
-    role,
-  });
-
-  await user.save();
-  res.status(201).json({ message: "User registered successfully" });
 };
 
 // התחברות משתמש
@@ -95,12 +107,6 @@ export const getMe = asyncHandler(async (req, res) => {
   } else {
     res.status(200).json({ message: "Visitor access - no user data" });
   }
-});
-
-// קבלת כל המשתמשים (רק למנהלים)
-export const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await User.find().select("-password");
-  res.status(200).json(users);
 });
 
 // עדכון אימייל המשתמש

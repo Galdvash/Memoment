@@ -1,7 +1,7 @@
 // hooks/UserHooks/userContextApp.js
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
+import { useApiUrl } from "../ApiUrl/ApiProvider";
 
 export const UserContext = createContext();
 

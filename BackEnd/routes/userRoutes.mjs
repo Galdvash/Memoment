@@ -5,7 +5,6 @@ import {
   loginUser,
   logoutUser,
   getMe,
-  getAllUsers,
   updateEmail,
   updatePassword,
   updateName,
@@ -22,7 +21,6 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 router.get("/me", protect, getMe);
-router.get("/users", protect, getAllUsers);
 
 // נתיבים נוספים
 router.put("/update-email", protect, updateEmail);

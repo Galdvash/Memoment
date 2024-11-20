@@ -1,15 +1,23 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import useNavBar from "../hooks/useNavBar/useNavbar"; // ייבוא הפונקציות מ-useNavBar
 import { UserContext } from "../hooks/UserHooks/userContextApp";
 import albumsIMG from "../images/albumsIMG.svg";
 import settingIMG from "../images/settingIMG.svg";
 import dashboardIMG from "../images/dashboardIMG.svg";
-import LoadingCamera from "./LoadingCamera";
+import sandboxIMG from "../images/sandboxIMG.svg";
+import packagesIMG from "../images/packagesIMG.svg";
+import adminDashboardIMG from "../images/dashboardIMG.svg";
+import memomentIMG from "../images/Memoment.svg";
+import LoadingCamera from "../Library/LoadingCamera";
+import logoutIMG from "../images/logoutIMG.svg"; // אייקון חדש ל-Logout
 import stylesDashboard from "./Dashboard.module.css";
-
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { userInformation, loading } = useContext(UserContext);
+
+  // שימוש ב-useNavBar לייבוא handleLogout
+  const { handleLogout } = useNavBar();
 
   const toggleDashboard = () => {
     setIsOpen(!isOpen);
@@ -52,6 +60,7 @@ const Dashboard = () => {
       {isOpen && (
         <div className={stylesDashboard.content}>
           <nav className={stylesDashboard.navLinks}>
+            {/* לינקים גלובאליים */}
             <Link to="/all-albums" className={stylesDashboard.link}>
               <img
                 src={albumsIMG}
@@ -60,17 +69,94 @@ const Dashboard = () => {
               />
               <span>All Albums</span>
             </Link>
-          </nav>
-          <div className={stylesDashboard.bottomLink}>
             <Link to="/update-profile" className={stylesDashboard.link}>
               <img
                 src={settingIMG}
-                alt="Settings"
+                alt="Update User"
                 className={stylesDashboard.icon}
               />
               <span>Update User</span>
             </Link>
-          </div>
+
+            {/* לינקים לביזנס */}
+            {userInformation.role === "business" && (
+              <>
+                <Link to="/" className={stylesDashboard.link}>
+                  <img
+                    src={memomentIMG}
+                    alt="MeMoment"
+                    className={stylesDashboard.icon}
+                  />
+                  <span>MeMoment</span>
+                </Link>
+              </>
+            )}
+
+            {/* לינקים למנהל */}
+            {userInformation.role === "admin" && (
+              <>
+                <Link to="/admin/users" className={stylesDashboard.link}>
+                  <img
+                    src={adminDashboardIMG}
+                    alt="Admin Dashboard"
+                    className={stylesDashboard.icon}
+                  />
+                  <span>Admin Dashboard</span>
+                </Link>
+                <Link to="/" className={stylesDashboard.link}>
+                  <img
+                    src={memomentIMG}
+                    alt="MeMoment"
+                    className={stylesDashboard.icon}
+                  />
+                  <span>MeMoment</span>
+                </Link>
+                <Link to="/bigpackages" className={stylesDashboard.link}>
+                  <img
+                    src={packagesIMG}
+                    alt="Big Packages"
+                    className={stylesDashboard.icon}
+                  />
+                  <span>Big Packages</span>
+                </Link>
+                <Link to="/packages" className={stylesDashboard.link}>
+                  <img
+                    src={packagesIMG}
+                    alt="Packages"
+                    className={stylesDashboard.icon}
+                  />
+                  <span>Packages</span>
+                </Link>
+                <Link to="/sandbox" className={stylesDashboard.link}>
+                  <img
+                    src={sandboxIMG}
+                    alt="Sandbox"
+                    className={stylesDashboard.icon}
+                  />
+                  <span>Sandbox</span>
+                </Link>
+              </>
+            )}
+          </nav>
+
+          {/* כפתור Logout */}
+          {userInformation && (
+            <Link
+              to="/register"
+              className={stylesDashboard.link}
+              onClick={(e) => {
+                e.preventDefault(); // מונע את הפעולה הדיפולטיבית של ה-Link
+                handleLogout();
+              }}
+            >
+              <img
+                src={logoutIMG}
+                alt="Logout"
+                className={stylesDashboard.icon}
+              />
+              <span>Logout</span>
+            </Link>
+          )}
         </div>
       )}
     </div>

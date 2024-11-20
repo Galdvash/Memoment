@@ -182,7 +182,13 @@ const YourAlbum = () => {
             {album.photos && album.photos.length > 0 ? (
               <div className={styles.photoGallery}>
                 {album.photos.map((photo, index) => (
-                  <div key={index} className={styles.photoContainer}>
+                  <div
+                    key={index}
+                    className={styles.photoContainer}
+                    style={{
+                      gridRowEnd: `span ${Math.floor(Math.random() * 3) + 2}`,
+                    }}
+                  >
                     <img
                       src={photo.src}
                       alt={`Album  ${index + 1}`}

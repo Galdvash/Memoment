@@ -16,6 +16,10 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
 /*! react */
 
+/*! sheetjs (C) 2013-present SheetJS -- http://sheetjs.com */
+
+/*! xlsx.js (C) 2013-present SheetJS -- http://sheetjs.com */
+
 /*!******************************!*\
       !*** ./src/react-webcam.tsx ***!
       \******************************/

@@ -1,4 +1,3 @@
-// src/AppRoutes.jsx
 import React, { useContext, useEffect } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import About from "./component/About/About";
@@ -18,8 +17,8 @@ import VerifyPassword from "./Library/VerifyPassword.jsx";
 import ForgotPassword from "./component/ForgotPassword.jsx";
 import ResetPassword from "./component/ResetPassword/ResetPassword.jsx";
 import Dashboard from "./Library/Dashboard";
-
 import { UserContext } from "./hooks/UserHooks/userContextApp";
+import AlllUsers from "./component/Admin/AllUsers.jsx";
 
 const allowedPaths = [
   "/",
@@ -37,6 +36,7 @@ const allowedPaths = [
   "/matched-images/:albumId/:userId",
   "/forgot-password",
   "/reset-password/:token",
+  "/admin/users",
 ];
 
 // פונקציה לבדיקה אם הנתיב מותר
@@ -68,18 +68,34 @@ const AppRoutes = ({ searchQuery }) => {
 
     // בדיקת הרשאות לכל הנתיבים שאינם ב-allowedPaths
     if (userInformation && !isAllowed) {
-      navigate("/CreateAlbum");
+      if (userInformation.role === "admin") {
+        navigate("/admin/users");
+      } else if (userInformation.role === "business") {
+        navigate("/all-albums");
+      } else {
+        navigate("/CreateAlbum");
+      }
     } else if (!userInformation && !isAllowed) {
       navigate("/register");
     }
   }, [userInformation, navigate, location.pathname]);
-  const pathsWithoutDashboard = ["/", "/packages", "/FAQ"];
+
+  const pathsWithoutDashboard = ["/", "/FAQ", "/regular-packages"];
 
   // תנאי להצגת ה-Dashboard
   const shouldShowDashboard =
     userInformation?.role &&
-    (userInformation.role === "admin" || userInformation.role === "business") &&
+    userInformation.role === "admin" &&
     !pathsWithoutDashboard.includes(location.pathname);
+
+  useEffect(() => {
+    if (
+      userInformation?.role === "business" &&
+      location.pathname === "/packages"
+    ) {
+      navigate("/all-albums"); // ניתוב לדף אחר אם צריך
+    }
+  }, [userInformation, location.pathname, navigate]);
 
   return (
     <div>
@@ -120,6 +136,9 @@ const AppRoutes = ({ searchQuery }) => {
         {/* סיסמאות */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        {/* אדמין */}
+
+        <Route path="/admin/users" element={<AlllUsers />} />
       </Routes>
     </div>
   );

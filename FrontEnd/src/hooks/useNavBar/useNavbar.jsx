@@ -1,9 +1,9 @@
 // src/hooks/useNavBar.js
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ThemeContext } from "../../hooks/DarkMode/DarkModeContext";
-import { UserContext } from "../../hooks/UserHooks/userContextApp";
-import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
+import { ThemeContext } from "../DarkMode/DarkModeContext";
+import { UserContext } from "../UserHooks/userContextApp";
+import { useApiUrl } from "../ApiUrl/ApiProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
 

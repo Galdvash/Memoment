@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useApiUrl } from "../../hooks/ApiUrl/ApiProvider";
 import styles from "./EditUser.module.css";
 
 const EditUser = () => {
@@ -9,13 +10,19 @@ const EditUser = () => {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("");
   const navigate = useNavigate();
+  const apiUrl = useApiUrl(); // שימוש ב-API URL
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`/api/admin/users/${userId}/details`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const response = await axios.get(
+          `${apiUrl}/admin/users/${userId}/details`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setUser(response.data.user);
         setRole(response.data.user.role);
       } catch (error) {
@@ -26,12 +33,12 @@ const EditUser = () => {
     };
 
     fetchUser();
-  }, [userId]);
+  }, [apiUrl, userId]);
 
   const handleSave = async () => {
     try {
       await axios.put(
-        `/api/admin/users/${userId}/role`,
+        `${apiUrl}/admin/users/${userId}/role`,
         { role },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -43,7 +50,7 @@ const EditUser = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className={styles.loading}>Loading...</div>;
 
   return (
     <div className={styles.editUser}>

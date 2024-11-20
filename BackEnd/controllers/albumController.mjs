@@ -1,6 +1,6 @@
+import mongoose from "mongoose";
 import Album from "../models/albumModel.mjs";
 import { processGuestList } from "../controllers/excelController.mjs";
-import mongoose from "mongoose";
 
 export const createAlbum = async (req, res) => {
   try {
