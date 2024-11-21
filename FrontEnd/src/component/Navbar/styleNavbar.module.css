@@ -10,7 +10,6 @@
   overflow: visible; /* מאפשר אלמנטים לצאת מגבולות ההורה */
   z-index: 1000; /* שכבה גבוהה */
   padding-right: 54em;
-  outline: 1px solid lime;
 }
 
 .hamburger {
@@ -64,7 +63,6 @@
   right: 50px;
   z-index: 1500;
   gap: 1rem; /* ריווח בין האייקונים */
-  outline: 1px solid lime;
 }
 
 .moveRight img {
