@@ -4,82 +4,145 @@
   position: relative; /* מאפשר child עם position:absolute או fixed */
   box-shadow: 0px 0px 10px #f7ded0;
   transition: background-color 0.8s, color 0.3s ease-out;
-  z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: center; /* חלוקת המקום בין hamburger ל-link_list */
-  overflow: hidden; /* מונע גלישה של תוכן */
-  padding-right: 67rem;
+  justify-content: space-between; /* ריווח בין הלינקים והאייקונים */
+  overflow: visible; /* מאפשר אלמנטים לצאת מגבולות ההורה */
+  z-index: 1000; /* שכבה גבוהה */
 }
 
 .container_nav {
   display: flex;
+  align-items: center;
+  width: 100%;
 }
+
+.hamburger {
+  display: none; /* מוסתרת במסכים רחבים */
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  z-index: 2000; /* מעל שאר האלמנטים */
+}
+
+.menuIcon {
+  width: 35px;
+  height: 35px;
+  filter: drop-shadow(0px 1px 10px #9f7aea);
+}
+
 .link_list {
-  display: flex;
+  display: flex; /* מוצג כברירת מחדל במסכים רחבים */
   justify-content: center;
-  padding-left: 50px;
+  align-items: center;
   list-style: none;
-  background: #f5f5f5;
+  background: none; /* ביטול רקע */
   margin: 0;
   padding: 0;
-  z-index: 1000;
+  z-index: 1500;
+  gap: 1.5rem; /* ריווח בין הלינקים */
+  flex-direction: row; /* תצוגה לרוחב */
+}
+
+.link_list.open {
+  flex-direction: column; /* הופך לקולום במסכים קטנים */
 }
 
 ul.link_list li {
-  padding-left: 1rem;
+  padding: 1rem;
+  text-align: center;
 }
 
 .link {
   position: relative;
-  border: none;
-  background-color: transparent;
   text-decoration: none;
   font-size: 18px;
-  color: #000; /* צבע ברירת מחדל */
+  color: #000;
 }
 
 .link:hover {
-  color: #ff1f35; /* צבע בעת hover */
+  color: #ff1f35;
 }
 
+/* הגדרות moveRight */
 .moveRight {
-  position: fixed; /* מיקום קבוע */
-  top: 10px; /* מרחק מהחלק העליון */
-  right: 10px; /* מרחק מהצד הימני */
-  display: flex;
+  display: flex; /* תמיד מוצג במסכים רחבים */
   align-items: center;
   list-style: none;
-  text-decoration: none;
-  background: #f5f5f5;
-  padding: 0 1rem;
-  border-radius: 10px;
-  box-shadow: 0px 5px 6px 0px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* מעל שאר האלמנטים */
+  background: none; /* ביטול רקע */
+  padding: 0;
+  margin: 0;
+  z-index: 1500;
+  gap: 1rem; /* ריווח בין האייקונים */
 }
 
-.moveRight li {
-  padding: 0.5rem;
+.moveRight img {
+  width: 30px; /* גודל אחיד לאייקונים */
+  height: 30px;
+  cursor: pointer;
 }
-.link::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 50%;
-  width: 0;
-  height: 1.8px;
-  background-color: #543310;
-  box-shadow: 0px 0px 7px #f7eebf;
-  transition: width 0.2s ease-in-out, left 0.2s ease-in-out;
+
+.searchIcon {
+  border-radius: 50%;
+  background-color: turquoise;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
 }
-.link:hover::after {
-  width: 100%;
-  left: 0;
+
+.searchIcon:hover {
+  opacity: 1;
 }
+
+.moon_sun_icon {
+  margin: 0;
+}
+/* עיצוב למסכים קטנים */
+@media screen and (max-width: 1255px) {
+  .hamburger {
+    display: flex; /* הצגת ההמבורגר במסכים קטנים */
+  }
+
+  .link_list {
+    display: none; /* מוסתרת במסכים קטנים כברירת מחדל */
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: #f5f5f5;
+    z-index: 1500;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  .link_list.open {
+    display: flex; /* פתיחת התפריט */
+  }
+
+  .moveRight {
+    display: none; /* מוסתרת במסכים קטנים */
+  }
+
+  .moveRight.open {
+    display: flex; /* מצטרף ל-link_list */
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    width: 100%; /* תופס את כל הרוחב */
+    background: #f5f5f5; /* רקע אחיד */
+  }
+
+  .moveRight img {
+    margin: 10px auto; /* מרכז את האייקונים */
+  }
+}
+
+/* עיצוב ה-searchIcon */
 .searchBar {
   position: relative;
   left: 10px;
 }
+
 .searchInput {
   border: 1px solid #ccc;
   border-radius: 50px;
@@ -89,6 +152,7 @@ ul.link_list li {
   height: 35px;
   transition: width 0.5s ease;
 }
+
 .searchInput::placeholder {
   position: absolute;
   bottom: 0.67em;
@@ -109,6 +173,7 @@ ul.link_list li {
   opacity: 0.5;
   transition: left 0.5s ease;
 }
+
 .searchIcon:hover {
   opacity: 1;
 }
@@ -120,59 +185,4 @@ ul.link_list li {
 .searchIconMoved {
   transition: left 0.5s ease;
   left: 83%;
-}
-
-.moon_sun_icon {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  position: relative;
-  top: 11px;
-  margin-right: 17px;
-  z-index: 2000;
-  filter: drop-shadow(0px 0px 2px rgba(255, 255, 255, 1));
-}
-.hamburger {
-  display: none;
-}
-
-@media screen and (max-width: 1255px) {
-  .logo {
-    left: 90px;
-  }
-  .link_list {
-    display: none;
-    flex-direction: column;
-    top: 80px;
-    transition: transform 2s ease;
-  }
-
-  .link_list.open {
-    box-shadow: 0px 5px 6px 0px #ffd3b9;
-    display: flex;
-    z-index: 2000;
-    width: 100vw;
-    position: absolute;
-    left: 0;
-  }
-
-  .moveRight {
-    display: none;
-  }
-
-  .moveRight.open {
-    display: flex;
-    margin-bottom: 7px;
-  }
-  .hamburger {
-    display: flex;
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    cursor: pointer;
-    z-index: 2000;
-    color: #9f7aea;
-    filter: drop-shadow(0px 1px 10px #9f7aea);
-    background: none;
-  }
 }

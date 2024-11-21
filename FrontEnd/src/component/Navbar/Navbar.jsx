@@ -102,7 +102,7 @@ const NavBar = ({ onSearch }) => {
             </>
           )}
 
-          <div className="moveRight">
+          <div className={`moveRight ${isMenuOpen ? "open" : ""}`}>
             {/* כפתור Logout רק למשתמשים מחוברים */}
             {userInformation && (
               <li style={{ backgorund: "none" }}>
