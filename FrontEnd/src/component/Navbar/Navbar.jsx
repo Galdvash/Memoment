@@ -7,7 +7,6 @@ import MenuIcon from "../../images/menu-svgrepo-com.svg";
 import SunIcon from "../../images/Sunny.png";
 import MoonIcon from "../../images/Moon.png";
 import SearchIcon from "../../images/SearchIcon.png";
-import Button from "../../Library/Button.jsx";
 import styleNavbar from "./styleNavbar.module.css";
 
 import useNavBar from "../../hooks/useNavBar/useNavbar.jsx"; // עדכון הנתיב בהתאם למיקום החדש של useNavBar
@@ -132,7 +131,7 @@ const NavBar = ({ onSearch }) => {
             )}
             {!userInformation && (
               <Link className={styleNavbar.link} to={"/register"}>
-                <Button />
+                CreatEvent
               </Link>
             )}
             <li>

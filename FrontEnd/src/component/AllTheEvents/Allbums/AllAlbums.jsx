@@ -143,6 +143,12 @@ const AllAlbums = () => {
             >
               Delete Album
             </button>
+            <button
+              className={styleAlbums.selfieButton}
+              onClick={() => navigate(`/selfie/${album._id}`)}
+            >
+              Face Recognition
+            </button>
           </div>
         ))}
       </div>

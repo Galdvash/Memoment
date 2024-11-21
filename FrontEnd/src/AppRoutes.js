@@ -101,6 +101,9 @@ const AppRoutes = ({ searchQuery }) => {
     <div>
       {shouldShowDashboard && <Dashboard />}
       <Routes>
+        {/* אדמין */}
+
+        <Route path="/admin/users" element={<AlllUsers />} />
         {/* נתיבים כלליים */}
         <Route path="/" element={<About />} />
         <Route path="/FAQ" element={<FAQ />} />
@@ -136,9 +139,6 @@ const AppRoutes = ({ searchQuery }) => {
         {/* סיסמאות */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        {/* אדמין */}
-
-        <Route path="/admin/users" element={<AlllUsers />} />
       </Routes>
     </div>
   );

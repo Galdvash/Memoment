@@ -9,6 +9,8 @@ import faceIMG from "../../images/Face.svg";
 import circleIMG from "../../images/Plus.svg";
 import sendToMobileIMG from "../../images/Mobile.svg";
 import gradientIMG from "../../images/Ellipse 8 (2).svg";
+import LodingCamera from "../../Library/LoadingCamera"; // עדכן את הנתיב בהתאם למיקום הקובץ
+
 import { UserContext } from "../../hooks/UserHooks/userContextApp";
 const About = () => {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const About = () => {
   };
 
   if (loading) {
-    return <p>Loading user information...</p>;
+    return <LodingCamera />;
   }
   return (
     <div
