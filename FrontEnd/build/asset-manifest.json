@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.2b99ec73.css",
-    "main.js": "/static/js/main.72688311.js",
+    "main.css": "/static/css/main.e1d2e40f.css",
+    "main.js": "/static/js/main.d52216bd.js",
     "static/js/488.9c92ff38.chunk.js": "/static/js/488.9c92ff38.chunk.js",
     "static/media/Iphone 1 (1).svg": "/static/media/Iphone 1 (1).4aefb2158853c6cd32912bd1e5d46cb0.svg",
     "static/media/Face.svg": "/static/media/Face.8077a5e2c3f311b4eb68e576d0e735b8.svg",
@@ -19,12 +19,12 @@
     "static/media/albumsIMG.svg": "/static/media/albumsIMG.0730ebf948c8f02c88ebc4d7f97fe174.svg",
     "static/media/Memoment.svg": "/static/media/Memoment.e88426673456f82661f9375bb7c4eac0.svg",
     "static/media/menu-svgrepo-com.svg": "/static/media/menu-svgrepo-com.22a05970d93e0f98250a9ec63d516662.svg",
-    "main.2b99ec73.css.map": "/static/css/main.2b99ec73.css.map",
-    "main.72688311.js.map": "/static/js/main.72688311.js.map",
+    "main.e1d2e40f.css.map": "/static/css/main.e1d2e40f.css.map",
+    "main.d52216bd.js.map": "/static/js/main.d52216bd.js.map",
     "488.9c92ff38.chunk.js.map": "/static/js/488.9c92ff38.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2b99ec73.css",
-    "static/js/main.72688311.js"
+    "static/css/main.e1d2e40f.css",
+    "static/js/main.d52216bd.js"
   ]
 }

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import useNavBar from "../hooks/useNavBar/useNavbar"; // ייבוא הפונקציות מ-useNavBar
+import { Link, useNavigate } from "react-router-dom";
+import useNavBar from "../hooks/useNavBar/useNavbar";
 import { UserContext } from "../hooks/UserHooks/userContextApp";
 import albumsIMG from "../images/albumsIMG.svg";
 import settingIMG from "../images/settingIMG.svg";
@@ -10,25 +10,28 @@ import packagesIMG from "../images/packagesIMG.svg";
 import adminDashboardIMG from "../images/dashboardIMG.svg";
 import memomentIMG from "../images/Memoment.svg";
 import LoadingCamera from "../Library/LoadingCamera";
-import logoutIMG from "../images/logoutIMG.svg"; // אייקון חדש ל-Logout
+import logoutIMG from "../images/logoutIMG.svg";
 import stylesDashboard from "./Dashboard.module.css";
+
+export const handleGlobalNavigation = (navigate, setIsOpen, targetPath) => {
+  setIsOpen(false); // Close the dashboard
+  navigate(targetPath); // Navigate to the target path
+};
+
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate();
   const { userInformation, loading } = useContext(UserContext);
-
-  // שימוש ב-useNavBar לייבוא handleLogout
   const { handleLogout } = useNavBar();
 
   const toggleDashboard = () => {
     setIsOpen(!isOpen);
   };
 
-  // אם המידע עדיין בטעינה, מציג מסך טעינה
   if (loading) {
     return <LoadingCamera />;
   }
 
-  // אם המשתמש אינו מסוג "business" או "admin", לא מציג את ה-Dashboard
   if (
     userInformation?.role !== "business" &&
     userInformation?.role !== "admin"
@@ -42,7 +45,6 @@ const Dashboard = () => {
         isOpen ? stylesDashboard.open : stylesDashboard.closed
       }`}
     >
-      {/* כפתור תפריט */}
       <button
         className={`${stylesDashboard.menuButton} ${
           !isOpen ? stylesDashboard.rotate : ""
@@ -56,12 +58,17 @@ const Dashboard = () => {
         />
       </button>
 
-      {/* תוכן התפריט */}
       {isOpen && (
         <div className={stylesDashboard.content}>
           <nav className={stylesDashboard.navLinks}>
-            {/* לינקים גלובאליים */}
-            <Link to="/all-albums" className={stylesDashboard.link}>
+            <Link
+              to="/all-albums"
+              className={stylesDashboard.link}
+              onClick={(e) => {
+                e.preventDefault();
+                handleGlobalNavigation(navigate, setIsOpen, "/all-albums");
+              }}
+            >
               <img
                 src={albumsIMG}
                 alt="Albums"
@@ -69,7 +76,14 @@ const Dashboard = () => {
               />
               <span>All Albums</span>
             </Link>
-            <Link to="/update-profile" className={stylesDashboard.link}>
+            <Link
+              to="/update-profile"
+              className={stylesDashboard.link}
+              onClick={(e) => {
+                e.preventDefault();
+                handleGlobalNavigation(navigate, setIsOpen, "/update-profile");
+              }}
+            >
               <img
                 src={settingIMG}
                 alt="Update User"
@@ -78,24 +92,34 @@ const Dashboard = () => {
               <span>Update User</span>
             </Link>
 
-            {/* לינקים לביזנס */}
             {userInformation.role === "business" && (
-              <>
-                <Link to="/" className={stylesDashboard.link}>
-                  <img
-                    src={memomentIMG}
-                    alt="MeMoment"
-                    className={stylesDashboard.icon}
-                  />
-                  <span>MeMoment</span>
-                </Link>
-              </>
+              <Link
+                to="/"
+                className={stylesDashboard.link}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleGlobalNavigation(navigate, setIsOpen, "/");
+                }}
+              >
+                <img
+                  src={memomentIMG}
+                  alt="MeMoment"
+                  className={stylesDashboard.icon}
+                />
+                <span>MeMoment</span>
+              </Link>
             )}
 
-            {/* לינקים למנהל */}
             {userInformation.role === "admin" && (
               <>
-                <Link to="/admin/users" className={stylesDashboard.link}>
+                <Link
+                  to="/admin/users"
+                  className={stylesDashboard.link}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleGlobalNavigation(navigate, setIsOpen, "/admin/users");
+                  }}
+                >
                   <img
                     src={adminDashboardIMG}
                     alt="Admin Dashboard"
@@ -103,15 +127,14 @@ const Dashboard = () => {
                   />
                   <span>Admin Dashboard</span>
                 </Link>
-                <Link to="/" className={stylesDashboard.link}>
-                  <img
-                    src={memomentIMG}
-                    alt="MeMoment"
-                    className={stylesDashboard.icon}
-                  />
-                  <span>MeMoment</span>
-                </Link>
-                <Link to="/bigpackages" className={stylesDashboard.link}>
+                <Link
+                  to="/packages"
+                  className={stylesDashboard.link}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleGlobalNavigation(navigate, setIsOpen, "/packages");
+                  }}
+                >
                   <img
                     src={packagesIMG}
                     alt="Big Packages"
@@ -119,15 +142,16 @@ const Dashboard = () => {
                   />
                   <span>Big Packages</span>
                 </Link>
-                <Link to="/packages" className={stylesDashboard.link}>
-                  <img
-                    src={packagesIMG}
-                    alt="Packages"
-                    className={stylesDashboard.icon}
-                  />
-                  <span>Packages</span>
-                </Link>
-                <Link to="/sandbox" className={stylesDashboard.link}>
+
+                <Link
+                  to="/sandbox"
+                  className={stylesDashboard.link}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const path = e.currentTarget.getAttribute("href");
+                    handleGlobalNavigation(navigate, setIsOpen, path);
+                  }}
+                >
                   <img
                     src={sandboxIMG}
                     alt="Sandbox"
@@ -139,14 +163,14 @@ const Dashboard = () => {
             )}
           </nav>
 
-          {/* כפתור Logout */}
           {userInformation && (
             <Link
               to="/register"
               className={stylesDashboard.link}
               onClick={(e) => {
-                e.preventDefault(); // מונע את הפעולה הדיפולטיבית של ה-Link
+                e.preventDefault();
                 handleLogout();
+                handleGlobalNavigation(navigate, setIsOpen, "/register");
               }}
             >
               <img

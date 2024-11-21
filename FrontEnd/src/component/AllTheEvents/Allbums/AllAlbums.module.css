@@ -126,3 +126,16 @@
 .deleteButton:hover {
   background-color: #c82333;
 }
+.selfieButton {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.selfieButton:hover {
+  background-color: #0056b3;
+}
