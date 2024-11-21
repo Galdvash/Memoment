@@ -1,5 +1,5 @@
 .header {
-  width: 100vw;
+  width: 100%;
   height: 80px;
   position: relative; /* מאפשר child עם position:absolute או fixed */
   box-shadow: 0px 0px 10px #f7ded0;
@@ -10,6 +10,7 @@
   overflow: visible; /* מאפשר אלמנטים לצאת מגבולות ההורה */
   z-index: 1000; /* שכבה גבוהה */
   padding-right: 54em;
+  outline: 1px solid lime;
 }
 
 .hamburger {
@@ -63,6 +64,7 @@
   right: 50px;
   z-index: 1500;
   gap: 1rem; /* ריווח בין האייקונים */
+  outline: 1px solid lime;
 }
 
 .moveRight img {
@@ -99,8 +101,7 @@
 
 .searchIcon {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 7em;
   width: 35px;
   height: 35px;
   border-radius: 50px;
@@ -118,7 +119,7 @@
 
 .searchIconMoved {
   transition: left 0.5s ease;
-  left: 83%;
+  left: 76.4%;
 }
 
 .moon_sun_icon {

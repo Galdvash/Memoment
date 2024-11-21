@@ -53,10 +53,10 @@ p {
   color: var(--PColor_LightMode);
 }
 
-nav.container_nav,
+/* nav.container_nav,
 .link_list.open {
-  background-color: var(--NavbarColor_LightMode);
-}
+  background-color:;
+} */
 
 .link {
   color: #575757;

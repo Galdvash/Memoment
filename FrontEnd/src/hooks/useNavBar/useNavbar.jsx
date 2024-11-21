@@ -61,6 +61,8 @@ const useNavBar = (onSearch) => {
     handleLogout,
     toggleMenu,
     handleSearchInputChange,
+    setIsMenuOpen,
+
     userInformation, // החזר את userInformation כדי לשמור על השימוש הנוכחי בקומפוננטה
   };
 };

@@ -8,7 +8,8 @@ import SunIcon from "../../images/Sunny.png";
 import MoonIcon from "../../images/Moon.png";
 import SearchIcon from "../../images/SearchIcon.png";
 import Button from "../../Library/Button.jsx";
-import "./Navbar.css";
+import styleNavbar from "./styleNavbar.module.css";
+
 import useNavBar from "../../hooks/useNavBar/useNavbar.jsx"; // עדכון הנתיב בהתאם למיקום החדש של useNavBar
 const NavBar = ({ onSearch }) => {
   const {
@@ -17,64 +18,76 @@ const NavBar = ({ onSearch }) => {
     isExpanded,
     searchQuery,
     isMenuOpen,
+    setIsMenuOpen,
     handleSearchIconClick,
     handleLogout,
     toggleMenu,
     handleSearchInputChange,
     userInformation,
   } = useNavBar(onSearch);
-
+  const handleLinkClick = (e) => {
+    if (e.target.tagName === "A" || e.target.tagName === "BUTTON") {
+      setIsMenuOpen(false); // סגור את ה-Navbar
+    }
+  };
   return (
-    <header className="header">
-      <nav className={`container_nav ${isSun ? "dark" : "light"}`}>
-        <div className="hamburger" onClick={toggleMenu}>
+    <header className={styleNavbar.header}>
+      <nav
+        className={`${styleNavbar.container_nav} ${
+          isSun ? styleNavbar.dark : styleNavbar.light
+        }`}
+      >
+        <div className={styleNavbar.hamburger} onClick={toggleMenu}>
           <img
             src={MenuIcon}
             alt="Menu"
-            className="menuIcon"
+            className={styleNavbar.menuIcon}
             style={{ width: "33px", height: "35px" }}
           />
         </div>
 
-        <ul className={`link_list ${isMenuOpen ? "open" : ""}`}>
+        <ul
+          onClick={(e) => handleLinkClick(e)}
+          className={`${styleNavbar.link_list} ${
+            isMenuOpen ? styleNavbar.open : ""
+          }`}
+        >
           <li>
-            <Link className="link" to={"/"}>
+            <Link className={styleNavbar.link} to={"/"}>
               <b style={{ fontFamily: "Inter, sans-serif" }}>MeMoment</b>
             </Link>
           </li>
           <li>
-            <Link className="link" to={"/FAQ"}>
+            <Link className={styleNavbar.link} to={"/FAQ"}>
               Q&A
             </Link>
           </li>
           <li>
-            <Link className="link" to={"/"}>
+            <Link className={styleNavbar.link} to={"/"}>
               Contact Us
             </Link>
           </li>
 
-          {/* הצגת Register למי שלא מחובר בלבד */}
           {!userInformation && (
             <li>
-              <Link className="link" to={"/register"}>
+              <Link className={styleNavbar.link} to={"/register"}>
                 Register
               </Link>
             </li>
           )}
 
-          {/* Links for different user roles */}
           {userInformation && (
             <>
               {userInformation.role === "user" && (
                 <>
                   <li>
-                    <Link className="link" to={"/all-albums"}>
+                    <Link className={styleNavbar.link} to={"/all-albums"}>
                       all-albums
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" to="/update-profile">
-                      Update Profile{" "}
+                    <Link className={styleNavbar.link} to="/update-profile">
+                      Update Profile
                     </Link>
                   </li>
                 </>
@@ -83,17 +96,17 @@ const NavBar = ({ onSearch }) => {
               {userInformation.role === "admin" && (
                 <>
                   <li>
-                    <Link className="link" to={"/bigpackages"}>
+                    <Link className={styleNavbar.link} to={"/bigpackages"}>
                       BigPackages
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" to={"/packages"}>
+                    <Link className={styleNavbar.link} to={"/packages"}>
                       Packages
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" to={"/sandbox"}>
+                    <Link className={styleNavbar.link} to={"/sandbox"}>
                       Sandbox
                     </Link>
                   </li>
@@ -102,25 +115,33 @@ const NavBar = ({ onSearch }) => {
             </>
           )}
 
-          <div className={`moveRight ${isMenuOpen ? "open" : ""}`}>
-            {/* כפתור Logout רק למשתמשים מחוברים */}
+          <div
+            className={`${styleNavbar.moveRight} ${
+              isMenuOpen ? styleNavbar.open : ""
+            }`}
+          >
             {userInformation && (
-              <li style={{ backgorund: "none" }}>
-                <button className="link" onClick={handleLogout}>
+              <li>
+                <button
+                  className={styleNavbar.btnLogOut}
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
               </li>
             )}
             {!userInformation && (
-              <Link className="link" to={"/register"}>
+              <Link className={styleNavbar.link} to={"/register"}>
                 <Button />
               </Link>
             )}
             <li>
-              <div className="searchBar">
+              <div className={styleNavbar.searchBar}>
                 <input
                   className={
-                    isExpanded ? "expanded searchInput" : "searchInput"
+                    isExpanded
+                      ? `${styleNavbar.expanded} ${styleNavbar.searchInput}`
+                      : styleNavbar.searchInput
                   }
                   type="text"
                   placeholder="Search Your Card..."
@@ -132,7 +153,9 @@ const NavBar = ({ onSearch }) => {
                   alt="Search Icon"
                   onClick={handleSearchIconClick}
                   className={
-                    isExpanded ? "searchIcon searchIconMoved" : "searchIcon"
+                    isExpanded
+                      ? `${styleNavbar.searchIcon} ${styleNavbar.searchIconMoved}`
+                      : styleNavbar.searchIcon
                   }
                 />
               </div>
@@ -142,7 +165,7 @@ const NavBar = ({ onSearch }) => {
                 src={isSun ? SunIcon : MoonIcon}
                 alt="Theme Toggle Icon"
                 onClick={handleIconClick}
-                className="moon_sun_icon"
+                className={styleNavbar.moon_sun_icon}
               />
             </li>
           </div>

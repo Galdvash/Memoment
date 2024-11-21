@@ -1,7 +1,8 @@
 @media screen and (max-width: 1400px) {
   .header {
-    margin-right: 10px;
-    margin-left: 10px;
+    padding-top: 10em;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 @media screen and (max-width: 955px) {
