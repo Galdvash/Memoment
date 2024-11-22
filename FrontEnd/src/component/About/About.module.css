@@ -1,19 +1,18 @@
 .bodyAbout {
+  position: relative;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 91.2vh;
-  overflow-y: hidden; /* מניעת גלילה */
-  position: relative; /* חיוני עבור clip-path */
 }
 .container {
-  width: 100%;
+  display: flex;
+  padding-top: 5em;
 }
 .header {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-bottom: 10rem;
 }
 .textBox {
   h1 {
