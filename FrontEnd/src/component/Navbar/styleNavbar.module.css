@@ -1,5 +1,4 @@
 .header {
-  width: 100%;
   height: 80px;
   position: relative; /* מאפשר child עם position:absolute או fixed */
   box-shadow: 0px 0px 10px #f7ded0;
@@ -125,6 +124,9 @@
 }
 /* עיצוב למסכים קטנים */
 @media screen and (max-width: 1255px) {
+  .header {
+    padding-right: 1em;
+  }
   .hamburger {
     display: flex; /* הצגת ההמבורגר במסכים קטנים */
   }
@@ -212,5 +214,79 @@
   .searchIconMoved {
     transition: left 0.5s ease;
     left: 83%;
+  }
+}
+@media screen and (max-width: 861px) {
+  .header {
+  }
+}
+@media screen and (max-width: 650px) {
+  .header {
+    height: 60px; /* Allow the height to adapt to content */
+    padding-right: 1em; /* Reduce padding for better fit */
+  }
+
+  .hamburger {
+    display: flex; /* Ensure the hamburger menu is visible */
+    justify-content: center; /* Center it horizontally */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .link_list {
+    display: none; /* Hidden by default */
+    flex-direction: column; /* Stack links vertically */
+    position: absolute;
+    top: 60px; /* Adjust below header */
+    left: 0;
+    width: 100%; /* Full screen width */
+    background-color: #fff; /* White background for contrast */
+    z-index: 1000;
+    gap: 1rem; /* Add spacing between links */
+    padding: 1em 0; /* Add padding for better spacing */
+  }
+
+  .link_list.open {
+    display: flex; /* Show links when menu is open */
+  }
+
+  .link {
+    font-size: 16px; /* Adjust font size for mobile */
+    color: #000; /* Ensure links remain visible */
+    text-align: center; /* Center align text */
+  }
+
+  .moveRight {
+    display: none; /* Hide right-side icons on smaller screens */
+  }
+
+  .btnLogOut {
+    font-size: 14px; /* Smaller button text */
+    padding: 0.5em 1em; /* Adjust padding */
+  }
+
+  .searchBar {
+    display: flex;
+    flex-direction: row; /* Inline layout for search bar */
+    align-items: center;
+    /* Add padding for better appearance */
+  }
+
+  .searchInput {
+    width: 70%; /* Adjust input width for mobile */
+    font-size: 14px; /* Adjust font size */
+  }
+
+  .searchIcon {
+    position: absolute;
+    left: 0;
+    width: 25px; /* Smaller icon size */
+    height: 25px;
+  }
+
+  .moon_sun_icon {
+    width: 25px; /* Smaller icon size */
+    height: 25px;
   }
 }

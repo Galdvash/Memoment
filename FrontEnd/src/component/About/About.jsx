@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import styleAbout from "./About.module.css";
-import mediaAbout from "./Media.module.css";
+import { UserContext } from "../../hooks/UserHooks/userContextApp";
 import checkedIMG from "../../images/checked-tick-svgrepo-com 3.svg";
 import iphoneIMG from "../../images/Iphone 1 (1).svg";
 import securityIMG from "../../images/Shield.svg";
@@ -9,9 +8,10 @@ import faceIMG from "../../images/Face.svg";
 import circleIMG from "../../images/Plus.svg";
 import sendToMobileIMG from "../../images/Mobile.svg";
 import gradientIMG from "../../images/Ellipse 8 (2).svg";
-import LodingCamera from "../../Library/LoadingCamera"; // עדכן את הנתיב בהתאם למיקום הקובץ
+import LodingCamera from "../../Library/LoadingCamera";
+import styleAbout from "./About.module.css";
+import mediaAbout from "./Media.module.css";
 
-import { UserContext } from "../../hooks/UserHooks/userContextApp";
 const About = () => {
   const navigate = useNavigate();
   const { userInformation, loading } = useContext(UserContext);
@@ -124,13 +124,11 @@ const About = () => {
         src={gradientIMG}
         alt="gradient"
       />
-      <aside className={`${styleAbout.asideIMG} ${mediaAbout.asideIMG}`}>
-        <img
-          className={`${styleAbout.iphoneIMG} ${mediaAbout.iphoneIMG}`}
-          src={iphoneIMG}
-          alt=""
-        />
-      </aside>
+      <img
+        className={`${styleAbout.iphoneIMG} ${mediaAbout.iphoneIMG}`}
+        src={iphoneIMG}
+        alt=""
+      />
     </div>
   );
 };
