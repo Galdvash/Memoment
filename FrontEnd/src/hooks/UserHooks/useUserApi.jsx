@@ -155,9 +155,9 @@ const useUserApi = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // מחיקת הטוקן
-    setUserInformation(null); // איפוס המידע על המשתמש
-    toast.success("Logged out successfully.");
-    navigate("/login");
+    setUserInformation(null); // איפוס הסטייט של המשתמש בקונטקסט
+    toast.success("Logged out successfully."); // הודעת הצלחה
+    navigate("/"); // ניתוב למסך הבית
   };
 
   return {

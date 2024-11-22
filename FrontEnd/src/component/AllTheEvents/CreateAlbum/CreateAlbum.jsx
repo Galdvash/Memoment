@@ -1,7 +1,6 @@
 // src/components/AllTheEvents/CreateAlbum/CreateAlbum.jsx
 import React, { useEffect } from "react";
 import styles from "./CreateAlbum.module.css";
-import Dashboard from "../../../Library/Dashboard";
 import useCreateAlbum from "../../../hooks/CreateAlbumHook/useCreateAlbum";
 import Step1 from "./Steps/Step1";
 import Step2 from "./Steps/Step2";
@@ -57,7 +56,6 @@ const CreateAlbum = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Dashboard />
       <div className={styles.container}>
         <h4 className={styles.header}>Create New</h4>
         <div className={styles.progressContainer}>

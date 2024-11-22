@@ -33,8 +33,8 @@ const Dashboard = () => {
   }
 
   if (
-    userInformation?.role !== "business" &&
-    userInformation?.role !== "admin"
+    !userInformation ||
+    (userInformation.role !== "business" && userInformation.role !== "admin")
   ) {
     return null;
   }

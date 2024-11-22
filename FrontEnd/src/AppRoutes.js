@@ -3,7 +3,6 @@ import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import About from "./component/About/About";
 import FAQ from "./component/Q&A/FAQ.jsx";
 import Register from "./component/Register/Register";
-import EventImageUpload from "./component/Momentimg/EventImageUpload.jsx";
 import Selfie from "./component/Selfie/Selfie.jsx";
 import MatchedImages from "./component/Selfie/MatchedImages.jsx";
 import Packages from "./component/Packages/Packages.jsx";
@@ -80,12 +79,12 @@ const AppRoutes = ({ searchQuery }) => {
     }
   }, [userInformation, navigate, location.pathname]);
 
-  const pathsWithoutDashboard = ["/", "/FAQ", "/regular-packages"];
+  const pathsWithoutDashboard = ["/", "/register"];
 
   // תנאי להצגת ה-Dashboard
   const shouldShowDashboard =
     userInformation?.role &&
-    userInformation.role === "admin" &&
+    (userInformation.role === "admin" || userInformation.role === "business") &&
     !pathsWithoutDashboard.includes(location.pathname);
 
   useEffect(() => {
@@ -101,42 +100,33 @@ const AppRoutes = ({ searchQuery }) => {
     <div>
       {shouldShowDashboard && <Dashboard />}
       <Routes>
-        {/* אדמין */}
-
-        <Route path="/admin/users" element={<AlllUsers />} />
-        {/* נתיבים כלליים */}
+        {/* נתיבים לכלל המשתמשים */}
         <Route path="/" element={<About />} />
         <Route path="/FAQ" element={<FAQ />} />
         <Route path="/register" element={<Register />} />
 
-        {/* נתיבי העלאת תמונות */}
-        <Route path="/upload" element={<EventImageUpload />} />
-        <Route path="/selfie/:albumId" element={<Selfie />} />
+        {/* נתיבי אדמין */}
+        <Route path="/admin/users" element={<AlllUsers />} />
 
-        {/* חבילות */}
+        {/* נתיבים עסקיים */}
+        <Route path="/all-albums" element={<AllAlbums />} />
+        <Route path="/CreateAlbum" element={<CreateAlbum />} />
+
+        {/* נתיבים נוספים */}
         <Route path="/packages" element={<Packages />} />
         <Route path="/regular-packages" element={<RegularPackages />} />
-
-        {/* אירועים ואלבומים */}
         <Route path="/EventPhoneUpload" element={<EventPhoneUpload />} />
-        <Route path="/CreateAlbum" element={<CreateAlbum />} />
-        <Route path="/all-albums" element={<AllAlbums />} />
-        <Route path="/your-album/:albumId" element={<YourAlbum />} />
-
-        {/* פרופיל משתמש */}
         <Route
           path="/update-profile"
           element={<VerifyPassword redirectPath="/update-profile/edit" />}
         />
         <Route path="/update-profile/edit" element={<UpdateProfile />} />
-
-        {/* תמונות תואמות */}
+        <Route path="/selfie/:albumId" element={<Selfie />} />
+        <Route path="/your-album/:albumId" element={<YourAlbum />} />
         <Route
           path="/matched-images/:albumId/:userId"
           element={<MatchedImages />}
         />
-
-        {/* סיסמאות */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
