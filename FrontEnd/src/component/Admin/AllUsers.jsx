@@ -150,7 +150,7 @@ const AllUsers = () => {
                   : "ראה אלבומים"}
               </button>
               <button onClick={() => handleEditClick(user)}>
-                {selectedUserForEdit === user._id ? "סגור עריכה" : "ערוך"}
+                {selectedUserForEdit === user._id ? "סגור עריכה" : "ערוך משתמש"}
               </button>
 
               {/* הצגת טופס העריכה מעל המשתמש הנבחר */}
@@ -208,11 +208,12 @@ const AllUsers = () => {
                     <ul className={styles.albumList}>
                       {albums.map((album) => (
                         <li key={album._id} className={styles.albumItem}>
-                          <h3>{album.eventName}</h3>
+                          <h3>שם בעל הארוע: {album.eventName}</h3>
                           <p>
                             תאריך: {new Date(album.date).toLocaleDateString()}
                           </p>
                           <p>מיקום: {album.location}</p>
+                          <p>סוג האירוע: {album.eventType}</p>
                         </li>
                       ))}
                     </ul>

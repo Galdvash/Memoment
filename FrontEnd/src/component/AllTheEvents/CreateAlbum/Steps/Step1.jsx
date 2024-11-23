@@ -41,7 +41,7 @@ const Step1 = ({
         {/* שדה: שם האירוע */}
         <div className={styleStepOne.formGroup}>
           <label htmlFor="eventName" className={styleStepOne.formLabel}>
-            שם האירוע:
+            בעלי הארוח:
           </label>
           <input
             type="text"
@@ -50,7 +50,7 @@ const Step1 = ({
             value={formData.eventName}
             onChange={handleChange}
             className={styleStepOne.formInput}
-            placeholder="הכנס שם אירוע"
+            placeholder="הכנס שם"
             required
           />
           {!formData.eventName && (
