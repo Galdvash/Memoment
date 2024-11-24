@@ -62,7 +62,7 @@ const NavBar = ({ onSearch }) => {
             </Link>
           </li>
           <li>
-            <Link className={styleNavbar.link} to={"/"}>
+            <Link className={styleNavbar.link} to={"/contactUs"}>
               Contact Us
             </Link>
           </li>

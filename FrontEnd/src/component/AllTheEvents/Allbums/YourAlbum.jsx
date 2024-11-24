@@ -110,106 +110,126 @@ const YourAlbum = () => {
   }
 
   return (
-    <div>
-      <h2>{isEditing ? "עריכת אלבום" : album.eventName}</h2>
-      {isEditing ? (
-        <div className={styles.editForm}>
-          <label>
-            שם האירוע:
-            <input
-              type="text"
-              name="eventName"
-              value={formData.eventName}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            מיקום:
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            תאריך:
-            <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            סוג האירוע:
-            <input
-              type="text"
-              name="eventType"
-              value={formData.eventType}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            פרטי:
-            <input
-              type="checkbox"
-              name="isPrivate"
-              checked={formData.isPrivate}
-              onChange={handleInputChange}
-            />
-          </label>
-          <button onClick={handleSave}>שמור</button>
-          <button onClick={() => setIsEditing(false)}>ביטול</button>
-        </div>
-      ) : (
-        <div>
-          <p>
-            <strong>מיקום:</strong> {album.location}
-          </p>
-          <p>
-            <strong>תאריך:</strong> {new Date(album.date).toLocaleDateString()}
-          </p>
-          <p>
-            <strong>סוג האירוע:</strong> {album.eventType}
-          </p>
-          <p>
-            <strong>פרטיות:</strong> {album.isPrivate ? "פרטי" : "ציבורי"}
-          </p>
-          <button onClick={() => setIsEditing(true)}>ערוך</button>
-          <div>
-            <h3>גלריית תמונות</h3>
-            {album.photos && album.photos.length > 0 ? (
-              <div className={styles.photoGallery}>
-                {album.photos.map((photo, index) => (
-                  <div
-                    key={index}
-                    className={styles.photoContainer}
-                    style={{
-                      gridRowEnd: `span ${Math.floor(Math.random() * 3) + 2}`,
-                    }}
-                  >
-                    <img
-                      src={photo.src}
-                      alt={`Album  ${index + 1}`}
-                      className={styles.photo}
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>לא נמצאו תמונות באלבום</p>
-            )}
+    <div className={styles.wrapper}>
+      <div className={styles.sidebar}>
+        <h3 className={styles.albumDetailsTitle}>
+          {isEditing ? "Edit Album" : album.eventName}
+        </h3>
+        {isEditing ? (
+          <div className={styles.editForm}>
+            <h2 className={styles.title}>Edit Album</h2>
+            <label>
+              Album Name:
+              <input
+                type="text"
+                name="eventName"
+                value={formData.eventName}
+                onChange={handleInputChange}
+                className={styles.input}
+              />
+            </label>
+            <label>
+              Location:
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+                className={styles.input}
+              />
+            </label>
+            <label>
+              Date:
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleInputChange}
+                className={styles.input}
+              />
+            </label>
+            <label>
+              Album Type:
+              <input
+                type="text"
+                name="albumType"
+                value={formData.albumType}
+                onChange={handleInputChange}
+                className={styles.input}
+              />
+            </label>
+            <label>
+              Private:
+              <input
+                type="checkbox"
+                name="isPrivate"
+                checked={formData.isPrivate}
+                onChange={handleInputChange}
+              />
+            </label>
+            <div className={styles.buttons}>
+              <button onClick={handleSave} className={styles.button}>
+                Save
+              </button>
+              <button
+                onClick={() => setIsEditing(false)}
+                className={styles.button}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className={styles.details}>
+            <p>
+              <strong>Album Name:</strong> {album.eventName}
+            </p>
+            <p>
+              <strong>Location:</strong> {album.location}
+            </p>
+            <p>
+              <strong>Date:</strong> {new Date(album.date).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Album Type:</strong> {album.albumType}
+            </p>
+            <p>
+              <strong>Privacy:</strong> {album.isPrivate ? "Private" : "Public"}
+            </p>
+            <button
+              onClick={() => setIsEditing(true)}
+              className={styles.button}
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => navigate("/all-albums")}
+              className={styles.backButton}
+            >
+              View All Albums
+            </button>
+          </div>
+        )}
+      </div>
 
-      <button
-        style={{ marginTop: "20px" }}
-        onClick={() => navigate("/all-albums")}
-      >
-        View All Albums
-      </button>
+      <div className={styles.albumContainer}>
+        <h2 className={styles.title}>Photo Gallery</h2>
+        {album.photos && album.photos.length > 0 ? (
+          <div className={styles.photoGallery}>
+            {album.photos.map((photo, index) => (
+              <div key={index} className={styles.photoContainer}>
+                <img
+                  src={photo.src}
+                  alt={`Album  ${index + 1}`}
+                  className={styles.photo}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className={styles.noPhotos}>No photos found in the album</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -18,7 +18,7 @@ import ResetPassword from "./component/ResetPassword/ResetPassword.jsx";
 import Dashboard from "./Library/Dashboard";
 import { UserContext } from "./hooks/UserHooks/userContextApp";
 import AlllUsers from "./component/Admin/AllUsers.jsx";
-
+import ContactUs from "./component/ContactUs/ContactUs.jsx";
 const allowedPaths = [
   "/",
   "/FAQ",
@@ -104,6 +104,7 @@ const AppRoutes = ({ searchQuery }) => {
         <Route path="/" element={<About />} />
         <Route path="/FAQ" element={<FAQ />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/contactUs" element={<ContactUs />} />
 
         {/* נתיבי אדמין */}
         <Route path="/admin/users" element={<AlllUsers />} />

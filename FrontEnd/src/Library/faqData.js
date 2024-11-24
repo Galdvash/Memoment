@@ -1,31 +1,31 @@
 const faqData = [
   {
     id: 1,
-    question: "מהי טכנולוגיית זיהוי הפנים?",
+    question: "What is face recognition technology?",
     answer:
-      "טכנולוגיית זיהוי הפנים היא תהליך חדשני המשתמש באלגוריתמים מתקדמים לניתוח דפוסי פנים. הטכנולוגיה מזהה תכונות ייחודיות כמו מבנה הפנים, המרחק בין העיניים וצורת האף. זה כלי נפלא לשימוש אישי וגם באירועים.",
-    title: "זיהוי פנים - חדשנות בעולם האירועים",
+      "Face recognition technology is an innovative process that uses advanced algorithms to analyze facial patterns. The technology identifies unique features such as facial structure, the distance between the eyes, and the shape of the nose. It's an excellent tool for personal use and events.",
+    title: "Face Recognition - Innovation in the World of Events",
   },
   {
     id: 2,
-    question: "איך ניתן להשתמש בזיהוי פנים באירועים?",
+    question: "How can face recognition be used at events?",
     answer:
-      "בעזרת הטכנולוגיה, האורחים יכולים בקלות לאתר תמונות שלהם מתוך גלריה דיגיטלית בלחיצה אחת. רק שולחים סלפי, והמערכת מוצאת את כל התמונות שבהן הם מופיעים. זה חוסך זמן ויוצר חוויה בלתי נשכחת.",
-    title: "זיהוי פנים - מהפכה באירועים",
+      "With the technology, guests can easily find their photos from a digital gallery with a single click. Just send a selfie, and the system finds all the photos where they appear. It saves time and creates an unforgettable experience.",
+    title: "Face Recognition - A Revolution in Events",
   },
   {
     id: 3,
-    question: "האם המידע שנאסף בטוח?",
+    question: "Is the collected data secure?",
     answer:
-      "בהחלט. כל המידע שאנו אוספים מוגן באמצעים הטכנולוגיים המתקדמים ביותר. אנו פועלים בהתאם לתקני פרטיות מחמירים, וכל נתון מוצפן כך שאיש לא יוכל לגשת אליו ללא אישור.",
-    title: "שמירה על פרטיות ובטיחות המידע",
+      "Absolutely. All the data we collect is protected with the most advanced technological measures. We adhere to strict privacy standards, and all data is encrypted so no one can access it without authorization.",
+    title: "Privacy and Data Security",
   },
   {
     id: 4,
-    question: "כיצד ניתן ליצור אירוע חדש?",
+    question: "How can a new event be created?",
     answer:
-      "יצירת אירוע חדש מעולם לא הייתה פשוטה יותר. היכנסו למערכת שלנו, מלאו את הפרטים הדרושים, והוסיפו תמונות או רשימת אורחים בקובץ אקסל. תוך דקות, האירוע שלכם מוכן לשימוש!",
-    title: "צור אירוע בקלות ובמהירות",
+      "Creating a new event has never been easier. Log into our system, fill in the required details, and add photos or a guest list in an Excel file. Within minutes, your event is ready to go!",
+    title: "Create Events Quickly and Easily",
   },
 ];
 

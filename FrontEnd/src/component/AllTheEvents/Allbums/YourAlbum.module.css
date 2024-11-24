@@ -1,4 +1,80 @@
-/* גלריית תמונות */
+/* Wrapper for overall layout */
+.wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  position: sticky;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  padding: 20px;
+  background-color: #f3f3f3;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+}
+
+.albumDetailsTitle {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.details {
+  font-size: 1rem;
+  color: #555;
+}
+
+.button,
+.backButton {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.button {
+  background-color: #007bff;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.backButton {
+  background-color: #28a745;
+}
+
+.backButton:hover {
+  background-color: #218838;
+}
+
+/* Album container */
+.albumContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-left: 1px solid #ddd;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Title */
+.title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Photo Gallery */
 .photoGallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -6,24 +82,25 @@
   margin-top: 20px;
 }
 
-/* מיכל התמונה */
 .photoContainer {
   position: relative;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  height: 150px;
 }
 
-.photoContainer:hover {
-  transform: scale(1.05);
-}
-
-/* תמונה */
 .photo {
   width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 10px;
+  height: 100%;
   object-fit: cover;
+  border-radius: 10px;
+}
+
+/* No Photos Message */
+.noPhotos {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
 }
