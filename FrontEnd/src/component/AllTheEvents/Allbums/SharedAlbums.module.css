@@ -1,0 +1,89 @@
+/* SharedAlbums.module.css */
+
+.container {
+  padding: 20px;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.albumsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.albumCard {
+  width: 300px;
+  margin: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.imageContainer {
+  position: relative;
+}
+
+.coverImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.noCoverText {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+}
+
+.locationText {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.albumTitle {
+  margin: 16px;
+  font-size: 1.2em;
+}
+
+.albumDetails {
+  margin: 0 16px 8px;
+}
+
+.viewButton {
+  margin: 16px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.viewButton:hover {
+  background-color: #0056b3;
+}
+
+.noAlbums {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.2em;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}

@@ -93,21 +93,26 @@ const Dashboard = () => {
             </Link>
 
             {userInformation.role === "business" && (
-              <Link
-                to="/"
-                className={stylesDashboard.link}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleGlobalNavigation(navigate, setIsOpen, "/");
-                }}
-              >
-                <img
-                  src={memomentIMG}
-                  alt="MeMoment"
-                  className={stylesDashboard.icon}
-                />
-                <span>MeMoment</span>
-              </Link>
+              <>
+                <Link
+                  to="/"
+                  className={stylesDashboard.link}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleGlobalNavigation(navigate, setIsOpen, "/");
+                  }}
+                >
+                  <img
+                    src={memomentIMG}
+                    alt="MeMoment"
+                    className={stylesDashboard.icon}
+                  />
+                  <span>MeMoment</span>
+                </Link>
+                <Link to="/SharedAlbums" className={stylesDashboard.link}>
+                  <span>SharedAlbums</span>
+                </Link>
+              </>
             )}
 
             {userInformation.role === "admin" && (
@@ -165,12 +170,10 @@ const Dashboard = () => {
 
           {userInformation && (
             <Link
-              to="/register"
+              to="/"
               className={stylesDashboard.link}
               onClick={(e) => {
-                e.preventDefault();
                 handleLogout();
-                handleGlobalNavigation(navigate, setIsOpen, "/register");
               }}
             >
               <img

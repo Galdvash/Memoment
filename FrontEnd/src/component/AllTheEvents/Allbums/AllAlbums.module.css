@@ -139,3 +139,58 @@
 .selfieButton:hover {
   background-color: #0056b3;
 }
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* צבע שחור-אפור שקוף */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* וודא שזה מעל כל האלמנטים */
+}
+
+.modalContent {
+  background-color: #f0f0f0; /* צבע רקע עבור התוכן */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.emailInput {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.shareConfirmButton,
+.cancelButton {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.shareConfirmButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.cancelButton:hover,
+.shareConfirmButton:hover {
+  opacity: 0.8;
+}

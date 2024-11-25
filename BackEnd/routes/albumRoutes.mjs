@@ -7,6 +7,8 @@ import {
   deleteAlbum,
   updateAlbumById,
   addImagesToAlbum,
+  shareAlbum,
+  getSharedAlbums, // ודא שהפונקציה מיובאת
 } from "../controllers/albumController.mjs";
 import { protect } from "../middleware/authMiddleware.mjs";
 import uploadFields from "../middleware/uploadMiddleware.mjs";
@@ -14,16 +16,27 @@ import { checkAlbumLimit } from "../middleware/albumLimitMiddleware.mjs";
 
 const router = express.Router();
 
+// חשוב: הנתיבים הספציפיים באים לפני הנתיבים עם פרמטרים
+
+// נתיב לקבלת האלבומים המשותפים
+router.get("/shared", protect, getSharedAlbums);
+
+// נתיב לקבלת כל האלבומים של המשתמש
 router.get("/", protect, getAllAlbums);
+
+// נתיב לקבלת אלבום לפי ID
 router.get("/:albumId", protect, getAlbumById);
+
+// נתיב לשיתוף אלבום
+router.post("/:albumId/share", protect, shareAlbum);
 
 // יצירת אלבום חדש
 router.post("/finalize", protect, checkAlbumLimit, uploadFields, createAlbum);
 
-// עדכון אלבום (ללא העלאת קבצים)
+// עדכון אלבום
 router.put("/:albumId", protect, updateAlbumById);
 
-// הוספת תמונות לאלבום קיים
+// הוספת תמונות לאלבום
 router.post(
   "/:albumId/images",
   protect,

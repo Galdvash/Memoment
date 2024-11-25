@@ -89,24 +89,9 @@ const NavBar = ({ onSearch }) => {
                       Update Profile
                     </Link>
                   </li>
-                </>
-              )}
-              {userInformation.role === "business" && <></>}
-              {userInformation.role === "admin" && (
-                <>
                   <li>
-                    <Link className={styleNavbar.link} to={"/bigpackages"}>
-                      BigPackages
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={styleNavbar.link} to={"/packages"}>
-                      Packages
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={styleNavbar.link} to={"/sandbox"}>
-                      Sandbox
+                    <Link className={styleNavbar.link} to="/SharedAlbums">
+                      SharedAlbums
                     </Link>
                   </li>
                 </>

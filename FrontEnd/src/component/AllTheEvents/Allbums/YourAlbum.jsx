@@ -167,16 +167,19 @@ const YourAlbum = () => {
                 onChange={handleInputChange}
               />
             </label>
+
             <div className={styles.buttons}>
-              <button onClick={handleSave} className={styles.button}>
-                Save
-              </button>
-              <button
-                onClick={() => setIsEditing(false)}
-                className={styles.button}
-              >
-                Cancel
-              </button>
+              <>
+                <button onClick={handleSave} className={styles.button}>
+                  Save
+                </button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className={styles.button}
+                >
+                  Cancel
+                </button>
+              </>
             </div>
           </div>
         ) : (

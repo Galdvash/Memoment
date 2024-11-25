@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const albumSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  sharedWith: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   event: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
   eventName: { type: String, required: true },
   location: { type: String, required: true },

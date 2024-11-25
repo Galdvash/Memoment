@@ -19,6 +19,9 @@ import Dashboard from "./Library/Dashboard";
 import { UserContext } from "./hooks/UserHooks/userContextApp";
 import AlllUsers from "./component/Admin/AllUsers.jsx";
 import ContactUs from "./component/ContactUs/ContactUs.jsx";
+import SharedAlbums from "./component/AllTheEvents/Allbums/SharedAlbums.jsx";
+import AlbumView from "./component/AllTheEvents/Allbums/AlbumView.jsx";
+
 const allowedPaths = [
   "/",
   "/FAQ",
@@ -27,6 +30,7 @@ const allowedPaths = [
   "/regular-packages",
   "/CreateAlbum",
   "/all-albums",
+  "/contactUs",
   "/update-profile",
   "/update-profile/edit",
   "/verify-password",
@@ -36,9 +40,11 @@ const allowedPaths = [
   "/forgot-password",
   "/reset-password/:token",
   "/admin/users",
+  "/SharedAlbums",
+  "/album/:albumId",
 ];
 
-// פונקציה לבדיקה אם הנתיב מותר
+// Function to check if the path is allowed
 const isPathAllowed = (path) => {
   return allowedPaths.some((allowedPath) => {
     const regex = new RegExp(
@@ -53,48 +59,37 @@ const AppRoutes = ({ searchQuery }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Save last visited path in localStorage
   useEffect(() => {
+    if (isPathAllowed(location.pathname)) {
+      localStorage.setItem("lastPath", location.pathname);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const lastPath = localStorage.getItem("lastPath");
     const isAllowed = isPathAllowed(location.pathname);
 
-    // בדיקת הרשאות לחבילות רגילות
-    if (
-      userInformation?.role !== "user" &&
-      location.pathname === "/regular-packages"
-    ) {
-      navigate("/packages");
-      return;
-    }
-
-    // בדיקת הרשאות לכל הנתיבים שאינם ב-allowedPaths
-    if (userInformation && !isAllowed) {
-      if (userInformation.role === "admin") {
-        navigate("/admin/users");
-      } else if (userInformation.role === "business") {
-        navigate("/all-albums");
-      } else {
-        navigate("/CreateAlbum");
-      }
-    } else if (!userInformation && !isAllowed) {
+    if (!userInformation && !isAllowed) {
       navigate("/register");
+    } else if (
+      userInformation &&
+      lastPath &&
+      lastPath !== "/register" &&
+      lastPath !== location.pathname &&
+      isPathAllowed(lastPath)
+    ) {
+      navigate(lastPath); // Redirect to the last visited allowed path
     }
   }, [userInformation, navigate, location.pathname]);
 
   const pathsWithoutDashboard = ["/", "/register"];
 
-  // תנאי להצגת ה-Dashboard
+  // Condition to show Dashboard
   const shouldShowDashboard =
     userInformation?.role &&
     (userInformation.role === "admin" || userInformation.role === "business") &&
     !pathsWithoutDashboard.includes(location.pathname);
-
-  useEffect(() => {
-    if (
-      userInformation?.role === "business" &&
-      location.pathname === "/packages"
-    ) {
-      navigate("/all-albums"); // ניתוב לדף אחר אם צריך
-    }
-  }, [userInformation, location.pathname, navigate]);
 
   return (
     <div>
@@ -114,6 +109,9 @@ const AppRoutes = ({ searchQuery }) => {
         <Route path="/CreateAlbum" element={<CreateAlbum />} />
 
         {/* נתיבים נוספים */}
+        <Route path="/SharedAlbums" element={<SharedAlbums />} />
+        <Route path="/album/:albumId" element={<AlbumView />} />
+
         <Route path="/packages" element={<Packages />} />
         <Route path="/regular-packages" element={<RegularPackages />} />
         <Route path="/EventPhoneUpload" element={<EventPhoneUpload />} />

@@ -143,9 +143,9 @@ const useUserApi = () => {
       if (userResponse.data.role === "user") {
         navigate("/regular-packages");
       } else if (userResponse.data.role === "business") {
-        navigate("/packages");
+        navigate("/all-albums");
       } else if (userResponse.data.role === "admin") {
-        navigate("/admin");
+        navigate("/admin/users");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");

@@ -1,6 +1,69 @@
 import mongoose from "mongoose";
 import Album from "../models/albumModel.mjs";
+import User from "../models/UserModel.mjs";
 import { processGuestList } from "../controllers/excelController.mjs";
+// controllers/albumController.mjs
+
+export const getSharedAlbums = async (req, res) => {
+  try {
+    console.log("User ID:", req.user.id);
+
+    if (!req.user.id || !mongoose.Types.ObjectId.isValid(req.user.id)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    // חיפוש אלבומים ששיתפו עם המשתמש
+    const sharedAlbums = await Album.find({ sharedWith: req.user.id }).populate(
+      "user",
+      "name email"
+    );
+
+    // המרת נתוני ה-cover image ל-Base64
+    const albumsWithImages = sharedAlbums.map((album) => {
+      const albumObj = album.toObject();
+
+      if (albumObj.coverImage?.data) {
+        albumObj.coverImage.data = albumObj.coverImage.data.toString("base64");
+      }
+
+      return albumObj;
+    });
+
+    console.log("Shared Albums:", albumsWithImages);
+
+    res.status(200).json(albumsWithImages);
+  } catch (error) {
+    console.error("Error fetching shared albums:", error);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+};
+
+export const shareAlbum = async (req, res) => {
+  const { albumId } = req.params;
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const album = await Album.findById(albumId);
+    if (!album) {
+      return res.status(404).json({ message: "Album not found." });
+    }
+
+    if (!album.sharedWith.includes(user._id)) {
+      album.sharedWith.push(user._id);
+      await album.save();
+    }
+
+    res.status(200).json({ message: "Album shared successfully." });
+  } catch (error) {
+    console.error("Error sharing album:", error);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+};
 
 export const createAlbum = async (req, res) => {
   try {
@@ -58,7 +121,6 @@ export const createAlbum = async (req, res) => {
       numberOfGuests: guestList.length,
       images,
     });
-
     await newAlbum.save();
 
     res.status(201).json({

@@ -9,11 +9,26 @@ const Step2 = ({ formData, setFormData }) => {
 
   const handleImageFileChange = (e) => {
     const files = Array.from(e.target.files);
-    setFormData((prev) => ({
-      ...prev,
-      images: files,
-    }));
-    setImageCount(files.length); // עדכון מספר התמונות
+
+    setFormData((prev) => {
+      const existingImages = prev.images || [];
+      const updatedImages = existingImages.concat(files);
+
+      // סינון כפילויות (אם תרצה)
+      const uniqueImages = Array.from(
+        new Set(updatedImages.map((file) => file.name))
+      ).map((name) => updatedImages.find((file) => file.name === name));
+
+      return {
+        ...prev,
+        images: uniqueImages,
+      };
+    });
+
+    setImageCount((prevCount) => prevCount + files.length);
+
+    // איפוס ערך שדה הקלט
+    e.target.value = null;
   };
 
   const handleExcelFileChange = (e) => {

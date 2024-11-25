@@ -1,4 +1,7 @@
 @media screen and (max-width: 1645px) {
+  .container {
+    padding-top: 0em;
+  }
   .header {
     padding-left: 10px;
     padding-right: 10px;

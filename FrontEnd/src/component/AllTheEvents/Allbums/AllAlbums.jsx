@@ -11,6 +11,9 @@ const AllAlbums = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [albums, setAlbums] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedAlbum, setSelectedAlbum] = useState(null);
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
 
   const fetchAllAlbums = useCallback(async () => {
@@ -27,6 +30,11 @@ const AllAlbums = () => {
     }
   }, [apiUrl, token]);
 
+  useEffect(() => {
+    if (userInformation && !loading) {
+      fetchAllAlbums();
+    }
+  }, [fetchAllAlbums, userInformation, loading]);
   useEffect(() => {
     if (userInformation && !loading) {
       fetchAllAlbums();
@@ -82,6 +90,28 @@ const AllAlbums = () => {
     } catch (error) {
       console.error("Error deleting album:", error.response || error);
       alert("Failed to delete album. Please try again.");
+    }
+  };
+  const handleShareAlbum = async () => {
+    if (!email) {
+      alert("Please enter an email.");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `${apiUrl}/api/albums/${selectedAlbum}/share`,
+        { email },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      alert("Album shared successfully.");
+      setShowModal(false);
+      setEmail("");
+    } catch (error) {
+      console.error("Error sharing album:", error.response || error);
+      alert("Failed to share album. Please try again.");
     }
   };
 
@@ -149,9 +179,46 @@ const AllAlbums = () => {
             >
               Face Recognition
             </button>
+            <button
+              className={styleAlbums.shareButton}
+              onClick={() => {
+                setSelectedAlbum(album._id);
+                setShowModal(true);
+              }}
+            >
+              Share Album
+            </button>
           </div>
         ))}
       </div>
+
+      {showModal && (
+        <div className={styleAlbums.modalOverlay}>
+          <div className={styleAlbums.modalContent}>
+            <h3>Share Album</h3>
+            <p>To share this album, enter the user's email:</p>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="User's email"
+              className={styleAlbums.emailInput}
+            />
+            <button
+              onClick={handleShareAlbum}
+              className={styleAlbums.shareConfirmButton}
+            >
+              Share
+            </button>
+            <button
+              onClick={() => setShowModal(false)}
+              className={styleAlbums.cancelButton}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
