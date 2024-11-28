@@ -1,37 +1,47 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap");
+
 .bodyPackages {
   height: auto;
+  padding: 1em;
 }
 
 .sectionContainer {
   padding-top: 3em;
   position: relative;
 }
+
 .packagesIntro {
   padding-bottom: 4em;
+  text-align: center;
 }
+
 .cardsContainer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  gap: 1.5em;
 }
 
 .cardPackage {
-  width: 327px;
-  height: 606px;
-  margin-left: 3.3em;
+  width: 100%;
+  max-width: 327px;
+  height: auto;
   background-color: #fdfcfc;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
+  margin: 0 auto;
 }
+
 .titleCard {
   position: absolute;
   top: -1em;
-  left: 1em;
+  left: 50%;
+  transform: translateX(-50%);
   width: 120px;
   height: 34px;
   background-color: rgba(25, 234, 32, 1);
@@ -40,29 +50,36 @@
   justify-content: center;
   border-radius: 10px;
 }
+
 .centerText {
   text-align: center;
-  p {
-    text-align: center;
-    margin-bottom: 10px;
-  }
+  padding: 1em;
 }
+
+.centerText h2 {
+  margin-bottom: 0.5em;
+}
+
+.centerText p {
+  margin-bottom: 0.5em;
+}
+
 .item {
   text-align: center;
+  margin-bottom: 0.5em;
+}
 
-  span {
-    font-family: IBM Plex Sans Hebrew;
-    font-weight: bold;
-  }
-  .icon {
-    width: 15px;
-    height: 20px;
-    margin-right: 4px;
-  }
+.item span {
+  font-family: "IBM Plex Sans Hebrew", sans-serif;
+  font-weight: bold;
 }
-.packagesIntro {
-  margin-left: 26.9em;
+
+.icon {
+  width: 15px;
+  height: 20px;
+  margin-right: 4px;
 }
+
 .btn {
   background-color: #ff1f35;
   color: #ffffff;
@@ -71,5 +88,44 @@
   height: 57px;
   border-radius: 30px;
   border: none;
-  margin-top: 30px;
+  margin-top: 1em;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #d91a2b;
+}
+
+@media (max-width: 768px) {
+  .sectionContainer {
+    padding-top: 2em;
+  }
+
+  .packagesIntro {
+    padding: 0 1em;
+  }
+
+  .cardPackage {
+    margin: 1em 0;
+  }
+
+  .btn {
+    width: 150px;
+    height: 50px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .titleCard {
+    width: 100px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    width: 140px;
+    height: 45px;
+    font-size: 0.85rem;
+  }
 }

@@ -149,12 +149,15 @@ const Dashboard = () => {
                 </Link>
 
                 <Link
-                  to="/sandbox"
                   className={stylesDashboard.link}
+                  to="/SharedAlbums"
                   onClick={(e) => {
                     e.preventDefault();
-                    const path = e.currentTarget.getAttribute("href");
-                    handleGlobalNavigation(navigate, setIsOpen, path);
+                    handleGlobalNavigation(
+                      navigate,
+                      setIsOpen,
+                      "/SharedAlbums"
+                    );
                   }}
                 >
                   <img
@@ -162,7 +165,7 @@ const Dashboard = () => {
                     alt="Sandbox"
                     className={stylesDashboard.icon}
                   />
-                  <span>Sandbox</span>
+                  <span>SharedAlbums</span>
                 </Link>
               </>
             )}

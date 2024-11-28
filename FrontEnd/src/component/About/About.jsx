@@ -17,10 +17,38 @@ const About = () => {
   const { userInformation, loading } = useContext(UserContext);
   const handleNavigate = () => {
     if (userInformation) {
-      navigate("/packages");
+      switch (userInformation.role) {
+        case "admin":
+          navigate("/admin/users"); // דשבורד אדמין
+          break;
+        case "business":
+          navigate("/all-albums"); // דף אלבומים
+          break;
+        case "user":
+          navigate("/all-albums"); // דף אלבומים
+          break;
+        default:
+          navigate("/"); // נתיב ברירת מחדל
+      }
     } else {
-      navigate("/register");
+      navigate("/register"); // משתמש לא מחובר
     }
+  };
+
+  const getButtonText = () => {
+    if (userInformation) {
+      switch (userInformation.role) {
+        case "admin":
+          return "Dashboard Admin"; // טקסט לאדמין
+        case "business":
+          return "Business Albums"; // טקסט לביזנס
+        case "user":
+          return "My Albums"; // טקסט ליוזר רגיל
+        default:
+          return "Create New Event"; // טקסט ברירת מחדל
+      }
+    }
+    return "Create New Event"; // טקסט אם אין משתמש
   };
 
   if (loading) {
@@ -44,7 +72,6 @@ const About = () => {
               access to their pictures and the full album.
             </p>
           </div>
-
           <div className={`${styleAbout.flexBoxOne} ${mediaAbout.flexBoxOne}`}>
             <div className={`${styleAbout.flexItem} ${mediaAbout.flexItem}`}>
               <span className={`${styleAbout.numbers} ${mediaAbout.numbers}`}>
@@ -97,7 +124,6 @@ const About = () => {
               </p>
             </div>
           </div>
-
           <section
             className={`${styleAbout.checkedList} ${mediaAbout.checkedList}`}
           >
@@ -115,7 +141,7 @@ const About = () => {
             onClick={handleNavigate}
             className={`${styleAbout.btn} ${mediaAbout.btn}`}
           >
-            Create New Event
+            {getButtonText()}
           </button>
         </header>
       </div>

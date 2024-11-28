@@ -23,7 +23,7 @@ const Packages = () => {
           <div className={stylePackages.cardsContainer}>
             <div className={stylePackages.cardPackage}>
               <div className={stylePackages.titleCard}>
-                <p className={stylePackages.s}>The Best Seller</p>
+                <p className={stylePackages.s}>package 1</p>
               </div>
               <div className={stylePackages.centerText}>
                 <h2>500 Pictures</h2>
@@ -88,7 +88,7 @@ const Packages = () => {
             </div>
             <div className={stylePackages.cardPackage}>
               <div className={stylePackages.titleCard}>
-                <p className={stylePackages.s}>The Best Seller</p>
+                <p className={stylePackages.s}>package 2</p>
               </div>
               <div className={stylePackages.centerText}>
                 <h2>500 Pictures</h2>
