@@ -2,20 +2,28 @@
 .wrapper {
   display: flex;
   height: 100vh;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 /* Sidebar */
 .sidebar {
   position: sticky;
   top: 0;
-  width: 300px;
+  width: 400px;
   height: 100vh;
-  padding: 20px;
+  padding: 30px;
   background-color: #f3f3f3;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
+}
+.editForm {
+  display: flex;
+  flex-direction: column;
+  label {
+    padding: 5px;
+  }
 }
 
 .albumDetailsTitle {

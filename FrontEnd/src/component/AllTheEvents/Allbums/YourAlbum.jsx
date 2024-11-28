@@ -112,9 +112,6 @@ const YourAlbum = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.sidebar}>
-        <h3 className={styles.albumDetailsTitle}>
-          {isEditing ? "Edit Album" : album.eventName}
-        </h3>
         {isEditing ? (
           <div className={styles.editForm}>
             <h2 className={styles.title}>Edit Album</h2>
