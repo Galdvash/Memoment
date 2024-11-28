@@ -45,7 +45,7 @@ const allowedPaths = [
 ];
 
 // Function to check if the path is allowed
-const isPathAllowed = (path) => {
+export const isPathAllowed = (path) => {
   return allowedPaths.some((allowedPath) => {
     const regex = new RegExp(
       `^${allowedPath.replace(/:[^\s/]+/g, "([^/]+)")}$`

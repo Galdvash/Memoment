@@ -6,7 +6,6 @@ import { UserContext } from "../UserHooks/userContextApp";
 import { useApiUrl } from "../ApiUrl/ApiProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 const useNavBar = (onSearch) => {
   const { isSun, handleIconClick } = useContext(ThemeContext);
   const { userInformation, setUserInformation } = useContext(UserContext);

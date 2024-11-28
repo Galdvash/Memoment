@@ -7,6 +7,8 @@ import { UserProvider, UserContext } from "./hooks/UserHooks/userContextApp";
 import { ApiProvider } from "./hooks/ApiUrl/ApiProvider";
 import "./hooks/DarkMode/DarkMode.css";
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AppContent = ({ searchQuery, setSearchQuery }) => {
   const { userInformation } = useContext(UserContext);
@@ -34,6 +36,8 @@ const App = () => {
       <BrowserRouter future={{ v7_relativeSplatPath: true }}>
         <ThemeProvider>
           <ApiProvider>
+            <ToastContainer autoClose={3000} position="top-center" />
+
             <AppContent
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}

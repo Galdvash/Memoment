@@ -136,16 +136,17 @@ const useUserApi = () => {
       // שמירת המידע על המשתמש בקונטקסט
       setUserInformation(userResponse.data);
 
-      // הודעת הצלחה וניווט לפי תפקיד
+      // הודעת הצלחה
       toast.success("Login successful!");
-      setIsLoginData({ email: "", password: "" });
 
+      // ניתוב לפי תפקיד
+      setIsLoginData({ email: "", password: "" });
       if (userResponse.data.role === "user") {
-        navigate("/regular-packages");
+        setTimeout(() => navigate("/regular-packages"), 1000);
       } else if (userResponse.data.role === "business") {
-        navigate("/all-albums");
+        setTimeout(() => navigate("/all-albums"), 1000);
       } else if (userResponse.data.role === "admin") {
-        navigate("/admin/users");
+        setTimeout(() => navigate("/admin/users"), 1000);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");
@@ -153,12 +154,24 @@ const useUserApi = () => {
     setIsLoading(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // מחיקת הטוקן
-    setUserInformation(null); // איפוס הסטייט של המשתמש בקונטקסט
-    toast.success("Logged out successfully."); // הודעת הצלחה
-    navigate("/"); // ניתוב למסך הבית
-  };
+  // const handleLogout = () => {
+  //   const lastPath = localStorage.getItem("lastPath");
+
+  //   // מחיקת המידע של המשתמש
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("lastPath");
+  //   setUserInformation(null);
+
+  //   // הודעת הצלחה
+  //   toast.success("Logged out successfully.");
+
+  //   // ניתוב לנתיב האחרון או למסך הבית
+  //   if (lastPath && isPathAllowed(lastPath)) {
+  //     navigate(lastPath); // חזרה לנתיב האחרון
+  //   } else {
+  //     navigate("/"); // אם אין נתיב אחרון, חזרה למסך הבית
+  //   }
+  // };
 
   return {
     isSignIn,
@@ -174,7 +187,6 @@ const useUserApi = () => {
     handleSubmit,
     handleSubmit2,
     handlePasswordChange,
-    handleLogout,
   };
 };
 
